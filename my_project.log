@@ -1,0 +1,468 @@
+2024-10-28 10:25:10.797 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 598.729779958725 seconds
+2024-10-28 10:25:24.261 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/roles/{role_id}/apis
+2024-10-28 10:25:24.267 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/users/{user_id}
+2024-10-28 10:25:24.270 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/menus
+2024-10-28 10:25:24.272 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/logs/{log_id}
+2024-10-28 10:25:24.274 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/users
+2024-10-28 10:25:24.277 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/menus/{menu_id}
+2024-10-28 10:25:24.279 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/apis/{api_id}
+2024-10-28 10:25:24.281 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/menus
+2024-10-28 10:25:24.284 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/apis/refresh/
+2024-10-28 10:25:24.287 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/menus/tree/
+2024-10-28 10:25:24.290 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/users
+2024-10-28 10:25:24.292 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/menus/{menu_id}
+2024-10-28 10:25:24.294 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/roles/{role_id}
+2024-10-28 10:25:24.297 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/roles/{role_id}/buttons
+2024-10-28 10:25:24.300 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/logs/{log_id}
+2024-10-28 10:25:24.302 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/menus/pages/
+2024-10-28 10:25:24.304 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/users
+2024-10-28 10:25:24.306 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/roles/{role_id}
+2024-10-28 10:25:24.309 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/roles
+2024-10-28 10:25:24.311 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/apis/{api_id}
+2024-10-28 10:25:24.314 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/apis
+2024-10-28 10:25:24.317 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/logs/{log_id}
+2024-10-28 10:25:24.319 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/roles/{role_id}/menus
+2024-10-28 10:25:24.321 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/menus/buttons/tree/
+2024-10-28 10:25:24.323 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/apis/{api_id}
+2024-10-28 10:25:24.326 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/roles
+2024-10-28 10:25:24.328 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/logs
+2024-10-28 10:25:24.330 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/apis
+2024-10-28 10:25:24.332 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/roles/{role_id}/apis
+2024-10-28 10:25:24.335 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/users/{user_id}
+2024-10-28 10:25:24.337 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/roles
+2024-10-28 10:25:24.339 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/apis
+2024-10-28 10:25:24.342 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/apis/tree/
+2024-10-28 10:25:24.344 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/menus/{menu_id}
+2024-10-28 10:25:24.346 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/roles/{role_id}/menus
+2024-10-28 10:25:24.349 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/logs
+2024-10-28 10:25:24.351 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/users/{user_id}
+2024-10-28 10:25:24.353 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/roles/{role_id}/buttons
+2024-10-28 10:25:24.355 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/menus
+2024-10-28 10:25:24.357 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/roles/{role_id}
+2024-10-28 10:26:28.946 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 64.75683784484863 seconds
+2024-10-28 10:26:31.103 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/getRoleList
+2024-10-28 10:26:31.109 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/systemManage/apis
+2024-10-28 10:26:31.111 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/apis/{api_id}
+2024-10-28 10:26:31.114 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/apis
+2024-10-28 10:26:31.116 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/menus/pages/
+2024-10-28 10:26:31.119 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/menus/tree/
+2024-10-28 10:26:31.121 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/users/{user_id}
+2024-10-28 10:26:31.123 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/logs
+2024-10-28 10:26:31.125 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/logs/{log_id}
+2024-10-28 10:26:31.127 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/menus/{menu_id}
+2024-10-28 10:26:31.130 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/getRoleList/{role_id}/menus
+2024-10-28 10:26:31.132 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/systemManage/getRoleList
+2024-10-28 10:26:31.134 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/getRoleList/{role_id}/apis
+2024-10-28 10:26:31.137 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/systemManage/apis/refresh/
+2024-10-28 10:26:31.139 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/apis/{api_id}
+2024-10-28 10:26:31.141 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/getRoleList
+2024-10-28 10:26:31.144 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/getRoleList/{role_id}
+2024-10-28 10:26:31.146 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/getRoleList/{role_id}/buttons
+2024-10-28 10:26:31.149 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/menus
+2024-10-28 10:26:31.151 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/getRoleList/{role_id}
+2024-10-28 10:26:31.153 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/logs
+2024-10-28 10:26:31.155 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/users
+2024-10-28 10:26:31.158 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/apis/tree/
+2024-10-28 10:26:31.160 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/menus/buttons/tree/
+2024-10-28 10:26:31.163 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/apis
+2024-10-28 10:26:31.165 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/users/{user_id}
+2024-10-28 10:26:31.168 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/getRoleList/{role_id}/menus
+2024-10-28 10:26:31.170 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/users/{user_id}
+2024-10-28 10:26:31.172 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/getRoleList/{role_id}/apis
+2024-10-28 10:26:31.175 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/logs/{log_id}
+2024-10-28 10:26:31.177 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/logs/{log_id}
+2024-10-28 10:26:31.180 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/systemManage/menus
+2024-10-28 10:26:31.182 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/menus/{menu_id}
+2024-10-28 10:26:31.185 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/getRoleList/{role_id}
+2024-10-28 10:26:31.187 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/systemManage/menus/{menu_id}
+2024-10-28 10:26:31.190 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/menus
+2024-10-28 10:26:31.192 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/getRoleList/{role_id}/buttons
+2024-10-28 10:26:31.194 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/systemManage/users
+2024-10-28 10:26:31.197 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/systemManage/apis/{api_id}
+2024-10-28 10:26:31.200 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/systemManage/users
+2024-10-28 10:26:33.567 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 2.5342607498168945 seconds
+2024-10-28 13:45:38.080 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 11942.993103981018 seconds
+2024-10-28 14:02:00.755 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 849.2255599498749 seconds
+2024-10-28 14:02:02.370 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/roles/{role_id}/apis
+2024-10-28 14:02:02.376 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/users/{user_id}
+2024-10-28 14:02:02.379 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/roles/{role_id}/menus
+2024-10-28 14:02:02.381 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/logs
+2024-10-28 14:02:02.383 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/roles/{role_id}
+2024-10-28 14:02:02.385 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/menus/{menu_id}
+2024-10-28 14:02:02.387 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/logs/{log_id}
+2024-10-28 14:02:02.389 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/roles/{role_id}/buttons
+2024-10-28 14:02:02.392 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/menus
+2024-10-28 14:02:02.395 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/menus/pages/
+2024-10-28 14:02:02.397 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/roles
+2024-10-28 14:02:02.400 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/apis
+2024-10-28 14:02:02.402 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/apis/tree/
+2024-10-28 14:02:02.405 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/users/{user_id}
+2024-10-28 14:02:02.408 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/users
+2024-10-28 14:02:02.411 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/apis/{api_id}
+2024-10-28 14:02:02.413 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/roles/{role_id}/menus
+2024-10-28 14:02:02.415 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/metric/menus
+2024-10-28 14:02:02.417 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/menus/{menu_id}
+2024-10-28 14:02:02.420 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/logs/{log_id}
+2024-10-28 14:02:02.422 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/roles/{role_id}
+2024-10-28 14:02:02.424 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/metric/apis
+2024-10-28 14:02:02.426 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/roles/{role_id}/buttons
+2024-10-28 14:02:02.428 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/metric/users
+2024-10-28 14:02:02.431 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/menus/tree/
+2024-10-28 14:02:02.433 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/metric/apis/refresh/
+2024-10-28 14:02:02.435 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/users/{user_id}
+2024-10-28 14:02:02.437 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/metric/roles
+2024-10-28 14:02:02.440 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/apis/{api_id}
+2024-10-28 14:02:02.442 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/roles/{role_id}/apis
+2024-10-28 14:02:02.444 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/menus/buttons/tree/
+2024-10-28 14:02:02.447 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/logs
+2024-10-28 14:02:02.448 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/menus/{menu_id}
+2024-10-28 14:02:02.450 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/roles/{role_id}
+2024-10-28 14:02:02.453 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/metric/roles
+2024-10-28 14:02:02.455 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/menus
+2024-10-28 14:02:02.457 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/metric/logs/{log_id}
+2024-10-28 14:02:02.460 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/apis
+2024-10-28 14:02:02.462 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/users
+2024-10-28 14:02:02.464 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/metric/apis/{api_id}
+2024-10-28 14:02:19.437 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 17.142767190933228 seconds
+2024-10-28 16:10:10.780 | INFO     | app:lifespan:57 - App FastSoyAdmin runtime: 7669.936906337738 seconds
+2024-10-28 16:12:25.570 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.012998819351196289 seconds
+2024-10-28 16:15:19.910 | INFO     | app:lifespan:57 - App MetricBoost runtime: 53.0454478263855 seconds
+2024-10-28 16:29:24.853 | INFO     | app:lifespan:57 - App MetricBoost runtime: 843.0923390388489 seconds
+2024-10-28 16:33:16.620 | INFO     | app:lifespan:57 - App MetricBoost runtime: 105.03091502189636 seconds
+2024-10-28 16:44:34.212 | INFO     | app:lifespan:57 - App MetricBoost runtime: 676.0350677967072 seconds
+2024-10-28 16:46:54.846 | INFO     | app:lifespan:57 - App MetricBoost runtime: 139.06562566757202 seconds
+2024-10-28 17:26:34.352 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2377.8499495983124 seconds
+2024-10-28 17:33:10.724 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.4063856601715088 seconds
+2024-10-28 17:33:51.462 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.03600049018859863 seconds
+2024-10-28 17:37:58.465 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.035005807876586914 seconds
+2024-10-28 17:39:59.067 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.035468101501464844 seconds
+2024-10-28 17:42:36.817 | INFO     | app:lifespan:57 - App MetricBoost runtime: 34.88563847541809 seconds
+2024-10-28 17:42:38.483 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.031075716018676758 seconds
+2024-10-28 19:00:49.892 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4676.5318212509155 seconds
+2024-10-28 19:04:18.551 | INFO     | app:lifespan:57 - App MetricBoost runtime: 206.2146282196045 seconds
+2024-10-28 19:11:31.912 | INFO     | app:lifespan:57 - App MetricBoost runtime: 431.4773437976837 seconds
+2024-10-28 19:15:49.992 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/get_database
+2024-10-28 19:18:12.945 | INFO     | app:lifespan:57 - App MetricBoost runtime: 142.98087811470032 seconds
+2024-10-28 19:18:16.554 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1.3368279933929443 seconds
+2024-10-28 19:26:31.475 | INFO     | app:lifespan:57 - App MetricBoost runtime: 484.9543077945709 seconds
+2024-10-28 19:28:01.460 | INFO     | app:lifespan:57 - App MetricBoost runtime: 87.168128490448 seconds
+2024-10-28 19:28:56.614 | INFO     | app:lifespan:57 - App MetricBoost runtime: 53.52299928665161 seconds
+2024-10-28 19:30:51.591 | INFO     | app:lifespan:57 - App MetricBoost runtime: 113.168532371521 seconds
+2024-10-28 19:34:30.137 | INFO     | app:lifespan:57 - App MetricBoost runtime: 216.88920712471008 seconds
+2024-10-28 19:38:38.421 | INFO     | app:lifespan:57 - App MetricBoost runtime: 246.67004323005676 seconds
+2024-10-28 19:41:48.504 | INFO     | app:lifespan:57 - App MetricBoost runtime: 187.95086407661438 seconds
+2024-10-28 19:44:57.776 | INFO     | app:lifespan:57 - App MetricBoost runtime: 187.5202076435089 seconds
+2024-10-28 19:50:05.280 | INFO     | app:lifespan:57 - App MetricBoost runtime: 305.4894106388092 seconds
+2024-10-28 19:52:52.384 | INFO     | app:lifespan:57 - App MetricBoost runtime: 165.31617522239685 seconds
+2024-10-28 20:02:02.670 | INFO     | app:lifespan:57 - App MetricBoost runtime: 73.15155267715454 seconds
+2024-10-29 10:03:44.117 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3585.2404465675354 seconds
+2024-10-29 10:03:48.345 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2.1357507705688477 seconds
+2024-10-29 10:08:06.573 | INFO     | app:lifespan:57 - App MetricBoost runtime: 249.61335802078247 seconds
+2024-10-29 10:10:08.564 | INFO     | app:lifespan:57 - App MetricBoost runtime: 120.12465620040894 seconds
+2024-10-29 10:11:13.213 | INFO     | app:lifespan:57 - App MetricBoost runtime: 63.17270827293396 seconds
+2024-10-29 10:12:29.690 | INFO     | app:lifespan:57 - App MetricBoost runtime: 74.41658353805542 seconds
+2024-10-29 10:12:38.693 | INFO     | app:lifespan:57 - App MetricBoost runtime: 7.2921552658081055 seconds
+2024-10-29 10:18:23.266 | INFO     | app:lifespan:57 - App MetricBoost runtime: 334.5197660923004 seconds
+2024-10-29 10:24:43.334 | INFO     | app:lifespan:57 - App MetricBoost runtime: 378.1305093765259 seconds
+2024-10-29 10:29:26.032 | INFO     | app:lifespan:57 - App MetricBoost runtime: 281.07654070854187 seconds
+2024-10-29 10:31:16.946 | INFO     | app:lifespan:57 - App MetricBoost runtime: 109.29100179672241 seconds
+2024-10-29 10:31:58.451 | INFO     | app:lifespan:57 - App MetricBoost runtime: 38.68921494483948 seconds
+2024-10-29 11:02:59.518 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1859.380689382553 seconds
+2024-10-29 11:06:41.102 | INFO     | app:lifespan:57 - App MetricBoost runtime: 219.33864855766296 seconds
+2024-10-29 11:07:51.919 | INFO     | app:lifespan:57 - App MetricBoost runtime: 69.15100765228271 seconds
+2024-10-29 11:07:56.130 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1.3404488563537598 seconds
+2024-10-29 11:18:08.858 | INFO     | app:lifespan:57 - App MetricBoost runtime: 611.557781457901 seconds
+2024-10-29 11:19:11.985 | INFO     | app:lifespan:57 - App MetricBoost runtime: 61.52765440940857 seconds
+2024-10-29 11:19:31.786 | INFO     | app:lifespan:57 - App MetricBoost runtime: 18.196781396865845 seconds
+2024-10-29 11:20:24.560 | INFO     | app:lifespan:57 - App MetricBoost runtime: 51.23532199859619 seconds
+2024-10-29 11:20:44.196 | INFO     | app:lifespan:57 - App MetricBoost runtime: 18.000037670135498 seconds
+2024-10-29 11:25:43.423 | INFO     | app:lifespan:57 - App MetricBoost runtime: 297.6373794078827 seconds
+2024-10-29 11:29:19.782 | INFO     | app:lifespan:57 - App MetricBoost runtime: 214.65666103363037 seconds
+2024-10-29 11:46:05.629 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1004.3215947151184 seconds
+2024-10-29 11:48:19.060 | INFO     | app:lifespan:57 - App MetricBoost runtime: 131.84129571914673 seconds
+2024-10-29 11:48:45.322 | INFO     | app:lifespan:57 - App MetricBoost runtime: 24.661545991897583 seconds
+2024-10-29 13:42:40.109 | INFO     | app:lifespan:57 - App MetricBoost runtime: 6833.256761789322 seconds
+2024-10-29 13:44:25.168 | INFO     | app:lifespan:57 - App MetricBoost runtime: 103.33140587806702 seconds
+2024-10-29 13:46:35.973 | INFO     | app:lifespan:57 - App MetricBoost runtime: 129.04230046272278 seconds
+2024-10-29 13:47:21.973 | INFO     | app:lifespan:57 - App MetricBoost runtime: 44.46007776260376 seconds
+2024-10-29 13:49:17.498 | INFO     | app:lifespan:57 - App MetricBoost runtime: 113.94089722633362 seconds
+2024-10-29 14:43:42.220 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3263.0722119808197 seconds
+2024-10-29 14:43:45.601 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1.7505643367767334 seconds
+2024-10-29 14:43:50.697 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3.432896852493286 seconds
+2024-10-29 14:46:27.856 | INFO     | app:lifespan:57 - App MetricBoost runtime: 155.3220498561859 seconds
+2024-10-29 14:47:08.855 | INFO     | app:lifespan:57 - App MetricBoost runtime: 39.2232563495636 seconds
+2024-10-29 14:47:48.736 | INFO     | app:lifespan:57 - App MetricBoost runtime: 38.297882318496704 seconds
+2024-10-29 14:48:56.168 | INFO     | app:lifespan:57 - App MetricBoost runtime: 65.91791129112244 seconds
+2024-10-29 14:49:13.637 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.894100189208984 seconds
+2024-10-29 14:50:01.907 | INFO     | app:lifespan:57 - App MetricBoost runtime: 46.77363133430481 seconds
+2024-10-29 15:20:40.004 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1836.5565180778503 seconds
+2024-10-29 15:21:48.126 | INFO     | app:lifespan:57 - App MetricBoost runtime: 66.59466814994812 seconds
+2024-10-29 15:24:24.955 | INFO     | app:lifespan:57 - App MetricBoost runtime: 155.29161095619202 seconds
+2024-10-29 15:47:15.577 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1368.971849679947 seconds
+2024-10-29 15:48:43.061 | INFO     | app:lifespan:57 - App MetricBoost runtime: 85.91894459724426 seconds
+2024-10-29 15:51:38.042 | INFO     | app:lifespan:57 - App MetricBoost runtime: 173.4540092945099 seconds
+2024-10-29 15:51:43.009 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3.3392245769500732 seconds
+2024-10-29 15:52:49.346 | INFO     | app:lifespan:57 - App MetricBoost runtime: 64.78595209121704 seconds
+2024-10-29 16:01:22.570 | INFO     | app:lifespan:57 - App MetricBoost runtime: 511.5713813304901 seconds
+2024-10-29 16:02:21.166 | INFO     | app:lifespan:57 - App MetricBoost runtime: 56.988285064697266 seconds
+2024-10-29 16:04:21.355 | INFO     | app:lifespan:57 - App MetricBoost runtime: 118.64888501167297 seconds
+2024-10-29 16:05:37.363 | INFO     | app:lifespan:57 - App MetricBoost runtime: 74.48295092582703 seconds
+2024-10-29 16:05:51.341 | INFO     | app:lifespan:57 - App MetricBoost runtime: 12.440992593765259 seconds
+2024-10-29 16:10:03.470 | INFO     | app:lifespan:57 - App MetricBoost runtime: 250.61878895759583 seconds
+2024-10-29 16:12:17.827 | INFO     | app:lifespan:57 - App MetricBoost runtime: 132.84520506858826 seconds
+2024-10-29 16:12:59.313 | INFO     | app:lifespan:57 - App MetricBoost runtime: 39.831652879714966 seconds
+2024-10-29 16:15:16.658 | INFO     | app:lifespan:57 - App MetricBoost runtime: 135.66181993484497 seconds
+2024-10-29 16:15:26.239 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.500733852386475 seconds
+2024-10-29 16:24:05.440 | INFO     | app:lifespan:57 - App MetricBoost runtime: 517.6389453411102 seconds
+2024-10-29 16:25:35.422 | INFO     | app:lifespan:57 - App MetricBoost runtime: 88.37784910202026 seconds
+2024-10-29 16:26:25.248 | INFO     | app:lifespan:57 - App MetricBoost runtime: 48.21427249908447 seconds
+2024-10-29 16:27:11.795 | INFO     | app:lifespan:57 - App MetricBoost runtime: 44.968904972076416 seconds
+2024-10-29 16:29:28.656 | INFO     | app:lifespan:57 - App MetricBoost runtime: 135.28450322151184 seconds
+2024-10-29 16:29:39.341 | INFO     | app:lifespan:57 - App MetricBoost runtime: 9.04661774635315 seconds
+2024-10-29 16:32:31.001 | INFO     | app:lifespan:57 - App MetricBoost runtime: 170.06067657470703 seconds
+2024-10-29 17:24:24.737 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3112.1433658599854 seconds
+2024-10-29 17:30:29.722 | INFO     | app:lifespan:57 - App MetricBoost runtime: 363.01174330711365 seconds
+2024-10-29 17:33:46.587 | INFO     | app:lifespan:57 - App MetricBoost runtime: 195.3347566127777 seconds
+2024-10-29 17:34:18.739 | INFO     | app:lifespan:57 - App MetricBoost runtime: 30.595843076705933 seconds
+2024-10-29 17:34:47.579 | INFO     | app:lifespan:57 - App MetricBoost runtime: 6.863117456436157 seconds
+2024-10-29 17:45:12.309 | INFO     | app:lifespan:57 - App MetricBoost runtime: 476.5452446937561 seconds
+2024-10-29 17:50:46.894 | INFO     | app:lifespan:57 - App MetricBoost runtime: 332.85956144332886 seconds
+2024-10-29 18:13:57.434 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1388.8004727363586 seconds
+2024-10-29 18:16:21.676 | INFO     | app:lifespan:57 - App MetricBoost runtime: 142.55185055732727 seconds
+2024-10-29 18:16:40.166 | INFO     | app:lifespan:57 - App MetricBoost runtime: 16.899062156677246 seconds
+2024-10-29 18:19:48.705 | INFO     | app:lifespan:57 - App MetricBoost runtime: 186.96758723258972 seconds
+2024-10-29 18:20:41.071 | INFO     | app:lifespan:57 - App MetricBoost runtime: 50.791423320770264 seconds
+2024-10-29 18:22:49.258 | INFO     | app:lifespan:57 - App MetricBoost runtime: 126.66046452522278 seconds
+2024-10-29 18:24:45.211 | INFO     | app:lifespan:57 - App MetricBoost runtime: 114.3215103149414 seconds
+2024-10-29 18:25:38.155 | INFO     | app:lifespan:57 - App MetricBoost runtime: 51.33542037010193 seconds
+2024-10-29 18:26:12.832 | INFO     | app:lifespan:57 - App MetricBoost runtime: 33.0536048412323 seconds
+2024-10-29 18:28:04.827 | INFO     | app:lifespan:57 - App MetricBoost runtime: 110.29122591018677 seconds
+2024-10-29 18:30:18.435 | INFO     | app:lifespan:57 - App MetricBoost runtime: 132.02615189552307 seconds
+2024-10-29 18:30:55.121 | INFO     | app:lifespan:57 - App MetricBoost runtime: 35.04821038246155 seconds
+2024-10-29 18:31:44.255 | INFO     | app:lifespan:57 - App MetricBoost runtime: 47.539082527160645 seconds
+2024-10-29 18:32:01.790 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.929783344268799 seconds
+2024-10-29 18:32:28.529 | INFO     | app:lifespan:57 - App MetricBoost runtime: 25.112149953842163 seconds
+2024-10-29 18:32:56.131 | INFO     | app:lifespan:57 - App MetricBoost runtime: 26.05644917488098 seconds
+2024-10-29 18:33:15.008 | INFO     | app:lifespan:57 - App MetricBoost runtime: 17.226989030838013 seconds
+2024-10-29 18:34:03.336 | INFO     | app:lifespan:57 - App MetricBoost runtime: 46.71695423126221 seconds
+2024-10-29 18:34:09.465 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.526715993881226 seconds
+2024-10-29 18:34:51.784 | INFO     | app:lifespan:57 - App MetricBoost runtime: 40.69511890411377 seconds
+2024-10-29 18:35:04.794 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11.388789176940918 seconds
+2024-10-29 19:08:01.827 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1975.4722347259521 seconds
+2024-10-29 19:10:37.159 | INFO     | app:lifespan:57 - App MetricBoost runtime: 153.74015593528748 seconds
+2024-10-29 19:10:59.207 | INFO     | app:lifespan:57 - App MetricBoost runtime: 20.36652112007141 seconds
+2024-10-29 19:13:00.800 | INFO     | app:lifespan:57 - App MetricBoost runtime: 119.97400069236755 seconds
+2024-10-29 19:13:34.297 | INFO     | app:lifespan:57 - App MetricBoost runtime: 31.937817335128784 seconds
+2024-10-29 19:13:49.505 | INFO     | app:lifespan:57 - App MetricBoost runtime: 13.618897914886475 seconds
+2024-10-29 19:17:23.493 | INFO     | app:lifespan:57 - App MetricBoost runtime: 212.37767338752747 seconds
+2024-10-29 19:24:15.336 | INFO     | app:lifespan:57 - App MetricBoost runtime: 410.26680278778076 seconds
+2024-10-29 19:26:22.421 | INFO     | app:lifespan:57 - App MetricBoost runtime: 125.49668169021606 seconds
+2024-10-29 19:31:27.392 | INFO     | app:lifespan:57 - App MetricBoost runtime: 303.3366391658783 seconds
+2024-10-29 19:31:51.991 | INFO     | app:lifespan:57 - App MetricBoost runtime: 22.861032485961914 seconds
+2024-10-29 19:32:37.046 | INFO     | app:lifespan:57 - App MetricBoost runtime: 43.40142011642456 seconds
+2024-10-29 19:33:33.400 | INFO     | app:lifespan:57 - App MetricBoost runtime: 54.706951379776 seconds
+2024-10-29 19:35:10.421 | INFO     | app:lifespan:57 - App MetricBoost runtime: 95.35147023200989 seconds
+2024-10-29 19:35:48.603 | INFO     | app:lifespan:57 - App MetricBoost runtime: 36.56546974182129 seconds
+2024-10-30 08:53:50.530 | INFO     | app:lifespan:57 - App MetricBoost runtime: 249.16704559326172 seconds
+2024-10-30 08:54:32.155 | INFO     | app:lifespan:57 - App MetricBoost runtime: 39.850528717041016 seconds
+2024-10-30 08:55:34.068 | INFO     | app:lifespan:57 - App MetricBoost runtime: 60.11912441253662 seconds
+2024-10-30 08:56:34.884 | INFO     | app:lifespan:57 - App MetricBoost runtime: 59.02563810348511 seconds
+2024-10-30 08:59:49.778 | INFO     | app:lifespan:57 - App MetricBoost runtime: 193.10261702537537 seconds
+2024-10-30 09:01:04.790 | INFO     | app:lifespan:57 - App MetricBoost runtime: 73.24466466903687 seconds
+2024-10-30 09:01:34.238 | INFO     | app:lifespan:57 - App MetricBoost runtime: 27.665367126464844 seconds
+2024-10-30 09:01:41.437 | INFO     | app:lifespan:57 - App MetricBoost runtime: 5.4309258460998535 seconds
+2024-10-30 09:03:08.114 | INFO     | app:lifespan:57 - App MetricBoost runtime: 84.92446517944336 seconds
+2024-10-30 09:05:09.123 | INFO     | app:lifespan:57 - App MetricBoost runtime: 119.24642515182495 seconds
+2024-10-30 09:05:30.682 | INFO     | app:lifespan:57 - App MetricBoost runtime: 19.80062246322632 seconds
+2024-10-30 09:06:58.408 | INFO     | app:lifespan:57 - App MetricBoost runtime: 85.98556208610535 seconds
+2024-10-30 09:08:11.554 | INFO     | app:lifespan:57 - App MetricBoost runtime: 71.38164210319519 seconds
+2024-10-30 09:08:13.342 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/databases/{id}
+2024-10-30 09:08:13.362 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/databases/{id}
+2024-10-30 09:09:24.628 | INFO     | app:lifespan:57 - App MetricBoost runtime: 71.32180690765381 seconds
+2024-10-30 09:11:29.819 | INFO     | app:lifespan:57 - App MetricBoost runtime: 123.34755086898804 seconds
+2024-10-30 09:11:50.332 | INFO     | app:lifespan:57 - App MetricBoost runtime: 18.76750612258911 seconds
+2024-10-30 09:14:23.253 | INFO     | app:lifespan:57 - App MetricBoost runtime: 151.1630253791809 seconds
+2024-10-30 09:15:50.055 | INFO     | app:lifespan:57 - App MetricBoost runtime: 85.04191899299622 seconds
+2024-10-30 09:16:03.878 | INFO     | app:lifespan:57 - App MetricBoost runtime: 12.113948583602905 seconds
+2024-10-30 09:22:53.176 | INFO     | app:lifespan:57 - App MetricBoost runtime: 407.51125717163086 seconds
+2024-10-30 09:26:19.086 | INFO     | app:lifespan:57 - App MetricBoost runtime: 204.14171957969666 seconds
+2024-10-30 09:28:36.797 | INFO     | app:lifespan:57 - App MetricBoost runtime: 135.96163535118103 seconds
+2024-10-30 09:29:35.393 | INFO     | app:lifespan:57 - App MetricBoost runtime: 56.85280728340149 seconds
+2024-10-30 09:31:11.870 | INFO     | app:lifespan:57 - App MetricBoost runtime: 94.65686655044556 seconds
+2024-10-30 09:31:24.615 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11.004944562911987 seconds
+2024-10-30 09:33:22.162 | INFO     | app:lifespan:57 - App MetricBoost runtime: 115.7632749080658 seconds
+2024-10-30 10:05:14.103 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1910.005990743637 seconds
+2024-10-30 10:12:08.154 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/topics
+2024-10-30 10:12:08.178 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/topics
+2024-10-30 10:12:08.200 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted delete /api/v1/system-manage/topics/{id}
+2024-10-30 10:12:08.218 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted patch /api/v1/system-manage/topics/{id}
+2024-10-30 10:12:49.255 | INFO     | app:lifespan:57 - App MetricBoost runtime: 41.25340461730957 seconds
+2024-10-30 10:13:46.125 | INFO     | app:lifespan:57 - App MetricBoost runtime: 55.10000967979431 seconds
+2024-10-30 10:14:34.794 | INFO     | app:lifespan:57 - App MetricBoost runtime: 46.859540700912476 seconds
+2024-10-30 10:16:41.606 | INFO     | app:lifespan:57 - App MetricBoost runtime: 125.07324504852295 seconds
+2024-10-30 10:16:47.655 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.068305253982544 seconds
+2024-10-30 10:18:31.048 | INFO     | app:lifespan:57 - App MetricBoost runtime: 94.07926559448242 seconds
+2024-10-30 10:27:26.193 | INFO     | app:lifespan:57 - App MetricBoost runtime: 166.88733673095703 seconds
+2024-10-30 10:37:17.468 | INFO     | app:lifespan:57 - App MetricBoost runtime: 589.5140972137451 seconds
+2024-10-30 10:37:29.289 | INFO     | app:lifespan:57 - App MetricBoost runtime: 10.03784990310669 seconds
+2024-10-30 10:37:46.673 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.674284219741821 seconds
+2024-10-30 10:48:09.342 | INFO     | app:lifespan:57 - App MetricBoost runtime: 620.9302701950073 seconds
+2024-10-30 10:48:48.205 | INFO     | app:lifespan:57 - App MetricBoost runtime: 37.06714391708374 seconds
+2024-10-30 10:51:22.627 | INFO     | app:lifespan:57 - App MetricBoost runtime: 152.69763088226318 seconds
+2024-10-30 10:53:55.254 | INFO     | app:lifespan:57 - App MetricBoost runtime: 150.8478605747223 seconds
+2024-10-30 10:54:05.974 | INFO     | app:lifespan:57 - App MetricBoost runtime: 8.90730905532837 seconds
+2024-10-30 10:54:23.332 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.603842496871948 seconds
+2024-10-30 11:00:25.324 | INFO     | app:lifespan:57 - App MetricBoost runtime: 360.16668128967285 seconds
+2024-10-30 11:01:45.667 | INFO     | app:lifespan:57 - App MetricBoost runtime: 78.59753680229187 seconds
+2024-10-30 11:04:00.085 | INFO     | app:lifespan:57 - App MetricBoost runtime: 76.13871026039124 seconds
+2024-10-30 11:04:17.460 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.595756769180298 seconds
+2024-10-30 11:04:47.273 | INFO     | app:lifespan:57 - App MetricBoost runtime: 28.073745489120483 seconds
+2024-10-30 11:05:21.616 | INFO     | app:lifespan:57 - App MetricBoost runtime: 32.59629583358765 seconds
+2024-10-30 11:05:33.424 | INFO     | app:lifespan:57 - App MetricBoost runtime: 10.001312732696533 seconds
+2024-10-30 11:06:34.402 | INFO     | app:lifespan:57 - App MetricBoost runtime: 59.20461845397949 seconds
+2024-10-30 11:07:03.163 | INFO     | app:lifespan:57 - App MetricBoost runtime: 26.986790895462036 seconds
+2024-10-30 11:08:52.523 | INFO     | app:lifespan:57 - App MetricBoost runtime: 107.61339497566223 seconds
+2024-10-30 11:09:25.729 | INFO     | app:lifespan:57 - App MetricBoost runtime: 31.422729015350342 seconds
+2024-10-30 11:11:29.130 | INFO     | app:lifespan:57 - App MetricBoost runtime: 121.5824363231659 seconds
+2024-10-30 11:29:11.277 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1060.350578069687 seconds
+2024-10-30 14:37:26.063 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11292.95527625084 seconds
+2024-10-30 15:33:42.701 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3374.5386707782745 seconds
+2024-10-30 18:13:29.479 | INFO     | app:lifespan:57 - App MetricBoost runtime: 9585.113048553467 seconds
+2024-10-30 18:13:35.645 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.375915288925171 seconds
+2024-10-30 19:01:56.726 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2899.437730550766 seconds
+2024-10-30 19:02:30.942 | INFO     | app:lifespan:57 - App MetricBoost runtime: 32.52119851112366 seconds
+2024-10-30 19:02:32.683 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.13899874687194824 seconds
+2024-10-30 19:03:10.619 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.03699445724487305 seconds
+2024-10-30 19:04:12.740 | INFO     | app:lifespan:57 - App MetricBoost runtime: 38.15116572380066 seconds
+2024-10-30 19:06:38.545 | INFO     | app:lifespan:57 - App MetricBoost runtime: 144.19027519226074 seconds
+2024-10-30 19:07:50.733 | INFO     | app:lifespan:57 - App MetricBoost runtime: 70.55687928199768 seconds
+2024-10-30 19:08:02.202 | INFO     | app:lifespan:57 - App MetricBoost runtime: 9.853562116622925 seconds
+2024-10-31 16:24:07.758 | INFO     | app:lifespan:57 - App MetricBoost runtime: 27425.670868873596 seconds
+2024-10-31 16:25:13.692 | INFO     | app:lifespan:57 - App MetricBoost runtime: 64.14076328277588 seconds
+2024-10-31 16:26:26.618 | INFO     | app:lifespan:57 - App MetricBoost runtime: 71.31979084014893 seconds
+2024-10-31 16:26:44.090 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.850780248641968 seconds
+2024-10-31 16:26:45.749 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/data-model/preview
+2024-10-31 16:28:27.297 | INFO     | app:lifespan:57 - App MetricBoost runtime: 101.57864212989807 seconds
+2024-10-31 16:29:01.419 | INFO     | app:lifespan:57 - App MetricBoost runtime: 32.42657828330994 seconds
+2024-10-31 16:29:50.322 | INFO     | app:lifespan:57 - App MetricBoost runtime: 47.315840005874634 seconds
+2024-10-31 16:30:25.921 | INFO     | app:lifespan:57 - App MetricBoost runtime: 33.90308737754822 seconds
+2024-10-31 16:30:37.865 | INFO     | app:lifespan:57 - App MetricBoost runtime: 10.250820398330688 seconds
+2024-10-31 16:31:04.464 | INFO     | app:lifespan:57 - App MetricBoost runtime: 24.97972273826599 seconds
+2024-10-31 16:32:39.699 | INFO     | app:lifespan:57 - App MetricBoost runtime: 93.54752326011658 seconds
+2024-10-31 16:33:53.638 | INFO     | app:lifespan:57 - App MetricBoost runtime: 72.2432587146759 seconds
+2024-10-31 16:34:13.539 | INFO     | app:lifespan:57 - App MetricBoost runtime: 18.213359594345093 seconds
+2024-10-31 16:34:44.704 | INFO     | app:lifespan:57 - App MetricBoost runtime: 29.45213294029236 seconds
+2024-10-31 16:34:57.761 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11.329366445541382 seconds
+2024-10-31 16:35:20.835 | INFO     | app:lifespan:57 - App MetricBoost runtime: 21.38606357574463 seconds
+2024-10-31 16:36:13.341 | INFO     | app:lifespan:57 - App MetricBoost runtime: 50.78765797615051 seconds
+2024-10-31 16:39:41.924 | INFO     | app:lifespan:57 - App MetricBoost runtime: 206.8527204990387 seconds
+2024-10-31 16:40:16.542 | INFO     | app:lifespan:57 - App MetricBoost runtime: 32.91456055641174 seconds
+2024-10-31 16:41:21.248 | INFO     | app:lifespan:57 - App MetricBoost runtime: 62.91647458076477 seconds
+2024-10-31 16:41:27.442 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.533699035644531 seconds
+2024-10-31 16:42:01.908 | INFO     | app:lifespan:57 - App MetricBoost runtime: 32.749536991119385 seconds
+2024-10-31 16:43:36.011 | INFO     | app:lifespan:57 - App MetricBoost runtime: 92.36615872383118 seconds
+2024-10-31 16:45:43.939 | INFO     | app:lifespan:57 - App MetricBoost runtime: 126.2547504901886 seconds
+2024-10-31 16:48:02.611 | INFO     | app:lifespan:57 - App MetricBoost runtime: 136.97916555404663 seconds
+2024-10-31 16:53:15.318 | INFO     | app:lifespan:57 - App MetricBoost runtime: 311.07720589637756 seconds
+2024-10-31 16:54:56.508 | INFO     | app:lifespan:57 - App MetricBoost runtime: 99.41203880310059 seconds
+2024-10-31 16:56:33.943 | INFO     | app:lifespan:57 - App MetricBoost runtime: 95.7924599647522 seconds
+2024-10-31 16:56:43.640 | INFO     | app:lifespan:57 - App MetricBoost runtime: 8.0228111743927 seconds
+2024-10-31 16:56:53.139 | INFO     | app:lifespan:57 - App MetricBoost runtime: 7.875514268875122 seconds
+2024-10-31 16:57:29.601 | INFO     | app:lifespan:57 - App MetricBoost runtime: 34.81742191314697 seconds
+2024-10-31 16:57:54.902 | INFO     | app:lifespan:57 - App MetricBoost runtime: 23.632401704788208 seconds
+2024-10-31 16:58:48.009 | INFO     | app:lifespan:57 - App MetricBoost runtime: 51.43570017814636 seconds
+2024-10-31 16:59:59.479 | INFO     | app:lifespan:57 - App MetricBoost runtime: 69.81300115585327 seconds
+2024-10-31 17:02:05.789 | INFO     | app:lifespan:57 - App MetricBoost runtime: 124.55944156646729 seconds
+2024-10-31 17:02:18.749 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11.28138780593872 seconds
+2024-10-31 17:02:55.920 | INFO     | app:lifespan:57 - App MetricBoost runtime: 35.44065451622009 seconds
+2024-10-31 17:03:01.987 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.424118995666504 seconds
+2024-10-31 17:04:18.191 | INFO     | app:lifespan:57 - App MetricBoost runtime: 74.559574842453 seconds
+2024-10-31 17:04:37.191 | INFO     | app:lifespan:57 - App MetricBoost runtime: 17.360644340515137 seconds
+2024-10-31 17:06:40.900 | INFO     | app:lifespan:57 - App MetricBoost runtime: 122.08585500717163 seconds
+2024-10-31 17:06:56.037 | INFO     | app:lifespan:57 - App MetricBoost runtime: 13.449056625366211 seconds
+2024-10-31 17:07:13.278 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.58522653579712 seconds
+2024-10-31 17:11:03.372 | INFO     | app:lifespan:57 - App MetricBoost runtime: 228.39795470237732 seconds
+2024-10-31 17:11:22.978 | INFO     | app:lifespan:57 - App MetricBoost runtime: 17.907650232315063 seconds
+2024-10-31 17:14:49.290 | INFO     | app:lifespan:57 - App MetricBoost runtime: 204.68652892112732 seconds
+2024-10-31 17:14:52.068 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1.0242111682891846 seconds
+2024-10-31 17:15:47.770 | INFO     | app:lifespan:57 - App MetricBoost runtime: 54.04631543159485 seconds
+2024-10-31 17:16:22.954 | INFO     | app:lifespan:57 - App MetricBoost runtime: 33.5794575214386 seconds
+2024-10-31 17:16:37.936 | INFO     | app:lifespan:57 - App MetricBoost runtime: 13.378917217254639 seconds
+2024-10-31 17:16:55.355 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15.783430814743042 seconds
+2024-10-31 17:17:01.469 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4.525862216949463 seconds
+2024-10-31 17:17:22.199 | INFO     | app:lifespan:57 - App MetricBoost runtime: 19.094724655151367 seconds
+2024-10-31 17:36:22.569 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1138.7770738601685 seconds
+2024-10-31 17:39:36.902 | INFO     | app:lifespan:57 - App MetricBoost runtime: 192.6564245223999 seconds
+2024-10-31 17:41:02.216 | INFO     | app:lifespan:57 - App MetricBoost runtime: 83.70358610153198 seconds
+2024-10-31 17:45:32.040 | INFO     | app:lifespan:57 - App MetricBoost runtime: 268.2259578704834 seconds
+2024-10-31 17:46:29.440 | INFO     | app:lifespan:57 - App MetricBoost runtime: 55.75521111488342 seconds
+2024-10-31 17:55:06.995 | INFO     | app:lifespan:57 - App MetricBoost runtime: 515.9275839328766 seconds
+2024-10-31 18:01:59.219 | INFO     | app:lifespan:57 - App MetricBoost runtime: 410.5930151939392 seconds
+2024-11-01 09:47:16.878 | INFO     | app:lifespan:57 - App MetricBoost runtime: 3.6018381118774414 seconds
+2024-11-01 09:47:54.497 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2.188080310821533 seconds
+2024-11-01 09:49:11.835 | INFO     | app:lifespan:57 - App MetricBoost runtime: 63.141831159591675 seconds
+2024-11-01 09:49:31.842 | INFO     | app:lifespan:57 - App MetricBoost runtime: 18.21701431274414 seconds
+2024-11-01 09:49:59.866 | INFO     | app:lifespan:57 - App MetricBoost runtime: 26.229880809783936 seconds
+2024-11-01 09:51:22.606 | INFO     | app:lifespan:57 - App MetricBoost runtime: 80.93811368942261 seconds
+2024-11-01 09:51:57.544 | INFO     | app:lifespan:57 - App MetricBoost runtime: 33.12127447128296 seconds
+2024-11-01 09:52:49.779 | INFO     | app:lifespan:57 - App MetricBoost runtime: 50.3764750957489 seconds
+2024-11-01 09:53:27.946 | INFO     | app:lifespan:57 - App MetricBoost runtime: 36.38784313201904 seconds
+2024-11-01 09:54:09.601 | INFO     | app:lifespan:57 - App MetricBoost runtime: 39.910324811935425 seconds
+2024-11-01 09:54:54.870 | INFO     | app:lifespan:57 - App MetricBoost runtime: 43.43398189544678 seconds
+2024-11-01 09:59:03.488 | INFO     | app:lifespan:57 - App MetricBoost runtime: 246.8541271686554 seconds
+2024-11-01 10:04:46.637 | INFO     | app:lifespan:57 - App MetricBoost runtime: 341.13794589042664 seconds
+2024-11-01 10:04:56.225 | INFO     | app:lifespan:57 - App MetricBoost runtime: 7.788854598999023 seconds
+2024-11-01 10:05:44.698 | INFO     | app:lifespan:57 - App MetricBoost runtime: 46.650630712509155 seconds
+2024-11-01 10:05:46.467 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/data-model/metadata
+2024-11-01 10:06:23.023 | INFO     | app:lifespan:57 - App MetricBoost runtime: 36.58517932891846 seconds
+2024-11-01 10:07:39.410 | INFO     | app:lifespan:57 - App MetricBoost runtime: 74.58471846580505 seconds
+2024-11-01 10:08:11.971 | INFO     | app:lifespan:57 - App MetricBoost runtime: 30.759470224380493 seconds
+2024-11-01 10:09:46.193 | INFO     | app:lifespan:57 - App MetricBoost runtime: 92.39153242111206 seconds
+2024-11-01 10:09:59.288 | INFO     | app:lifespan:57 - App MetricBoost runtime: 11.261625051498413 seconds
+2024-11-01 10:23:10.665 | INFO     | app:lifespan:57 - App MetricBoost runtime: 789.5484018325806 seconds
+2024-11-01 10:25:14.218 | INFO     | app:lifespan:57 - App MetricBoost runtime: 121.74448585510254 seconds
+2024-11-01 10:26:30.570 | INFO     | app:lifespan:57 - App MetricBoost runtime: 74.4954137802124 seconds
+2024-11-01 10:27:48.021 | INFO     | app:lifespan:57 - App MetricBoost runtime: 75.7097418308258 seconds
+2024-11-01 10:30:49.424 | INFO     | app:lifespan:57 - App MetricBoost runtime: 179.60353589057922 seconds
+2024-11-01 10:32:16.827 | INFO     | app:lifespan:57 - App MetricBoost runtime: 85.66917562484741 seconds
+2024-11-01 10:32:44.592 | INFO     | app:lifespan:57 - App MetricBoost runtime: 26.011422395706177 seconds
+2024-11-01 10:38:35.092 | INFO     | app:lifespan:57 - App MetricBoost runtime: 348.7022776603699 seconds
+2024-11-01 10:39:47.131 | INFO     | app:lifespan:57 - App MetricBoost runtime: 70.18370008468628 seconds
+2024-11-01 11:08:07.018 | INFO     | app:lifespan:57 - App MetricBoost runtime: 1698.0925877094269 seconds
+2024-11-01 11:08:33.954 | INFO     | app:lifespan:57 - App MetricBoost runtime: 25.12186622619629 seconds
+2024-11-01 11:10:38.456 | INFO     | app:lifespan:57 - App MetricBoost runtime: 122.6937665939331 seconds
+2024-11-01 11:11:45.168 | INFO     | app:lifespan:57 - App MetricBoost runtime: 64.8679530620575 seconds
+2024-11-01 11:11:49.293 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2.3069911003112793 seconds
+2024-11-01 11:12:48.618 | INFO     | app:lifespan:57 - App MetricBoost runtime: 30.23212194442749 seconds
+2024-11-01 11:14:36.170 | INFO     | app:lifespan:57 - App MetricBoost runtime: 105.76839470863342 seconds
+2024-11-01 11:16:46.202 | INFO     | app:lifespan:57 - App MetricBoost runtime: 128.20758962631226 seconds
+2024-11-01 11:17:44.867 | INFO     | app:lifespan:57 - App MetricBoost runtime: 56.69949722290039 seconds
+2024-11-01 11:17:46.809 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.047316551208496094 seconds
+2024-11-01 11:18:01.163 | INFO     | app:lifespan:57 - App MetricBoost runtime: 0.03856611251831055 seconds
+2024-11-01 11:18:40.421 | INFO     | app:lifespan:57 - App MetricBoost runtime: 23.787736415863037 seconds
+2024-11-01 11:19:26.498 | INFO     | app:lifespan:57 - App MetricBoost runtime: 44.23946452140808 seconds
+2024-11-01 11:20:28.824 | INFO     | app:lifespan:57 - App MetricBoost runtime: 60.44254946708679 seconds
+2024-11-01 11:27:28.270 | INFO     | app:lifespan:57 - App MetricBoost runtime: 417.6360938549042 seconds
+2024-11-01 11:28:38.245 | INFO     | app:lifespan:57 - App MetricBoost runtime: 68.1118392944336 seconds
+2024-11-01 11:30:07.773 | INFO     | app:lifespan:57 - App MetricBoost runtime: 87.7474319934845 seconds
+2024-11-01 11:30:19.926 | INFO     | app:lifespan:57 - App MetricBoost runtime: 10.301592350006104 seconds
+2024-11-01 11:31:13.636 | INFO     | app:lifespan:57 - App MetricBoost runtime: 51.8549907207489 seconds
+2024-11-01 11:31:40.210 | INFO     | app:lifespan:57 - App MetricBoost runtime: 24.76015567779541 seconds
+2024-11-01 11:33:40.909 | INFO     | app:lifespan:57 - App MetricBoost runtime: 12.64569091796875 seconds
+2024-11-01 11:34:35.948 | INFO     | app:lifespan:57 - App MetricBoost runtime: 53.18073868751526 seconds
+2024-11-01 11:35:29.849 | INFO     | app:lifespan:57 - App MetricBoost runtime: 52.052814960479736 seconds
+2024-11-01 15:50:54.188 | INFO     | app:lifespan:57 - App MetricBoost runtime: 15322.52444434166 seconds
+2024-11-01 15:50:56.312 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/data-model/table-metadata
+2024-11-01 15:58:42.143 | INFO     | app:lifespan:57 - App MetricBoost runtime: 465.8616545200348 seconds
+2024-11-01 16:00:20.569 | INFO     | app:lifespan:57 - App MetricBoost runtime: 96.7748646736145 seconds
+2024-11-01 16:00:24.398 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2.176739454269409 seconds
+2024-11-01 16:36:17.875 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2151.845178604126 seconds
+2024-11-01 16:37:47.282 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted post /api/v1/system-manage/data-model/preview
+2024-11-01 16:38:21.681 | INFO     | app:lifespan:57 - App MetricBoost runtime: 34.42911672592163 seconds
+2024-11-01 16:38:23.395 | ERROR    | app.api.v1.utils:refresh_api_list:18 - API Deleted get /api/v1/system-manage/data-model/preview
+2024-11-01 16:39:37.151 | INFO     | app:lifespan:57 - App MetricBoost runtime: 73.7872724533081 seconds
+2024-11-01 16:40:15.166 | INFO     | app:lifespan:57 - App MetricBoost runtime: 36.329169511795044 seconds
+2024-11-01 16:41:00.705 | INFO     | app:lifespan:57 - App MetricBoost runtime: 2.3417317867279053 seconds
+2024-11-01 16:43:12.759 | INFO     | app:lifespan:57 - App MetricBoost runtime: 130.15948963165283 seconds
+2024-11-01 16:43:57.184 | INFO     | app:lifespan:57 - App MetricBoost runtime: 42.748534202575684 seconds
+2024-11-01 18:05:35.342 | INFO     | app:lifespan:57 - App MetricBoost runtime: 4894.170355319977 seconds

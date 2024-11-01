@@ -1,0 +1,12 @@
+**/migrations
+**/.venv
+**/*.egg-info
+**/build 
+**/__pycache__
+# Ignore MySQL socket file
+mysql/data/mysql.sock
+
+# Ignore MySQL data files
+mysql/data/*.cnf
+mysql/data/*.index
+mysql/data/*.pool
