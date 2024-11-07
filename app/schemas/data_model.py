@@ -4,13 +4,14 @@ from app.models.system import StatusType
 
 
 class DataModelBase(BaseModel):
+    database: Annotated[int, Field(alias="database")] = None
+    table_name: Annotated[str, Field(alias="tableName")] = None
     data_model_name: str = Field(alias="dataModelName")
     data_model_desc: str = Field(alias="dataModelDesc")
+    data_domain: Annotated[int, Field(alias="dataDomain")] = None
+    topic_domain: Annotated[int, Field(alias="topicDomain")] = None
     status: Annotated[StatusType | None, Field()] = StatusType.enable
-    sql_content: str = Field(alias="sqlContent")
-    data_domain: Annotated[str, Field(alias="dataDomain")] = None
-    topic_domain: Annotated[str, Field(alias="topicDomain")] = None
-    database: Annotated[str, Field(alias="database")] = None
+    field_conf: Annotated[str, Field(alias="fieldConf")] = None
     create_by: Annotated[str, Field(alias="createBy")] = None
 
     # 允许原始名称和别名来访问和设置字段值

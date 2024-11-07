@@ -17,19 +17,16 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
 
     async def create(self, obj_in: DataModelCreate) -> DataModel:
         obj_in.create_by = await User.get(user_name=obj_in.create_by)
-        obj_in.data_domain = await DataDomain.get(data_domain_name=obj_in.data_domain)
-        obj_in.topic_domain = await TopicDomain.get(
-            topic_domain_name=obj_in.topic_domain
-        )
-        obj = await super().create(obj_in)
-        return obj
+        obj_in.database = await Database.get(id=obj_in.database)
+        obj_in.data_domain = await DataDomain.get(id=obj_in.data_domain)
+        obj_in.topic_domain = await TopicDomain.get(id=obj_in.topic_domain)
+        return await super().create(obj_in)
 
     async def update(self, id: int, obj_in: DataModelUpdate) -> DataModel:  # type: ignore
         obj_in.create_by = await User.get(user_name=obj_in.create_by)
-        obj_in.data_domain = await DataDomain.get(data_domain_name=obj_in.data_domain)
-        obj_in.topic_domain = await TopicDomain.get(
-            topic_domain_name=obj_in.topic_domain
-        )
+        obj_in.database = await Database.get(id=obj_in.database)
+        obj_in.data_domain = await DataDomain.get(id=obj_in.data_domain)
+        obj_in.topic_domain = await TopicDomain.get(id=obj_in.topic_domain)
         return await super().update(id=id, obj_in=obj_in)
 
     async def remove(self, id: int) -> DataModel:
@@ -97,32 +94,68 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         database = await Database.get(id=database_id)
         if database and database.database_type.lower() == "mysql":
             connection_url = f"mysql://{database.database_user}:{database.password}@{database.database_host}:{database.database_port}/{database.database_database}"
-            await Tortoise.init(db_url=connection_url, modules={"models": []})
+        else:
+            return 0, "暂不支持其他数据库"
 
-            sql_query = f"""
-                SELECT 
-                    TABLE_NAME,
-                    COLUMN_NAME, 
-                    COLUMN_TYPE, 
-                    COLUMN_COMMENT 
-                FROM INFORMATION_SCHEMA.COLUMNS 
-                WHERE TABLE_SCHEMA = '{database.database_database}'
-                AND TABLE_NAME = '{table_name}'
-            """
+        await Tortoise.init(db_url=connection_url, modules={"models": []})
 
-            conn = Tortoise.get_connection(connection_name="default")
+        sql_query = f"""
+            SELECT 
+                COLUMN_NAME as columnName, 
+                COLUMN_TYPE as columnType, 
+                COLUMN_COMMENT as columnComment,
+                '' as semanticType,
+                '' as format,
+                '' as staticType,
+                '2' as isTag
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_SCHEMA = '{database.database_database}'
+            AND TABLE_NAME = '{table_name}'
+        """
+        conn = Tortoise.get_connection(connection_name="default")
+        try:
+            total, results = await conn.execute_query(sql_query)
+
+            # 获取数据模型配置
+            datamodel = await DataModel.filter(
+                database_id=database_id, table_name=table_name
+            ).first()
+            if not datamodel:
+                return total, results
+            # 解析字段配置
             try:
-                # 执行 SQL 查询
-                total, results = await conn.execute_query(sql_query)
+                field_conf = eval(datamodel.field_conf)
+            except:
                 return total, results
 
-            except Exception as e:
-                print(f"执行 SQL 查询时出错: {e}")
-                return 0, []  # 返回空列表或处理错误
+            if not field_conf:
+                return total, results
 
-            finally:
-                # 关闭数据库连接
-                await Tortoise.close_connections()
+            # 创建字段配置映射，提高查找效率
+            field_map = {d["columnName"]: d for d in field_conf}
+
+            # 更新结果
+            results = [
+                {
+                    **row,
+                    **{
+                        k: v
+                        for k, v in field_map.get(row["columnName"], {}).items()
+                        if k in row
+                    },
+                }
+                for row in results
+            ]
+
+            return total, results
+
+        except Exception as e:
+            print(f"执行 SQL 查询时出错: {e}")
+            return 0, []  # 返回空列表或处理错误
+
+        finally:
+            # 关闭数据库连接
+            await Tortoise.close_connections()
 
     async def fetch_table_data(self, database_id: int, table_name: str):
         """获取数据表的数据"""
