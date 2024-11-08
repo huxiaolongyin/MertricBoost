@@ -1,5 +1,5 @@
 from .admin import *
 from .database import *
 from ..utils import *
-from .topic import *
+from .domain import *
 from .data_model import *

@@ -9,8 +9,7 @@ v1_router = APIRouter()
 
 v1_router.include_router(router_auth, prefix="/auth", tags=["权限认证"])
 v1_router.include_router(router_route, prefix="/route", tags=["路由管理"])
-v1_router.include_router(router_metric, prefix="/metric", tags=["指标管理"])
-
 v1_router.include_router(
     router_system_manage, prefix="/system-manage", tags=["系统管理"]
 )
+v1_router.include_router(router_metric, prefix="/metric", tags=["指标管理"])

@@ -7,7 +7,7 @@ from .menus import router as menu_router
 from .roles import router as role_router
 from .users import router as user_router
 from .database import router as database_router
-from .topic import router as topic_router
+from .domain import router as topic_router
 from .data_model import router as data_model_router
 
 router_system_manage = APIRouter()

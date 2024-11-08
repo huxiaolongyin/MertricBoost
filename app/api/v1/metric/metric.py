@@ -1,123 +1,58 @@
 from fastapi import APIRouter
 from app.schemas.base import Success
+from tortoise.expressions import Q
+from app.controllers import metric_controller
+from app.schemas.metric import MetricCreate
+from app.models.system import DataModel
 
 router = APIRouter()
 
 
-#
 @router.get("/", summary="获取指标")
-async def _():
-    answer_data = [
-        {
-            "id": "1",
-            "chineseName": "使用率",
-            "englishName": "Usage Rate",
-            "alias": "使用率",
-            "sensitivity": "1",
-            "dataModel": "访问数据统计信息",
-            "formatType": "percent",
-            "businessScope": "访问数据统计信息",
-            "chartType": "line",
-            "chartDisplayDate": "7",
-            "statisticColumn": "id",
-            "statisticType": "count",
-            "showType": "1",
-            "publishStatus": "1",
-            "tags": ["用户", "2024"],
-            "data": [
-                {"date": "2024-01-01", "value": 0.4538},
-                {"date": "2024-01-02", "value": 0.4936},
-                {"date": "2024-01-03", "value": 0.4568},
-            ],
-        },
-        {
-            "id": "2",
-            "chineseName": "利润",
-            "englishName": "Profit",
-            "alias": "利润",
-            "sensitivity": "1",
-            "dataModel": "经营数据统计信息",
-            "formatType": "currency",
-            "businessScope": "经营数据统计信息",
-            "chartType": "bar",
-            "chartDisplayDate": "7",
-            "statisticColumn": "money",
-            "statisticType": "sum",
-            "showType": "2",
-            "publishStatus": "1",
-            "tags": ["经营", "2024"],
-            "data": [
-                {"date": "2024-01-01", "value": 100000},
-                {"date": "2024-01-02", "value": 120000},
-                {"date": "2024-01-03", "value": 110000},
-            ],
-        },
-        {
-            "id": "3",
-            "chineseName": "满意度",
-            "englishName": "Satisfaction",
-            "alias": "满意度",
-            "sensitivity": "1",
-            "dataModel": "用户满意度调查",
-            "formatType": "percent",
-            "businessScope": "用户满意度调查",
-            "chartType": "line",
-            "chartDisplayDate": "7",
-            "statisticColumn": "score",
-            "statisticType": "average",
-            "showType": "1",
-            "publishStatus": "0",
-            "tags": ["用户", "2024"],
-            "data": [
-                {"date": "2024-01-01", "value": 0.8},
-                {"date": "2024-01-02", "value": 0.85},
-                {"date": "2024-01-03", "value": 0.83},
-            ],
-        },
-        {
-            "id": "4",
-            "chineseName": "销售额",
-            "englishName": "Sales",
-            "alias": "销售额",
-            "sensitivity": "3",
-            "dataModel": "销售数据统计信息",
-            "formatType": "currency",
-            "businessScope": "销售数据统计信息",
-            "chartType": "bar",
-            "chartDisplayDate": "7",
-            "statisticColumn": "sales",
-            "statisticType": "sum",
-            "showType": "1",
-            "publishStatus": "0",
-            "tags": ["销售", "2024"],
-            "data": [
-                {"date": "2024-01-01", "value": 100000},
-                {"date": "2024-01-02", "value": 120000},
-                {"date": "2024-01-03", "value": 110000},
-            ],
-        },
-        {
-            "id": "5",
-            "chineseName": "故障率",
-            "englishName": "Failure Rate",
-            "alias": "故障率",
-            "sensitivity": "2",
-            "dataModel": "系统故障统计信息",
-            "formatType": "percent",
-            "businessScope": "系统故障统计信息",
-            "chartType": "line",
-            "chartDisplayDate": "7",
-            "statisticColumn": "failure",
-            "statisticType": "average",
-            "showType": "1",
-            "publishStatus": "1",
-            "tags": ["系统", "2024"],
-            "data": [
-                {"date": "2024-01-01", "value": 0.02},
-                {"date": "2024-01-02", "value": 0.01},
-                {"date": "2024-01-03", "value": 0.015},
-            ],
-        },
-    ]
+async def _(
+    # id: int = None,
+    # chineseName: str = None,
+    # publishStatus: str = None,
+    # favoriteStatus: str = None,
+    # sensitivity: str = None,
+    # createBy: str = None,
+):
+    q = Q()
+    # if chineseName:
+    #     q &= Q(chinese_name__icontains=chineseName)
+    # if publishStatus:
+    #     q &= Q(publish_status=publishStatus)
+    # if favoriteStatus:
+    #     q &= Q(favorite_status=favoriteStatus)
+    # if sensitivity:
+    #     q &= Q(sensitivity=sensitivity)
 
-    return Success(data=answer_data)
+    # total, metric_objs =
+    await metric_controller.list(
+        page=1,
+        page_size=12,
+        search=q,
+        order=["id"],
+    )
+    # 获取模型的数据
+    # model = await DataModel.filter(id=metric_objs).first()
+    # records = [await metric_obj.to_dict() for metric_obj in metric_objs]
+    # return Success(total=total, data={"records": records})
+    return Success("获取成功")
+
+
+@router.post("/", summary="创建指标")
+async def _(
+    metric_in: MetricCreate,
+):
+    new_metric = await metric_controller.create(obj_in=metric_in)
+    return Success(msg="创建成功", data={"create_id": new_metric.id})
+
+
+@router.patch("/", summary="更新指标")
+async def _(
+    id: int,
+    metric_in: MetricCreate,
+):
+    await metric_controller.update(id=id, obj_in=metric_in)
+    return Success(msg="更新成功", data={"update_id": id})

@@ -8,7 +8,7 @@ from enum import Enum
 
 
 class PublishStatus(str, Enum):
-    UNPUBLISHED = "0"
+    UNPUBLISHED = "2"
     PUBLISHED = "1"
 
 
@@ -19,21 +19,18 @@ class ChartType(str, Enum):
 
 class Metric(BaseModel, TimestampMixin):
     id = fields.IntField(pk=True)
-    chinese_name = fields.CharField(max_length=100, description="中文名")
-    english_name = fields.CharField(max_length=100, description="英文名")
-    alias = fields.CharField(max_length=100, description="别名")
-    sensitivity = fields.CharField(max_length=10, description="敏感度")
-    # 关联到数据模型表
     data_model = fields.ForeignKeyField(
         "app_system.DataModel", related_name="metrics", description="数据模型"
     )
-    format_type = fields.CharField(max_length=50, description="格式类型")
     business_scope = fields.CharField(max_length=255, description="业务口径")
+    chinese_name = fields.CharField(max_length=100, description="中文名")
+    english_name = fields.CharField(max_length=100, description="英文名")
+    alias = fields.CharField(max_length=100, description="别名", null=True)
+    sensitivity = fields.CharField(max_length=10, description="敏感度")
+    statistical_period = fields.CharField(max_length=20, description="统计周期")
     chart_type = fields.CharField(max_length=50, description="图表类型")
     chart_display_date = fields.CharField(max_length=20, description="图表显示日期")
-    statistic_column = fields.CharField(max_length=255, description="统计字段")
-    statistic_type = fields.CharField(max_length=50, description="统计方式")
-    creator = fields.ForeignKeyField(
+    create_by = fields.ForeignKeyField(
         "app_system.User",
         related_name="created_metrics",
         description="创建人",
