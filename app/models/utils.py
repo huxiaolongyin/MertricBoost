@@ -58,8 +58,8 @@ class BaseModel(models.Model):
 
 
 class TimestampMixin:
-    create_time = fields.DatetimeField(auto_now_add=True)
-    update_time = fields.DatetimeField(auto_now=True)
+    create_time = fields.DatetimeField(auto_now_add=True, use_tz=True)
+    update_time = fields.DatetimeField(auto_now=True, use_tz=True)
 
 
 class EnumBase(Enum):

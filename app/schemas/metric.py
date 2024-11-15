@@ -1,6 +1,6 @@
 from typing import Annotated
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 
 class MetricBase(BaseModel):
@@ -12,10 +12,24 @@ class MetricBase(BaseModel):
     sensitivity: str = Field(alias="sensitivity")
     statistical_period: str = Field(alias="statisticalPeriod")
     chart_type: str = Field(alias="chartType")
-    chart_display_date: str = Field(alias="chartDisplayDate")
+    chart_display_date: int = Field(alias="chartDisplayDate")
     # favorite_status: str = Field(alias="favoriteStatus")
     publish_status: str = Field(alias="publishStatus")
     create_by: Annotated[str, Field(alias="createBy")] = None
+
+
+class MetricSearch(BaseModel):
+    dateRange: List | None = None
+    chineseName: str | None = None
+    publishStatus: str | None = None
+    favoriteStatus: str | None = None
+    sensitivity: str | None = None
+    topicDomain: int | None = None
+    dimensionDrillDown: str | None = None
+    dimensionFilter: str | None = None
+    check: str | None = None
+    conditions: List | str | None = None
+    createBy: str | None = None
 
 
 class MetricCreate(MetricBase): ...

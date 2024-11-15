@@ -29,11 +29,7 @@ async def _(
     if status:
         q &= Q(status__contains=status)  # 等同于 SQL: WHERE status LIKE '%status%'
     if createBy:
-        user = await User.get_or_none(user_name=createBy)
-        if user:
-            q &= Q(create_by_id=user.id)
-        else:
-            q &= Q(create_by_id=None)
+        q &= Q(create_by__user_name=createBy)
 
     total, database_objs = await database_controller.list(
         page=current, page_size=size, search=q, order=["id"]

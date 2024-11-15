@@ -29,7 +29,7 @@ class Metric(BaseModel, TimestampMixin):
     sensitivity = fields.CharField(max_length=10, description="敏感度")
     statistical_period = fields.CharField(max_length=20, description="统计周期")
     chart_type = fields.CharField(max_length=50, description="图表类型")
-    chart_display_date = fields.CharField(max_length=20, description="图表显示日期")
+    chart_display_date = fields.IntField(description="图表显示日期")
     create_by = fields.ForeignKeyField(
         "app_system.User",
         related_name="created_metrics",
@@ -52,6 +52,50 @@ class Metric(BaseModel, TimestampMixin):
     class Meta:
         table = "metrics"
         table_description = "指标管理信息"
+        fields_for_dict = {"data": "data"}  # 添加data到序列化字段
+
+    @property
+    def data(self):
+        return getattr(self, "_data", None)
+
+    @data.setter
+    def data(self, value):
+        setattr(self, "_data", value)
+
+    # 获取指标的维度
+    @property
+    def dimensions(self):
+        return getattr(self, "_dimensions", None)
+
+    @dimensions.setter
+    def dimensions(self, value):
+        setattr(self, "_dimensions", value)
+
+    # 获取标签的内容
+    @property
+    def tags(self):
+        return getattr(self, "_tags", None)
+
+    @tags.setter
+    def tags(self, value):
+        setattr(self, "_tags", value)
+
+    # 获取指标的格式
+    @property
+    def format(self):
+        return getattr(self, "_format", None)
+
+    @format.setter
+    def format(self, value):
+        setattr(self, "_format", value)
+
+    async def to_dict(self):
+        result = await super().to_dict()
+        result["formatType"] = self.format
+        result["dimensions"] = self.dimensions
+        result["tags"] = self.tags
+        result["data"] = self.data  # 手动添加data到结果字典
+        return result
 
 
 class Tag(BaseModel, TimestampMixin):
@@ -84,22 +128,3 @@ class MetricTag(BaseModel, TimestampMixin):
         table = "metric_tags"
         table_description = "指标标签关系"
         unique_together = ("metric", "tag")
-
-
-# class DataModel(BaseModel, TimestampMixin):
-#     """数据模型"""
-
-#     id = fields.IntField(pk=True)
-#     name = fields.CharField(max_length=100, description="数据模型名称")
-#     description = fields.CharField(max_length=255, description="数据模型描述")
-#     creator = fields.ForeignKeyField(
-#         "app_system.User",
-#         related_name="created_data_models",
-#         description="创建人",
-#     )
-#     # 关联到用户表
-#     method = fields.CharField(max_length=255, description="方法")
-
-#     class Meta:
-#         table = "data_models"
-#         table_description = "数据模型"

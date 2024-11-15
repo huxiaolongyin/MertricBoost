@@ -37,7 +37,9 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         database = await Database.get(id=database_id)
         if database:
             connection_url = f"mysql://{database.database_user}:{database.password}@{database.database_host}:{database.database_port}/{database.database_database}"
-            await Tortoise.init(db_url=connection_url, modules={"models": []})
+            await Tortoise.init(
+                db_url=connection_url, modules={"models": []}, timezone="Asia/Shanghai"
+            )
 
             #  生成在Tortoise ORM模型中定义的数据库模式。
             #  此方法通常在应用程序初始化期间调用，以确保数据库模式与已定义的模型保持一致。它将根据模型定义在数据库中创建任何缺失的表或列。
@@ -67,7 +69,9 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         database = await Database.get(id=database_id)
         if database and database.database_type.lower() == "mysql":
             connection_url = f"mysql://{database.database_user}:{database.password}@{database.database_host}:{database.database_port}/{database.database_database}"
-            await Tortoise.init(db_url=connection_url, modules={"models": []})
+            await Tortoise.init(
+                db_url=connection_url, modules={"models": []}, timezone="Asia/Shanghai"
+            )
             sql_query = f"""
                 SELECT
                     TABLE_NAME,
@@ -97,17 +101,18 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         else:
             return 0, "暂不支持其他数据库"
 
-        await Tortoise.init(db_url=connection_url, modules={"models": []})
+        await Tortoise.init(
+            db_url=connection_url, modules={"models": []}, timezone="Asia/Shanghai"
+        )
 
         sql_query = f"""
             SELECT 
                 COLUMN_NAME as columnName, 
                 COLUMN_TYPE as columnType, 
                 COLUMN_COMMENT as columnComment,
-                '' as semanticType,
-                '' as format,
-                '' as staticType,
-                '2' as isTag
+                NULL as semanticType,
+                NULL as format,
+                NULL as staticType
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_SCHEMA = '{database.database_database}'
             AND TABLE_NAME = '{table_name}'
@@ -120,12 +125,14 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
             datamodel = await DataModel.filter(
                 database_id=database_id, table_name=table_name
             ).first()
+
             if not datamodel:
                 return total, results
             # 解析字段配置
             try:
-                field_conf = eval(datamodel.field_conf)
+                field_conf = json.loads(datamodel.field_conf)
             except:
+                print("field_conf 解析失败")
                 return total, results
 
             if not field_conf:
@@ -162,7 +169,9 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         database = await Database.get(id=database_id)
         if database and database.database_type.lower() == "mysql":
             connection_url = f"mysql://{database.database_user}:{database.password}@{database.database_host}:{database.database_port}/{database.database_database}"
-            await Tortoise.init(db_url=connection_url, modules={"models": []})
+            await Tortoise.init(
+                db_url=connection_url, modules={"models": []}, timezone="Asia/Shanghai"
+            )
             sql_query = f"""
                 SELECT 
                     *
@@ -211,7 +220,11 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
             database = await Database.get(id=database_id)
             if database and database.database_type.lower() == "mysql":
                 connection_url = f"mysql://{database.database_user}:{database.password}@{database.database_host}:{database.database_port}/{database.database_database}"
-                await Tortoise.init(db_url=connection_url, modules={"models": []})
+                await Tortoise.init(
+                    db_url=connection_url,
+                    modules={"models": []},
+                    timezone="Asia/Shanghai",
+                )
                 sql_query = f"""
                     SELECT
                         {aggregated_column},

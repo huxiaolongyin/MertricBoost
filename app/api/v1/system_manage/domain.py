@@ -21,11 +21,7 @@ async def _(
 
     q = Q()  # Q() 是一个查询构造器，用于构建复杂的数据库查询条件
     if createBy:
-        user = await User.get_or_none(user_name=createBy)
-        if user:
-            q &= Q(create_by_id=user.id)
-        else:
-            q &= Q(create_by_id=None)  # 使用 &= 运算符来添加条件，相当于 AND 操作
+        q &= Q(create_by__user_name=createBy)
     total, data_domain_objs = await data_domain_controller.list(
         page=current,
         page_size=size,
@@ -89,11 +85,7 @@ async def _(
     q = Q()
     # 使用 &= 运算符来添加条件，相当于 AND 操作
     if createBy:
-        user = await User.get_or_none(user_name=createBy)
-        if user:
-            q &= Q(create_by_id=user.id)
-        else:
-            q &= Q(create_by_id=None)  # 使用 &= 运算符来添加条件，相当于 AND 操作
+        q &= Q(create_by__user_name=createBy)
     total, topic_domain_objs = await topic_domain_controller.list(
         page=current,
         page_size=size,

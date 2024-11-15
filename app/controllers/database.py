@@ -34,7 +34,11 @@ class DatabaseController(CRUDBase[Database, DatabaseCreate, DatabaseUpdate]):
                 connection_url = f"mysql://{obj_in.database_user}:{obj_in.password}@{obj_in.database_host}:{obj_in.database_port}/{obj_in.database_database}"
 
                 # 创建测试连接
-                await Tortoise.init(db_url=connection_url, modules={"models": []})
+                await Tortoise.init(
+                    db_url=connection_url,
+                    modules={"models": []},
+                    timezone="Asia/Shanghai",
+                )
                 # 测试连接
                 conn = Tortoise.get_connection("default")
                 await conn.execute_query("SELECT 1")

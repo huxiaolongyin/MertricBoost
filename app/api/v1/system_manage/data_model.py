@@ -3,7 +3,7 @@ from fastapi import APIRouter, Query, Request
 from tortoise.expressions import Q
 from app.schemas.base import SuccessExtra, Success
 from app.controllers import data_model_controller
-from app.models.system import LogType, LogDetailType, User, DataDomain, TopicDomain
+from app.models.system import LogType, LogDetailType, User
 from app.api.v1.utils import insert_log
 from app.schemas.data_model import DataModelCreate, DataModelUpdate
 from fastapi.encoders import jsonable_encoder
@@ -51,11 +51,7 @@ async def _(
 
     # 进行创建人的筛选
     if createBy:
-        user = await User.get_or_none(user_name=createBy)
-        if user:
-            q &= Q(create_by_id=user.id)
-        else:
-            q &= Q(create_by_id=None)
+        q &= Q(create_by__user_name=createBy)
 
     total, data_model_objs = await data_model_controller.list(
         page=current,
@@ -88,7 +84,6 @@ async def _(
         records.append(data_model_dict)
 
     data = {"records": records}
-
     await insert_log(
         log_type=LogType.SystemLog,
         log_detail_type=LogDetailType.DataModelGet,
@@ -101,7 +96,6 @@ async def _(
 async def _(
     data_model_in: DataModelCreate,
 ):
-    print(data_model_in)
     new_data_model = await data_model_controller.create(obj_in=data_model_in)
 
     await insert_log(
