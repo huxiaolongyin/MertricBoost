@@ -31,6 +31,7 @@ class MetricSearch(BaseModel):
     conditions: List | str | None = None
     statisticalPeriod: str | None = None
     createBy: str | None = None
+    sort: str | None = None
 
 
 class MetricCreate(MetricBase): ...

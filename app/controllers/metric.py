@@ -23,7 +23,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         super().__init__(model=Metric)
 
     @staticmethod
-    def get_top_30_by_date(data):
+    def get_top_30_by_date(data, sort):
         # 使用 defaultdict 简化分组操作
         date_groups = defaultdict(list)
         for row in data:
@@ -33,7 +33,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         result = []
         for date in sorted(date_groups.keys()):
             sorted_group = sorted(
-                date_groups[date], key=lambda x: x["value"], reverse=True
+                date_groups[date], key=lambda x: x["value"], reverse=sort != "desc"
             )[:30]
             result.extend(sorted_group)
 
@@ -48,6 +48,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         search_dimensions,
         condition_sql_string,
         period_formats,
+        sort,
     ):
         # 创建一个缓存，设置过期时间, 200个条目，10分钟
         cache = TTLCache(maxsize=300, ttl=600)
@@ -146,7 +147,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
 
                 # 如果有维度筛选，则处理 top 30，防止维度数据过多
                 if search_dimensions_sql_string:
-                    data = self.get_top_30_by_date(data)
+                    data = self.get_top_30_by_date(data, sort)
 
                 metric.format = format_type
 
@@ -198,6 +199,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         condition_sql_string: str | None = None,
         date_range: list[str] | None = None,
         statistical_period: str | None = None,
+        sort: str | None = None,
         order: list[str] | None = None,
     ) -> tuple[Total, list[ModelType]]:
         if order is None:
@@ -238,6 +240,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
                 search_dimensions,
                 condition_sql_string,
                 period_formats,
+                sort,
             )
             for metric in metrics
         ]
