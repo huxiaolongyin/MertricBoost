@@ -3,10 +3,13 @@
 **/*.egg-info
 **/build 
 **/__pycache__
-# Ignore MySQL socket file
-mysql/data/mysql.sock
 
-# Ignore MySQL data files
-mysql/data/*.cnf
-mysql/data/*.index
-mysql/data/*.pool
+# mysql文件夹
+**/mysql
+
+# 日志文件
+**.log
+
+# 临时文件
+temp**
+tmp**

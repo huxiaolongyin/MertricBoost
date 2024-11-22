@@ -111,6 +111,8 @@ async def _(
     check = metric_search.check
     dimensionFilter = metric_search.dimensionFilter
     dimensionDrillDown = metric_search.dimensionDrillDown
+    statistical_period = metric_search.statisticalPeriod
+
     # 拼接筛选语句
     if dimensionFilter and check and conditions:
         condition_sql_string = (
@@ -136,6 +138,7 @@ async def _(
         search_dimensions=dimensionDrillDown,
         condition_sql_string=condition_sql_string,
         date_range=date_range,
+        statistical_period=statistical_period,
         order=["id"],
     )
 

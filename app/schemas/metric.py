@@ -29,6 +29,7 @@ class MetricSearch(BaseModel):
     dimensionFilter: str | None = None
     check: str | None = None
     conditions: List | str | None = None
+    statisticalPeriod: str | None = None
     createBy: str | None = None
 
 

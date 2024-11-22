@@ -112,7 +112,8 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
                 COLUMN_COMMENT as columnComment,
                 NULL as semanticType,
                 NULL as format,
-                NULL as staticType
+                NULL as staticType,
+                NULL as extendedComputation
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_SCHEMA = '{database.database_database}'
             AND TABLE_NAME = '{table_name}'
@@ -140,13 +141,14 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
 
             # 创建字段配置映射，提高查找效率
             field_map = {d["columnName"]: d for d in field_conf}
+            print(results)
 
             # 更新结果
             results = [
                 {
                     **row,
                     **{
-                        k: v
+                        k: v if v != "" else row[k]
                         for k, v in field_map.get(row["columnName"], {}).items()
                         if k in row
                     },
@@ -176,6 +178,7 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
                 SELECT 
                     *
                 FROM {table_name}
+                ORDER BY CREATE_TIME DESC
                 LIMIT 200
             """
             conn = Tortoise.get_connection(connection_name="default")
