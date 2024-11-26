@@ -36,16 +36,8 @@ async def _(
     createBy = metric_search.createBy
 
     # 拼接筛选语句
-    if dimensionFilter and comparisonOperators and conditions:
-        condition_sql_string = (
-            "and "
-            + dimensionFilter
-            + " "
-            + comparisonOperators
-            + " ("
-            + ", ".join(f"'{x}'" for x in conditions)
-            + ")"
-        )
+    if all([dimensionFilter, comparisonOperators, conditions]):
+        condition_sql_string = f"and {dimensionFilter} {comparisonOperators} ({', '.join(repr(x) for x in conditions)})"
     else:
         condition_sql_string = ""
 
@@ -67,10 +59,9 @@ async def _(
         page=1,
         page_size=10,
         search=q,
-        search_dimensions=dimensionDrillDown,
+        dimension_drilldown=dimensionDrillDown,
         condition_sql_string=condition_sql_string,
         date_range=date_range,
-        order=["id"],
     )
 
     # 获取模型的数据
@@ -152,12 +143,11 @@ async def _(
         page=1,
         page_size=10,
         search=q,
-        search_dimensions=dimensionDrillDown,
+        dimension_drilldown=dimensionDrillDown,
         condition_sql_string=condition_sql_string,
         date_range=date_range,
         statistical_period=statistical_period,
         sort=sort,
-        order=["id"],
     )
 
     # 获取模型的数据
