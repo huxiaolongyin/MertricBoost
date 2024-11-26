@@ -184,14 +184,16 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             metric.data = data
             metric.dimensions = dimensions
             metric.tags = [period_formats[metric.statistical_period], "2024"]
+
             metric.format = format_type
             # 缓存
             cls._cache[sql_query] = (
                 data,
                 dimensions,
-                [period_formats[metric.statistical_period]],
+                [period_formats[metric.statistical_period], "2024"],
                 format_type,
             )
+            print(cls._cache[sql_query][2])
 
         except:
             print("sql query error")

@@ -14,8 +14,8 @@ router = APIRouter()
 async def _(
     metric_search: MetricSearch,
 ):
-    profiler = Profiler()
-    profiler.start()
+    # profiler = Profiler()
+    # profiler.start()
 
     # 获取 date_range、conditions 参数
     if metric_search.dateRange:
@@ -83,8 +83,8 @@ async def _(
         metric_dict.pop("createById", "dataModelId")
         records.append(metric_dict)
 
-    profiler.stop()
-    print(profiler.output_text(unicode=True, color=True))
+    # profiler.stop()
+    # print(profiler.output_text(unicode=True, color=True))
 
     return Success(total=total, data={"records": jsonable_encoder(records)})
 
