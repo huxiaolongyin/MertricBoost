@@ -5,6 +5,7 @@ from app.controllers import metric_controller
 from app.schemas.metric import MetricCreate, MetricSearch
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime
+from pyinstrument import Profiler
 
 router = APIRouter()
 
@@ -13,6 +14,9 @@ router = APIRouter()
 async def _(
     metric_search: MetricSearch,
 ):
+    profiler = Profiler()
+    profiler.start()
+
     # 获取 date_range、conditions 参数
     if metric_search.dateRange:
         date_range = [
@@ -21,7 +25,7 @@ async def _(
     else:
         date_range = None
     conditions = metric_search.conditions
-    check = metric_search.check
+    comparisonOperators = metric_search.comparisonOperators
     dimensionFilter = metric_search.dimensionFilter
     chineseName = metric_search.chineseName
     favoriteStatus = metric_search.favoriteStatus
@@ -32,12 +36,12 @@ async def _(
     createBy = metric_search.createBy
 
     # 拼接筛选语句
-    if dimensionFilter and check and conditions:
+    if dimensionFilter and comparisonOperators and conditions:
         condition_sql_string = (
             "and "
             + dimensionFilter
             + " "
-            + check
+            + comparisonOperators
             + " ("
             + ", ".join(f"'{x}'" for x in conditions)
             + ")"
@@ -88,6 +92,9 @@ async def _(
         metric_dict.pop("createById", "dataModelId")
         records.append(metric_dict)
 
+    profiler.stop()
+    print(profiler.output_text(unicode=True, color=True))
+
     return Success(total=total, data={"records": jsonable_encoder(records)})
 
 
@@ -108,19 +115,28 @@ async def _(
         if isinstance(metric_search.conditions, list)
         else [metric_search.conditions]
     )
-    check = metric_search.check
-    dimensionFilter = metric_search.dimensionFilter
-    dimensionDrillDown = metric_search.dimensionDrillDown
-    statistical_period = metric_search.statisticalPeriod
-    sort = metric_search.sort
+
+    (
+        comparisonOperators,
+        dimensionFilter,
+        dimensionDrillDown,
+        statistical_period,
+        sort,
+    ) = (
+        metric_search.comparisonOperators,
+        metric_search.dimensionFilter,
+        metric_search.dimensionDrillDown,
+        metric_search.statisticalPeriod,
+        metric_search.sort,
+    )
 
     # 拼接筛选语句
-    if dimensionFilter and check and conditions:
+    if dimensionFilter and comparisonOperators and conditions:
         condition_sql_string = (
             "and "
             + dimensionFilter
             + " "
-            + check
+            + comparisonOperators
             + " ("
             + ", ".join(f"'{x}'" for x in conditions)
             + ")"

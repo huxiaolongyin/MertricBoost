@@ -27,7 +27,7 @@ class MetricSearch(BaseModel):
     topicDomain: int | None = None
     dimensionDrillDown: str | None = None
     dimensionFilter: str | None = None
-    check: str | None = None
+    comparisonOperators: str | None = None  #
     conditions: List | str | None = None
     statisticalPeriod: str | None = None
     createBy: str | None = None

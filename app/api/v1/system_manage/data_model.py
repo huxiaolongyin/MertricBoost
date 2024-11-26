@@ -137,13 +137,14 @@ async def _(
 async def _(
     databaseId: str = Query(None, description="数据库ID"),
     tableName: str = Query(None, description="表名"),
+    addOrEdit: str = Query(None, description="新增或编辑"),
 ):
 
     total, response = await data_model_controller.fetch_table_data(
         databaseId, tableName
     )
     _, columns = await data_model_controller.fetch_columns_metadata(
-        databaseId, tableName
+        databaseId, tableName, addOrEdit
     )
     return Success(
         msg="预览成功",
@@ -163,9 +164,10 @@ async def _(database: str = Query(None, description="数据库ID")):
 async def _(
     database: str = Query(None, description="数据库ID"),
     tableName: str = Query(None, description="表名"),
+    addOrEdit: str = Query(None, description="新增或编辑"),
 ):
     total, data = await data_model_controller.fetch_columns_metadata(
-        database, tableName
+        database, tableName, addOrEdit
     )
 
     return Success(msg="获取元数据成功", total=total, data={"records": data})

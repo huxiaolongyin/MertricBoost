@@ -93,7 +93,9 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
                 # 关闭数据库连接
                 await Tortoise.close_connections()
 
-    async def fetch_columns_metadata(self, database_id: int, table_name: str):
+    async def fetch_columns_metadata(
+        self, database_id: int, table_name: str, addOrEdit: str
+    ):
         """获取字段的元数据"""
         database = await Database.get(id=database_id)
         if database and database.database_type.lower() == "mysql":
@@ -122,41 +124,45 @@ class DataModelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate])
         try:
             total, results = await conn.execute_query(sql_query)
 
-            # 获取数据模型配置
-            datamodel = await DataModel.filter(
-                database_id=database_id, table_name=table_name
-            ).first()
-
-            if not datamodel:
+            if addOrEdit == "add":
                 return total, results
-            # 解析字段配置
-            try:
-                field_conf = json.loads(datamodel.field_conf)
-            except:
-                print("field_conf 解析失败")
+            elif addOrEdit == "edit":
+                # 获取数据模型配置
+                datamodel = await DataModel.filter(
+                    database_id=database_id, table_name=table_name
+                ).first()
+
+                if not datamodel:
+                    return total, results
+                # 解析字段配置
+                try:
+                    field_conf = json.loads(datamodel.field_conf)
+                except:
+                    print("field_conf 解析失败")
+                    return total, results
+                if not field_conf:
+                    return total, results
+
+                # 创建字段配置映射，提高查找效率
+                field_map = {d["columnName"]: d for d in field_conf}
+
+                # 更新结果
+                results = [
+                    {
+                        **row,
+                        **{
+                            k: v if v != "" else row[k]
+                            for k, v in field_map.get(row["columnName"], {}).items()
+                            if k in row
+                            and k not in ["columnName", "columnType", "columnComment"]
+                        },
+                    }
+                    for row in results
+                ]
+
                 return total, results
-
-            if not field_conf:
-                return total, results
-
-            # 创建字段配置映射，提高查找效率
-            field_map = {d["columnName"]: d for d in field_conf}
-            print(results)
-
-            # 更新结果
-            results = [
-                {
-                    **row,
-                    **{
-                        k: v if v != "" else row[k]
-                        for k, v in field_map.get(row["columnName"], {}).items()
-                        if k in row
-                    },
-                }
-                for row in results
-            ]
-
-            return total, results
+            else:
+                return "参数输入错误"
 
         except Exception as e:
             print(f"执行 SQL 查询时出错: {e}")
