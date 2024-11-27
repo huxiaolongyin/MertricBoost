@@ -128,6 +128,16 @@ class LogDetailType(str, Enum):
     DataModelUpdate = "1143"
     DataModelDelete = "1144"
 
+    TagGet = "1151"
+    TagCreate = "1152"
+    TagUpdate = "1153"
+    TagDelete = "1154"
+
+    MetricTagGet = "1161"
+    MetricTagCreate = "1162"
+    MetricTagUpdate = "1163"
+    MetricTagDelete = "1164"
+
     UserLoginSuccess = "1201"
     UserAuthRefreshTokenSuccess = "1202"
     UserLoginGetUserInfo = "1203"

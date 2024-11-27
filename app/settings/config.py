@@ -73,6 +73,8 @@ class Settings(BaseSettings):
                     "user": MYSQL_DB_USER,
                     "password": MYSQL_DB_PASSWORD,
                     "database": MYSQL_DB_DATABASE,
+                    "minsize": 1,
+                    "maxsize": 100,  # 根据需求调整连接池大小
                 },
             },
             # if you want to use MSSQL/Oracle, you need to install tortoise-orm[asyncodbc]
@@ -94,6 +96,7 @@ class Settings(BaseSettings):
                     "app.models.system",
                     "aerich.models",
                     "app.models.metric",
+                    "app.models.tag",
                 ],
                 "default_connection": "conn_system",
             },

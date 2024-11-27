@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from tortoise.expressions import Q
 from tortoise.models import Model
 from tortoise import Tortoise
+from .tag import metric_tag_controller
 
 Total = NewType("Total", int)
 ModelType = TypeVar("ModelType", bound=Model)
@@ -122,12 +123,17 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         GROUP BY {dimension_drilldown_sql_string} DATE_FORMAT({date_column}, '{date_format_sql_string}')
         ORDER BY date, value DESC
         """
+        # 获取指标的标签
+
+        _, metric_tag_objs = await metric_tag_controller.list(metric_ids=[metric.id])
+
+        metric.tags = next(
+            (item["tags"] for item in metric_tag_objs if "tags" in item), []
+        )
 
         # 如果缓存中存在查询结果，则直接返回
         if sql_query in cls._cache:
-            metric.data, metric.dimensions, metric.tags, metric.format = cls._cache[
-                sql_query
-            ]
+            metric.data, metric.dimensions, metric.format = cls._cache[sql_query]
             return
 
         # 获取数据库配置并建立连接
@@ -183,17 +189,14 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
 
             metric.data = data
             metric.dimensions = dimensions
-            metric.tags = [period_formats[metric.statistical_period], "2024"]
-
             metric.format = format_type
+
             # 缓存
             cls._cache[sql_query] = (
                 data,
                 dimensions,
-                [period_formats[metric.statistical_period], "2024"],
                 format_type,
             )
-            print(cls._cache[sql_query][2])
 
         except:
             print("sql query error")
