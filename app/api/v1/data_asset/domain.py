@@ -8,8 +8,11 @@ from app.controllers import (
 from app.models.system import LogType, LogDetailType, User
 from app.api.v1.utils import insert_log
 from app.schemas.domain import DomainCreate, DomainUpdate
+from cachetools import TTLCache
 
 router = APIRouter()
+
+cache = TTLCache(maxsize=100, ttl=600)
 
 
 @router.get("/data-domain", summary="获取数据域信息")
@@ -22,14 +25,22 @@ async def _(
     q = Q()  # Q() 是一个查询构造器，用于构建复杂的数据库查询条件
     if createBy:
         q &= Q(create_by__user_name=createBy)
-    total, data_domain_objs = await data_domain_controller.list(
-        page=current,
-        page_size=size,
-        search=q,
-        order=["id"],
-    )
-    records = [await data_domain_obj.to_dict() for data_domain_obj in data_domain_objs]
-    data = {"records": records}
+    cache_key = f"data_domain_list_{createBy}_{current}_{size}"
+    if cache_key in cache:
+        total, data = cache[cache_key]
+    else:
+        # return SuccessExtra(data=data, total=total, current=current, size=size)
+        total, data_domain_objs = await data_domain_controller.list(
+            page=current,
+            page_size=size,
+            search=q,
+            order=["id"],
+        )
+        records = [
+            await data_domain_obj.to_dict() for data_domain_obj in data_domain_objs
+        ]
+        data = {"records": records}
+        cache[cache_key] = (total, data)
     await insert_log(LogType.SystemLog, LogDetailType.DataDomainGet, by_user_id=0)
     return SuccessExtra(data=data, total=total, current=current, size=size)
 

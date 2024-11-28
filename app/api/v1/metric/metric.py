@@ -185,3 +185,11 @@ async def _(
 ):
     await metric_controller.update(id=id, obj_in=metric_in)
     return Success(msg="更新成功", data={"update_id": id})
+
+
+@router.delete("/{id}", summary="删除指标")
+async def _(
+    id: int,
+):
+    await metric_controller.remove(id=id)
+    return Success(msg="删除成功", data={"delete_id": id})

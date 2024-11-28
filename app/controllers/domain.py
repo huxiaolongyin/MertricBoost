@@ -4,6 +4,7 @@ from app.schemas.domain import DomainCreate, DomainUpdate
 
 
 class TopicDomainController(CRUDBase[TopicDomain, DomainCreate, DomainUpdate]):
+
     def __init__(self):
         super().__init__(model=TopicDomain)
 

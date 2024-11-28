@@ -1,6 +1,6 @@
 import json
 import asyncio
-from cachetools import TTLCache, cached
+from cachetools import TTLCache
 from collections import defaultdict
 from app.models.metric import Metric
 from app.schemas.metric import MetricCreate, MetricUpdate
@@ -275,20 +275,17 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
 
         return Total(total), metrics
 
-    @classmethod
-    async def create(cls, obj_in: MetricCreate) -> Metric:
+    async def create(self, obj_in: MetricCreate) -> Metric:
         obj_in.create_by = await User.get(user_name=obj_in.create_by)
         obj_in.data_model = await DataModel.get(id=obj_in.data_model)
         return await super().create(obj_in)
 
-    @classmethod
-    async def update(cls, id, obj_in: MetricUpdate) -> Metric:
+    async def update(self, id, obj_in: MetricUpdate) -> Metric:
         obj_in.create_by = await User.get(user_name=obj_in.create_by)
         obj_in.data_model = await DataModel.get(id=obj_in.data_model)
         return await super().update(id, obj_in)
 
-    @classmethod
-    async def remove(cls, id: int) -> Metric:
+    async def remove(self, id: int) -> Metric:
         return await super().remove(id)
 
 
