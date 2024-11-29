@@ -28,7 +28,7 @@ export function fetchUpdateMetric(data?: Api.Metric.MetricUpdateParams) {
 }
 
 // 删除指标
-export function fetchDeleteMetric(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteMetric(data?: Api.Common.CommonDeleteParams) {
   return request<Api.Metric.MetricData, 'json'>({
     url: `/metric/${data?.id}`,
     method: 'delete',

@@ -60,14 +60,14 @@ export function fetchGetLogList(params?: Api.SystemManage.LogSearchParams) {
 }
 
 /** delete log */
-export function fetchDeleteLog(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteLog(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.LogList>({
     url: `/system-manage/logs/${data?.id}`,
     method: 'delete'
   });
 }
 
-export function fetchBatchDeleteLog(data?: Api.SystemManage.CommonBatchDeleteParams) {
+export function fetchBatchDeleteLog(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.LogList>({
     url: '/system-manage/logs',
     method: 'delete',
@@ -118,14 +118,14 @@ export function fetchAddApi(data?: Api.SystemManage.ApiAddParams) {
 }
 
 /** delete api */
-export function fetchDeleteApi(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteApi(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.ApiList>({
     url: `/system-manage/apis/${data?.id}`,
     method: 'delete'
   });
 }
 
-export function fetchBatchDeleteApi(data?: Api.SystemManage.CommonBatchDeleteParams) {
+export function fetchBatchDeleteApi(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.ApiList>({
     url: '/system-manage/apis',
     method: 'delete',
@@ -151,14 +151,14 @@ export function fetchAddUser(data?: Api.SystemManage.UserAddParams) {
 }
 
 /** delete user */
-export function fetchDeleteUser(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteUser(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.UserList>({
     url: `/system-manage/users/${data?.id}`,
     method: 'delete'
   });
 }
 
-export function fetchBatchDeleteUser(data?: Api.SystemManage.CommonBatchDeleteParams) {
+export function fetchBatchDeleteUser(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.UserList>({
     url: '/system-manage/users',
     method: 'delete',
@@ -184,14 +184,14 @@ export function fetchAddRole(data?: Api.SystemManage.RoleUpdateParams) {
 }
 
 /** delete role */
-export function fetchDeleteRole(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteRole(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.RoleList>({
     url: `/system-manage/roles/${data?.id}`,
     method: 'delete'
   });
 }
 
-export function fetchBatchDeleteRole(data?: Api.SystemManage.CommonBatchDeleteParams) {
+export function fetchBatchDeleteRole(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.RoleList>({
     url: '/system-manage/roles',
     method: 'delete',
@@ -269,14 +269,14 @@ export function fetchAddMenu(data?: Api.SystemManage.MenuAddParams) {
 }
 
 /** delete menu */
-export function fetchDeleteMenu(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteMenu(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.MenuList>({
     url: `/system-manage/menus/${data?.id}`,
     method: 'delete'
   });
 }
 
-export function fetchBatchDeleteMenu(data?: Api.SystemManage.CommonBatchDeleteParams) {
+export function fetchBatchDeleteMenu(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.MenuList>({
     url: '/system-manage/menus',
     method: 'delete',

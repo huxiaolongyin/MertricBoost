@@ -20,6 +20,8 @@ declare namespace App {
       themeScheme: UnionKey.ThemeScheme;
       /** grayscale mode */
       grayscale: boolean;
+      /** ColourWeakness mode */
+      colourWeakness: boolean;
       /** Whether to recommend color */
       recommendColor: boolean;
       /** Theme color */
@@ -28,12 +30,28 @@ declare namespace App {
       otherColor: OtherColor;
       /** Whether info color is followed by the primary color */
       isInfoFollowPrimary: boolean;
+      /** Watermark */
+      watermark?: {
+        /** Whether to show the watermark */
+        visible: boolean;
+        /** Watermark text */
+        text: string;
+      };
+      /** define some theme settings tokens, will transform to css variables */
+      tokens: {
+        light: ThemeSettingToken;
+        dark?: {
+          [K in keyof ThemeSettingToken]?: Partial<ThemeSettingToken[K]>;
+        };
+      };
       /** Layout */
       layout: {
         /** 布局方式 */
         mode: UnionKey.ThemeLayoutMode;
         /** 滚动模式 */
         scrollMode: UnionKey.ThemeScrollMode;
+        /** 是否进行反向水平混合 */
+        reverseHorizontalMix: boolean;
       };
       /** Page */
       page: {
@@ -118,14 +136,33 @@ declare namespace App {
 
     type BaseToken = Record<string, Record<string, string>>;
 
-    interface ThemeTokenColor extends ThemePaletteColor {
-      nprogress: string;
+    interface ThemeSettingTokenColor {
+      /** the progress bar color, if not set, will use the primary color */
+      nprogress?: string;
       container: string;
       layout: string;
       inverted: string;
-      base_text: string;
-      [key: string]: string;
+      'base-text': string;
     }
+
+    interface ThemeSettingTokenBoxShadow {
+      header: string;
+      sider: string;
+      tab: string;
+    }
+
+    interface ThemeSettingToken {
+      colors: ThemeSettingTokenColor;
+      boxShadow: ThemeSettingTokenBoxShadow;
+    }
+
+    type ThemeTokenColor = ThemePaletteColor & ThemeSettingTokenColor;
+
+    /** Theme token CSS variables */
+    type ThemeTokenCSSVars = {
+      colors: ThemeTokenColor & { [key: string]: string };
+      boxShadow: ThemeSettingTokenBoxShadow & { [key: string]: string };
+    };
   }
 
   /** Global namespace */
@@ -360,7 +397,7 @@ declare namespace App {
         watermark: {
           visible: string;
           text: string;
-        },
+        };
         themeDrawerTitle: string;
         pageFunTitle: string;
         configOperation: {
@@ -525,7 +562,7 @@ declare namespace App {
             staticForm: string;
             chartForm: string;
             publishForm: string;
-          }
+          };
         };
         dataAsset: {
           database: {
@@ -553,7 +590,7 @@ declare namespace App {
               status: string;
               databaseDesc: string;
               createBy: string;
-            }
+            };
           };
           dataModel: {
             title: string;
@@ -577,7 +614,7 @@ declare namespace App {
               databaseSelect: string;
               tableName: string;
               createBy: string;
-            }
+            };
           };
           tag: {
             title: string;
@@ -588,9 +625,9 @@ declare namespace App {
               tagName: string;
               tagType: string;
               tagDesc: string;
-            }
-          }
-        }
+            };
+          };
+        };
         manage: {
           common: {
             status: {
@@ -837,8 +874,8 @@ declare namespace App {
 
     type GetI18nKey<T extends Record<string, unknown>, K extends keyof T = keyof T> = K extends string
       ? T[K] extends Record<string, unknown>
-      ? `${K}.${GetI18nKey<T[K]>}`
-      : K
+        ? `${K}.${GetI18nKey<T[K]>}`
+        : K
       : never;
 
     type I18nKey = GetI18nKey<Schema>;

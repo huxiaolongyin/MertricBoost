@@ -97,7 +97,8 @@ const { columnChecks, columns } = useCheckedColumns<typeof fetchGetUserList>(() 
 
       const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
         1: 'primary',
-        2: 'error'
+        2: 'error',
+        3: 'warning'
       };
 
       const label = $t(userGenderRecord[row.userGender]);

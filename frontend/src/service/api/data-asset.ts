@@ -28,7 +28,7 @@ export function fetchUpdateDatabase(data?: Api.SystemManage.DatabaseUpdateParams
 }
 
 // 删除数据库
-export function fetchDeleteDatabase(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteDatabase(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.DatabaseList>({
     url: `/data-asset/databases/${data?.id}`,
     method: 'delete'
@@ -76,7 +76,7 @@ export function fetchUpdateDataDomain(data?: Api.SystemManage.DomainUpdateParams
 }
 
 // 删除数据域信息
-export function fetchDeleteDataDomain(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteDataDomain(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.DomainList>({
     url: `/data-asset/data-domain/${data?.id}`,
     method: 'delete'
@@ -111,7 +111,7 @@ export function fetchUpdateTopicDomain(data?: Api.SystemManage.DomainUpdateParam
 }
 
 // 删除主题域信息
-export function fetchDeleteTopicDomain(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteTopicDomain(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.DomainList>({
     url: `/data-asset/topic-domain/${data?.id}`,
     method: 'delete'
@@ -146,7 +146,7 @@ export function fetchUpdateDataModel(data?: Api.SystemManage.DataModelUpdatePara
 }
 
 // 删除主题数据模型
-export function fetchDeleteDataModel(data?: Api.SystemManage.CommonDeleteParams) {
+export function fetchDeleteDataModel(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.DataModelList>({
     url: `/data-asset/data-model/${data?.id}`,
     method: 'delete'
