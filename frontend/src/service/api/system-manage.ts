@@ -292,5 +292,3 @@ export function fetchUpdateMenu(data?: Api.SystemManage.MenuUpdateParams) {
     data
   });
 }
-
-

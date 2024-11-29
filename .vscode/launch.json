@@ -15,6 +15,27 @@
       "runtimeExecutable": "tsx",
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
       "program": "${file}"
-    }
+    },
+    // {
+    //   "name": "start—backend",
+    //   // "type": "python",
+    //   "request": "launch",
+    //   "program": "${workspaceFolder}/backend/app/main.py",
+    //   "console": "integratedTerminal",
+    //   "env": {
+    //     "PYTHONPATH": "${workspaceFolder}/backend"
+    //   },
+    //   "cwd": "${workspaceFolder}/backend",
+    //   "justMyCode": true
+    // },
+    // {
+    //   "name": "start-frontend",
+    //   // "type": "pwa-node",
+    //   "request": "launch",
+    //   "command": "pnpm",
+    //   "args": ["dev"],
+    //   "cwd": "${workspaceFolder}/frontend",
+    //   "console": "integratedTerminal"
+    // }
   ]
 }
