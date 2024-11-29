@@ -1,0 +1,43 @@
+[project]
+name = "Metric-Boost-Backend"
+version = "0.1.0"
+description = "用于Metric Boost的Python后端"
+authors = [
+    { name = "Jacob Zheng", email = "1453366421@qq.com" },
+]
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn>=0.29.0",
+    "tortoise-orm[aiosqlite]>=0.20.1",
+    "tortoise-orm[asyncmy]==0.21.7",
+    "pydantic>=2.7.1",
+    "pydantic-settings>=2.2.1",
+    "passlib>=1.7.4",
+    "pyjwt>=2.8.0",
+    "loguru>=0.7.2",
+    "aerich>=0.7.2",
+    "email-validator>=2.1.1",
+    "setuptools>=69.5.1",
+    "argon2-cffi>=23.1.0",
+    "orjson==3.10.3",
+    "asyncmy==0.2.9",
+    "python-dotenv==1.0.1",
+    "cryptography==43.0.3",
+    "cachetools==5.5.0"
+]
+requires-python = ">=3.10"
+readme = "README.md"
+
+# 设置 安装目录
+[tool.setuptools]
+packages = ["app"]
+
+# 取消 Python Development Master 的分发，专注于包的安装
+[tool.pdm]
+distribution = false
+
+# 设置 Python Development Master 的包源
+[[tool.pdm.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
