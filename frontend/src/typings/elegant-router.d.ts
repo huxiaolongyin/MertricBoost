@@ -47,7 +47,6 @@ declare module "@elegant-router/types" {
     "data-service_api-manange": "/data-service/api-manange";
     "data-service_application": "/data-service/application";
     "decision": "/decision";
-    "decision-detail": "/decision-detail/:id";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
     "function_hide-child_one": "/function/hide-child/one";
@@ -151,7 +150,6 @@ declare module "@elegant-router/types" {
     | "data-asset"
     | "data-service"
     | "decision"
-    | "decision-detail"
     | "function"
     | "home"
     | "iframe-page"
@@ -200,7 +198,6 @@ declare module "@elegant-router/types" {
     | "data-asset_tag-settings"
     | "data-service_api-manange"
     | "data-service_application"
-    | "decision-detail"
     | "decision"
     | "function_hide-child_one"
     | "function_hide-child_three"

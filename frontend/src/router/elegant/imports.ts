@@ -30,7 +30,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "data-asset_tag-settings": () => import("@/views/data-asset/tag-settings/index.vue"),
   "data-service_api-manange": () => import("@/views/data-service/api-manange/index.vue"),
   "data-service_application": () => import("@/views/data-service/application/index.vue"),
-  "decision-detail": () => import("@/views/decision-detail/[id].vue"),
   decision: () => import("@/views/decision/index.vue"),
   "function_hide-child_one": () => import("@/views/function/hide-child/one/index.vue"),
   "function_hide-child_three": () => import("@/views/function/hide-child/three/index.vue"),

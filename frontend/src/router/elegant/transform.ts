@@ -193,7 +193,6 @@ const routeMap: RouteMap = {
   "data-service_api-manange": "/data-service/api-manange",
   "data-service_application": "/data-service/application",
   "decision": "/decision",
-  "decision-detail": "/decision-detail/:id",
   "function": "/function",
   "function_hide-child": "/function/hide-child",
   "function_hide-child_one": "/function/hide-child/one",

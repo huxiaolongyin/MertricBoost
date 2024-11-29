@@ -202,17 +202,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     props: true
   },
   {
-    name: 'decision-detail',
-    path: '/decision-detail/:id',
-    component: 'layout.base$view.decision-detail',
-    props: true,
-    meta: {
-      title: 'decision-detail',
-      i18nKey: 'route.decision-detail',
-      hideInMenu: true
-    }
-  },
-  {
     name: 'function',
     path: '/function',
     component: 'layout.base',
