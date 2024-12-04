@@ -8,3 +8,5 @@ from .domain import (
 from .data_model import data_model_controller
 from .metric import metric_controller
 from .tag import tag_controller, metric_tag_controller
+from .service_api import service_api_controller, service_api_param_controller
+from .service_app import service_app_controller

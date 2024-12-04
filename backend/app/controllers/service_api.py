@@ -96,3 +96,6 @@ class ServiceApiParamController(CRUDBase[ServiceApiParam, ServiceApiParamCreate,
     
     async def create(self, obj_in):
         return await super().create(obj_in)
+
+service_api_controller = ServiceApiController()
+service_api_param_controller = ServiceApiParamController()

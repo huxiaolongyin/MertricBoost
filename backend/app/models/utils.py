@@ -102,42 +102,18 @@ class LogDetailType(str, Enum):
     1400-1499 菜单
     1500-1599 角色
     1600-1699 用户
+    1700-1799 数据资产
+    1800-1899 指标
+    1900-1999 数据服务
+    2000-2099 报告
+    2100-2199 Ai分析
+    2200-2299 任务列表
     """
-
+    # 系统(1100-1199)
     SystemStart = "1101"
     SystemStop = "1102"
 
-    DataBaseGet = "1111"
-    DataBaseCreate = "1112"
-    DataBaseUpdate = "1113"
-    DataBaseDelete = "1114"
-    DataBaseTest = "1115"
-
-    DataDomainGet = "1121"
-    DataDomainCreate = "1122"
-    DataDomainUpdate = "1123"
-    DataDomainDelete = "1124"
-
-    TopicDomainGet = "1131"
-    TopicDomainCreate = "1132"
-    TopicDomainUpdate = "1133"
-    TopicDomainDelete = "1134"
-
-    DataModelGet = "1141"
-    DataModelCreate = "1142"
-    DataModelUpdate = "1143"
-    DataModelDelete = "1144"
-
-    TagGet = "1151"
-    TagCreate = "1152"
-    TagUpdate = "1153"
-    TagDelete = "1154"
-
-    MetricTagGet = "1161"
-    MetricTagCreate = "1162"
-    MetricTagUpdate = "1163"
-    MetricTagDelete = "1164"
-
+    # 用户(1200-1299)
     UserLoginSuccess = "1201"
     UserAuthRefreshTokenSuccess = "1202"
     UserLoginGetUserInfo = "1203"
@@ -145,16 +121,18 @@ class LogDetailType(str, Enum):
     UserLoginErrorPassword = "1212"
     UserLoginForbid = "1213"
 
+    # API(1300-1399)
     ApiGetList = "1301"
     ApiGetTree = "1302"
     ApiRefresh = "1303"
-
+    
     ApiGetOne = "1311"
     ApiCreateOne = "1312"
     ApiUpdateOne = "1313"
     ApiDeleteOne = "1314"
     ApiBatchDelete = "1315"
 
+    # 菜单(1400-1499)
     MenuGetList = "1401"
     MenuGetTree = "1402"
     MenuGetPages = "1403"
@@ -166,6 +144,7 @@ class LogDetailType(str, Enum):
     MenuDeleteOne = "1414"
     MenuBatchDeleteOne = "1415"
 
+    # 角色(1500-1599)
     RoleGetList = "1501"
     RoleGetMenus = "1502"
     RoleUpdateMenus = "1503"
@@ -180,12 +159,70 @@ class LogDetailType(str, Enum):
     RoleDeleteOne = "1514"
     RoleBatchDeleteOne = "1515"
 
+    # 用户(1600-1699)
     UserGetList = "1601"
     UserGetOne = "1611"
     UserCreateOne = "1612"
     UserUpdateOne = "1613"
     UserDeleteOne = "1614"
     UserBatchDeleteOne = "1615"
+
+    # 数据资产(1700-1799)
+    DataBaseGet = "1711"
+    DataBaseCreate = "1712"
+    DataBaseUpdate = "1713"
+    DataBaseDelete = "1714"
+    DataBaseTest = "1715"
+    DataBaseBatchDeleteOne = "1716"
+
+    DataDomainGet = "1721"
+    DataDomainCreate = "1722"
+    DataDomainUpdate = "1723"
+    DataDomainDelete = "1724"
+    DataDomainBatchDeleteOne = "1725"
+
+    TopicDomainGet = "1731"
+    TopicDomainCreate = "1732"
+    TopicDomainUpdate = "1733"
+    TopicDomainDelete = "1734"
+    TopicDomainBatchDeleteOne = "1735"
+
+    DataModelGet = "1741"
+    DataModelCreate = "1742"
+    DataModelUpdate = "1743"
+    DataModelDelete = "1744"
+    DataModelBatchDeleteOne = "1745"
+
+    TagGet = "1751"
+    TagCreate = "1752"
+    TagUpdate = "1753"
+    TagDelete = "1754"
+    TagBatchDeleteOne = "1755"
+
+    # 指标(1800-1899)
+    MetricTagGet = "1801"
+    MetricTagCreate = "1802"
+    MetricTagUpdate = "1803"
+    MetricTagDelete = "1804"
+    MetricTagBatchDeleteOne = "1805"
+
+    # 数据服务(1900-1999)
+    ServiceAppGet = "1901"
+    ServiceAppCreate = "1902"
+    ServiceAppUpdate = "1903"
+    ServiceAppDelete = "1904"
+    ServiceAppBatchDeleteOne = "1905"
+
+    ServiceApiGet = "1911"
+    ServiceApiCreate = "1912"
+    ServiceApiUpdate = "1913"
+    ServiceApiDelete = "1914"
+    ServiceApiBatchDeleteOne = "1915"
+    # 报告(2000-2099)
+
+    # Ai分析(2100-2199)
+
+    # 任务列表(2200-2299)
 
 
 class StatusType(str, Enum):
