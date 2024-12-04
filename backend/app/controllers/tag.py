@@ -1,5 +1,5 @@
 from app.core.crud import CRUDBase
-from app.models.tag import Tag, MetricTag
+from app.models.asset import Tag, MetricTag
 from app.schemas.tag import TagCreate, TagUpdate, MetricTagCreate, MetricTagUpdate
 from app.models.system import User
 
