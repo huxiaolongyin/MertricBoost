@@ -1,6 +1,5 @@
 <template>
   <NGrid cols="6" x-gap="16" y-gap="16" responsive="screen" class="h-full">
-
     <!-- 左侧的筛选栏 -->
     <NGi span="1" class="h-full">
       <NCard :title="$t('page.dataAsset.dataModel.filter')" :bordered="false" size="small" class="h-full">
@@ -8,7 +7,6 @@
       </NCard>
     </NGi>
     <NGi span="5" class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-
       <!-- 顶部搜索栏 -->
       <DataModelSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
       <NCard :title="$t('page.dataAsset.dataModel.title')" :bordered="false" size="small"
@@ -41,7 +39,6 @@ import { enableStatusRecord } from "@/constants/business";
 import DomainFilter from "./modules/domain-filter.vue";
 import DataModelOperateDialog from "./modules/data-model-operate-drawer.vue";
 import DataModelSearch from "./modules/data-model-search.vue";
-
 
 const appStore = useAppStore();
 

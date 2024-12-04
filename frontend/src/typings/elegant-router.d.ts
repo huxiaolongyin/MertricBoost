@@ -38,14 +38,11 @@ declare module "@elegant-router/types" {
     "alova_request": "/alova/request";
     "alova_scenes": "/alova/scenes";
     "alova_user": "/alova/user";
+    "asset": "/asset";
+    "asset_database": "/asset/database";
+    "asset_model": "/asset/model";
+    "asset_tag": "/asset/tag";
     "dashboard": "/dashboard";
-    "data-asset": "/data-asset";
-    "data-asset_data-model": "/data-asset/data-model";
-    "data-asset_database": "/data-asset/database";
-    "data-asset_tag-settings": "/data-asset/tag-settings";
-    "data-service": "/data-service";
-    "data-service_api-manange": "/data-service/api-manange";
-    "data-service_application": "/data-service/application";
     "decision": "/decision";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
@@ -95,6 +92,10 @@ declare module "@elegant-router/types" {
     "plugin_typeit": "/plugin/typeit";
     "plugin_video": "/plugin/video";
     "report": "/report";
+    "service": "/service";
+    "service_api-manange": "/service/api-manange";
+    "service_application": "/service/application";
+    "service_overview": "/service/overview";
     "task": "/task";
     "user-center": "/user-center";
   };
@@ -146,9 +147,8 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "alova"
+    | "asset"
     | "dashboard"
-    | "data-asset"
-    | "data-service"
     | "decision"
     | "function"
     | "home"
@@ -163,6 +163,7 @@ declare module "@elegant-router/types" {
     | "metric-report"
     | "plugin"
     | "report"
+    | "service"
     | "task"
     | "user-center"
   >;
@@ -192,12 +193,10 @@ declare module "@elegant-router/types" {
     | "alova_request"
     | "alova_scenes"
     | "alova_user"
+    | "asset_database"
+    | "asset_model"
+    | "asset_tag"
     | "dashboard"
-    | "data-asset_data-model"
-    | "data-asset_database"
-    | "data-asset_tag-settings"
-    | "data-service_api-manange"
-    | "data-service_application"
     | "decision"
     | "function_hide-child_one"
     | "function_hide-child_three"
@@ -239,6 +238,9 @@ declare module "@elegant-router/types" {
     | "plugin_typeit"
     | "plugin_video"
     | "report"
+    | "service_api-manange"
+    | "service_application"
+    | "service_overview"
     | "task"
     | "user-center"
   >;

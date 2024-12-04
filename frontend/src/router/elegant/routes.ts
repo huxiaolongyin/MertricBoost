@@ -98,6 +98,52 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'asset',
+    path: '/asset',
+    component: 'layout.base',
+    meta: {
+      title: 'asset',
+      i18nKey: 'route.asset',
+      icon: 'simple-icons:binance',
+      order: 9
+    },
+    children: [
+      {
+        name: 'asset_database',
+        path: '/asset/database',
+        component: 'view.asset_database',
+        meta: {
+          title: 'asset_database',
+          i18nKey: 'route.asset_database',
+          icon: 'solar:database-bold',
+          order: 1
+        }
+      },
+      {
+        name: 'asset_model',
+        path: '/asset/model',
+        component: 'view.asset_model',
+        meta: {
+          title: 'asset_model',
+          i18nKey: 'route.asset_model',
+          icon: 'carbon:model-alt',
+          order: 2
+        }
+      },
+      {
+        name: 'asset_tag',
+        path: '/asset/tag',
+        component: 'view.asset_tag',
+        meta: {
+          title: 'asset_tag',
+          i18nKey: 'route.asset_tag',
+          icon: 'mdi:tag-multiple-outline',
+          order: 8
+        }
+      }
+    ]
+  },
+  {
     name: 'dashboard',
     path: '/dashboard',
     component: 'layout.base$view.dashboard',
@@ -107,87 +153,6 @@ export const generatedRoutes: GeneratedRoute[] = [
       icon: 'mdi:monitor-dashboard',
       order: 3
     }
-  },
-  {
-    name: 'data-asset',
-    path: '/data-asset',
-    component: 'layout.base',
-    meta: {
-      title: 'data-asset',
-      i18nKey: 'route.data-asset',
-      icon: 'simple-icons:binance',
-      order: 9
-    },
-    children: [
-      {
-        name: 'data-asset_data-model',
-        path: '/data-asset/data-model',
-        component: 'view.data-asset_data-model',
-        meta: {
-          title: 'data-asset_data-model',
-          i18nKey: 'route.data-asset_data-model',
-          icon: 'carbon:model-alt',
-          order: 2
-        }
-      },
-      {
-        name: 'data-asset_database',
-        path: '/data-asset/database',
-        component: 'view.data-asset_database',
-        meta: {
-          title: 'data-asset_database',
-          i18nKey: 'route.data-asset_database',
-          icon: 'solar:database-bold',
-          order: 1
-        }
-      },
-      {
-        name: 'data-asset_tag-settings',
-        path: '/data-asset/tag-settings',
-        component: 'view.data-asset_tag-settings',
-        meta: {
-          title: 'data-asset_tag-settings',
-          i18nKey: 'route.data-asset_tag-settings',
-          icon: 'mdi:tag-multiple-outline',
-          order: 8
-        }
-      }
-    ]
-  },
-  {
-    name: 'data-service',
-    path: '/data-service',
-    component: 'layout.base',
-    meta: {
-      title: 'data-service',
-      i18nKey: 'route.data-service',
-      icon: 'material-symbols:service-directory',
-      order: 10
-    },
-    children: [
-      {
-        name: 'data-service_api-manange',
-        path: '/data-service/api-manange',
-        component: 'view.data-service_api-manange',
-        meta: {
-          title: 'data-service_api-manange',
-          i18nKey: 'route.data-service_api-manange',
-          icon: 'mdi:api',
-          order: 1
-        }
-      },
-      {
-        name: 'data-service_application',
-        path: '/data-service/application',
-        component: 'view.data-service_application',
-        meta: {
-          title: 'data-service_application',
-          i18nKey: 'route.data-service_application',
-          icon: 'mdi:apps',
-          order: 2
-        }
-      }
-    ]
   },
   {
     name: 'decision',
@@ -742,6 +707,52 @@ export const generatedRoutes: GeneratedRoute[] = [
       icon: 'mdi:book-check-outline',
       order: 5
     }
+  },
+  {
+    name: 'service',
+    path: '/service',
+    component: 'layout.base',
+    meta: {
+      title: 'service',
+      i18nKey: 'route.service',
+      icon: 'material-symbols:service-directory',
+      order: 10
+    },
+    children: [
+      {
+        name: 'service_api-manange',
+        path: '/service/api-manange',
+        component: 'view.service_api-manange',
+        meta: {
+          title: 'service_api-manange',
+          i18nKey: 'route.service_api-manange',
+          icon: 'mdi:api',
+          order: 2
+        }
+      },
+      {
+        name: 'service_application',
+        path: '/service/application',
+        component: 'view.service_application',
+        meta: {
+          title: 'service_application',
+          i18nKey: 'route.service_application',
+          icon: 'mdi:apps',
+          order: 3
+        }
+      },
+      {
+        name: 'service_overview',
+        path: '/service/overview',
+        component: 'view.service_overview',
+        meta: {
+          title: 'service_overview',
+          i18nKey: 'route.service_overview',
+          icon: 'mdi:view-dashboard',
+          order: 1
+        }
+      }
+    ]
   },
   {
     name: 'task',

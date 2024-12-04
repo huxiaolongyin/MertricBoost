@@ -11,7 +11,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.get("/data-model", summary="获取主题模型信息")
+@router.get("/model", summary="获取主题模型信息")
 async def _(
     request: Request,
     current: int = Query(1, description="页码"),
@@ -92,7 +92,7 @@ async def _(
     return SuccessExtra(data=data, total=total, current=current, size=size)
 
 
-@router.post("/data-model", summary="创建主题模型信息")
+@router.post("/model", summary="创建主题模型信息")
 async def _(
     data_model_in: DataModelCreate,
 ):
@@ -106,7 +106,7 @@ async def _(
     return Success(msg="创建成功", data={"create_id": new_data_model.id})
 
 
-@router.patch("/data-model/{id}", summary="更新主题模型信息")
+@router.patch("/model/{id}", summary="更新主题模型信息")
 async def _(
     id: int,
     data_model_in: DataModelUpdate,
@@ -120,7 +120,7 @@ async def _(
     return Success(msg="更新成功", data={"update_id": id})
 
 
-@router.delete("/data-model/{id}", summary="删除主题模型信息")
+@router.delete("/model/{id}", summary="删除主题模型信息")
 async def _(
     id: int,
 ):
@@ -133,7 +133,7 @@ async def _(
     return Success(msg="删除成功", data={"delete_id": id})
 
 
-@router.get("/data-model/data-preview", summary="预览数据")
+@router.get("/model/preview", summary="预览数据")
 async def _(
     databaseId: str = Query(None, description="数据库ID"),
     tableName: str = Query(None, description="表名"),
@@ -154,13 +154,13 @@ async def _(
     )
 
 
-@router.get("/data-model/tables", summary="获取表的元数据")
+@router.get("/model/tables", summary="获取表的元数据")
 async def _(database: str = Query(None, description="数据库ID")):
     total, data = await data_model_controller.fetch_tables_metadata(database)
     return Success(msg="获取元数据成功", total=total, data={"records": data})
 
 
-@router.get("/data-model/tables/columns", summary="获取表的字段元数据")
+@router.get("/model/tables/columns", summary="获取表的字段元数据")
 async def _(
     database: str = Query(None, description="数据库ID"),
     tableName: str = Query(None, description="表名"),
@@ -173,7 +173,7 @@ async def _(
     return Success(msg="获取元数据成功", total=total, data={"records": data})
 
 
-@router.get("/data-model/aggregate-data", summary="获取表的聚合数据")
+@router.get("/model/aggregate-data", summary="获取表的聚合数据")
 async def _(
     data_model_id: str = Query(None, description="数据模型ID"),
     statistic_column: str = Query(None, description="统计字段"),

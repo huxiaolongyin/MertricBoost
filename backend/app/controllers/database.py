@@ -1,5 +1,6 @@
 from app.core.crud import CRUDBase
-from app.models.system import Database, User
+from app.models.asset import Database
+from app.models.system import User
 from app.schemas.database import DatabaseCreate, DatabaseUpdate
 from tortoise import Tortoise
 import asyncmy.errors

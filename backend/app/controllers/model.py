@@ -1,6 +1,7 @@
 import json
 from app.core.crud import CRUDBase
-from app.models.system import DataModel, User, TopicDomain, DataDomain, Database
+from app.models.asset import DataModel, TopicDomain, DataDomain, Database
+from app.models.system import User
 from app.schemas.data_model import DataModelCreate, DataModelUpdate
 from tortoise import Tortoise
 

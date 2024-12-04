@@ -4,7 +4,8 @@ from cachetools import TTLCache
 from collections import defaultdict
 from app.models.metric import Metric
 from app.schemas.metric import MetricCreate, MetricUpdate
-from app.models.system import User, DataModel
+from app.models.system import User
+from app.models.asset import DataModel
 from app.core.crud import CRUDBase
 from typing import NewType, TypeVar
 from pydantic import BaseModel

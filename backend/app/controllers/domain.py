@@ -1,5 +1,6 @@
 from app.core.crud import CRUDBase
-from app.models.system import User, TopicDomain, DataDomain
+from app.models.asset import TopicDomain, DataDomain
+from app.models.system import User
 from app.schemas.domain import DomainCreate, DomainUpdate
 
 

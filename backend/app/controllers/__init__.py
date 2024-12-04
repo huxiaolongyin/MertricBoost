@@ -5,7 +5,7 @@ from .domain import (
     topic_domain_controller,
     data_domain_controller,
 )
-from .data_model import data_model_controller
+from .model import data_model_controller
 from .metric import metric_controller
 from .tag import tag_controller, metric_tag_controller
 from .service_api import service_api_controller, service_api_param_controller
