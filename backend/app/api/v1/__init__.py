@@ -4,7 +4,8 @@ from .auth import router_auth
 from .route import router_route
 from .system_manage import router_system_manage
 from .metric import router_metric
-from .data_asset import router_data_asset
+from .asset import router_asset
+from .service import router_service
 
 v1_router = APIRouter()
 
@@ -14,4 +15,5 @@ v1_router.include_router(
     router_system_manage, prefix="/system-manage", tags=["系统管理"]
 )
 v1_router.include_router(router_metric, prefix="/metric", tags=["指标管理"])
-v1_router.include_router(router_data_asset, prefix="/data-asset", tags=["数据资产管理"])
+v1_router.include_router(router_asset, prefix="/asset", tags=["数据资产"])
+v1_router.include_router(router_service, prefix="/service", tags=["数据服务"])
