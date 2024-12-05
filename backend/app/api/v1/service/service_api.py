@@ -10,14 +10,14 @@ router = APIRouter()
 async def _(
     current: int = Query(1, description="页码"),
     size: int = Query(10, description="每页数量"),
-    apiStatus: str = Query(None, description="api状态"),
+    status: str = Query(None, description="api状态"),
     apiName: str = Query(None, description="api名称"),
     apiMethod: str = Query(None, description="api类型"),
     createBy: str = Query(None, description="创建人"),
     ):
     q = Q()
-    if apiStatus:
-        q &= Q(api_status__contains=apiStatus)
+    if status:
+        q &= Q(status__contains=status)
     if apiName:
         q &= Q(api_name__contains=apiName)
     if apiMethod:
@@ -33,7 +33,8 @@ async def _(
         api_dict = await item.to_dict(exclude_fields=["create_by_id"])
         api_dict.update({
             "createBy": item.create_by.user_name,
-            "appName": item.app.app_name
+            "appName": item.app.app_name,
+            "metricName": item.metric.chinese_name
         })
         records.append(api_dict)
     data = {"records":records}
@@ -48,6 +49,7 @@ async def _(id: int):
     api_dict.update({
             "createBy": api_detail.create_by.user_name,
             "appName": api_detail.app.app_name,
+            "metricName": api_detail.metric.chinese_name,
             "params": [await param.to_dict(exclude_fields=["id","api_id"]) for param in api_detail.params]
             })
     data = {"records":api_dict}

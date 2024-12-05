@@ -11,13 +11,18 @@ class ServiceApi(BaseModel, TimestampMixin):
     api_path = fields.CharField(max_length=255, description="API地址")
     api_desc = fields.CharField(max_length=255, description="API描述")
     api_method = fields.CharField(max_length=10, description="API请求方法")
-    api_status = fields.IntField(default=2, description="API状态(1启用，2非启用)")
+    status = fields.IntField(default=2, description="API状态(1启用，2非启用)")
    
     # 定义外键关系
     app = fields.ForeignKeyField(
         "app_system.ServiceApp",
         related_name="apis",
         description="应用"
+    )
+    metric = fields.ForeignKeyField(
+        "app_system.Metric",
+        related_name="apis",
+        description="指标"
     )
     create_by = fields.ForeignKeyField(
         "app_system.User", related_name="created_apis", description="创建人"
@@ -30,11 +35,12 @@ class ServiceApi(BaseModel, TimestampMixin):
 class ServiceApiParam(BaseModel, TimestampMixin):
     id = fields.IntField(pk=True)
     param_name = fields.CharField(max_length=50, unique=True, description="参数名称")
+    param_loc = fields.CharField(max_length=50, description="参数位置")
     param_type = fields.CharField(max_length=50, description="参数类型")
     param_desc = fields.CharField(max_length=255, description="参数描述")
-    param_required = fields.IntField(default=2,  description="参数是否必填(1必填，2非必填)")
-    param_default = fields.CharField(max_length=255, description="参数默认值")
-    param_example = fields.CharField(max_length=255, description="参数示例")
+    is_required = fields.IntField(default=2,  description="参数是否必填(1必填，2非必填)")
+    default = fields.CharField(max_length=255, description="参数默认值")
+    example = fields.CharField(max_length=255, description="参数示例")
     # 定义外键关系
     api = fields.ForeignKeyField(
         "app_system.ServiceApi",

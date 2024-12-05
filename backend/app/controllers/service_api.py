@@ -27,7 +27,7 @@ class ServiceApiController(CRUDBase[ServiceApi, ServiceApiCreate, ServiceApiUpda
         total = await query.count()
         # 分页查询，预加载关联数据
         result = await query\
-            .prefetch_related('params', 'create_by', 'app')\
+            .prefetch_related('params', 'create_by', 'app', 'metric')\
             .offset((page - 1) * page_size)\
             .limit(page_size)
         
@@ -37,7 +37,7 @@ class ServiceApiController(CRUDBase[ServiceApi, ServiceApiCreate, ServiceApiUpda
         """
         通过API ID获取API的详情，包含参数和创建者信息
         """
-        api = await ServiceApi.get(id=api_id).prefetch_related('params', 'create_by', 'app')
+        api = await ServiceApi.get(id=api_id).prefetch_related('params', 'create_by', 'app', 'metric')
         
         if not api:
             raise HTTPException(status_code=404, detail="API not found")

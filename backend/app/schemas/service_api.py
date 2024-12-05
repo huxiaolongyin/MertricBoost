@@ -6,11 +6,12 @@ from app.models.system import StatusType
 
 class ServiceApiParamBase(BaseModel):
     param_name: str = Field(alias="paramName")
+    param_loc: str = Field(alias="paramLoc")
     param_type: str = Field(alias="paramType")
     param_desc: str = Field(alias="paramDesc")
-    param_required: int = Field(alias="paramRequired")
-    param_default: str = Field(alias="paramDefault")
-    param_example: str = Field(alias="paramExample")
+    is_required: int = Field(alias="isRequired")
+    default: str = Field(alias="default")
+    example: str = Field(alias="example")
 
 class ServiceApiParamCreate(ServiceApiParamBase): ...
 
@@ -21,9 +22,10 @@ class ServiceApiBase(BaseModel):
     api_path: str = Field(alias="apiPath")  
     api_desc: str = Field(alias="apiDesc")
     api_method: str = Field(alias="apiMethod")
-    api_status: Annotated[StatusType | None, Field(alias="apiStatus")] = StatusType.enable
+    status: Annotated[StatusType | None, Field(alias="status")] = StatusType.enable
     create_by: Annotated[str, Field(alias="createBy")] = None
     app_id: int = Field(alias="appId")
+    metric_id: int = Field(alias="metricId")
 
 class ServiceApiCreate(ServiceApiBase): 
     params: List[ServiceApiParamCreate] = []
