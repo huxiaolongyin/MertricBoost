@@ -9,6 +9,7 @@ const local: App.I18n.Schema = {
   common: {
     action: '操作',
     add: '新增',
+    append: '添加',
     addSuccess: '添加成功',
     backToHome: '返回首页',
     batchDelete: '批量删除',
@@ -163,11 +164,7 @@ const local: App.I18n.Schema = {
     home: '首页',
     document: '文档',
     metric: '指标管理',
-    "metric-detail": '指标详情',
-    "metric-exploration": '指标探索',
-    "metric-publish": '指标发布',
-    "metric-report": '指标报告',
-    "metric-ai": 'AI分析',
+    'metric-exploration': '指标探索',
     dashboard: '可视化大屏',
     decision: '决策分析',
     report: '智能报告',
@@ -196,14 +193,14 @@ const local: App.I18n.Schema = {
     function_request: '请求',
     'function_toggle-auth': '切换权限',
     'function_super-page': '超级管理员可见',
-    "asset": '数据资产',
-    "asset_database": '数据源',
-    "asset_model": '模型',
-    "asset_tag": '标签',
-    "service": '数据服务',
-    "service_overview": '服务概览',
-    "service_api-manange": 'API管理',
-    "service_application": '应用管理',
+    asset: '数据资产',
+    asset_database: '数据源',
+    asset_model: '模型',
+    asset_tag: '标签',
+    service: '数据服务',
+    service_overview: '服务概览',
+    'service_api-manange': 'API管理',
+    service_application: '应用管理',
     manage: '系统管理',
     manage_log: '日志管理',
     manage_user: '用户管理',
@@ -298,7 +295,8 @@ const local: App.I18n.Schema = {
       devDep: '开发依赖'
     },
     home: {
-      branchDesc: '为了方便大家开发和更新合并，我们对主分支的代码进行了精简，只保留主页菜单，其余内容移至示例分支进行维护。预览地址显示示例分支的内容。',
+      branchDesc:
+        '为了方便大家开发和更新合并，我们对主分支的代码进行了精简，只保留主页菜单，其余内容移至示例分支进行维护。预览地址显示示例分支的内容。',
       greeting: '早安，{userName}, 今天又是充满活力的一天!',
       weatherDesc: '今日多云转晴，20℃ - 25℃!',
       projectCount: '项目数',
@@ -379,18 +377,18 @@ const local: App.I18n.Schema = {
       }
     },
     metric: {
-      topicDomain: "主题域",
-      displayStatus: "展示类型",
-      publishStatus: "发布状态",
-      sensitivity: "敏感度",
-      metricPlaceholder: "指标搜索",
+      topicDomain: '主题域',
+      displayStatus: '展示类型',
+      publishStatus: '发布状态',
+      sensitivity: '敏感度',
+      metricPlaceholder: '指标搜索',
       formTile: {
         modelForm: '模型配置',
-        metricForm: "指标配置",
-        sensitivityForm: "敏感度配置",
-        staticForm: "统计配置",
-        chartForm: "图表配置",
-        publishForm: "发布配置",
+        metricForm: '指标配置',
+        sensitivityForm: '敏感度配置',
+        staticForm: '统计配置',
+        chartForm: '图表配置',
+        publishForm: '发布配置'
       }
     },
     dataAsset: {
@@ -446,14 +444,41 @@ const local: App.I18n.Schema = {
         }
       },
       tag: {
-        title: "标签管理",
-        tagName: "标签名",
-        tagType: "标签类型",
-        tagDesc: "标签描述",
+        title: '标签管理',
+        tagName: '标签名',
+        tagType: '标签类型',
+        tagDesc: '标签描述',
         form: {
-          tagName: "请输入标签名",
-          tagType: "请选择标签类型",
-          tagDesc: "请输入标签描述",
+          tagName: '请输入标签名',
+          tagType: '请选择标签类型',
+          tagDesc: '请输入标签描述'
+        }
+      }
+    },
+    service: {
+      serviceApi: {
+        title: 'API列表',
+        addApi: '新增API',
+        editApi: '编辑API',
+        apiName: 'API名称',
+        apiDesc: 'API描述',
+        apiMethod: 'API方法',
+        status: '状态',
+        apiPath: 'API路径',
+        metricName: '指标名称',
+        appName: '应用名称',
+        form: {
+          apiName: '请输入API名称',
+          apiMethod: '请选择API方法',
+          apiDesc: '请输入API描述',
+          apiPath: '请输入API路径',
+          metricName: '请选择指标名称',
+          status: '请选择状态',
+          appName: '请选择应用名称',
+          baseInfo: '基本信息',
+          paramSetting: '参数设置',
+          paramAddTitle: '新增参数',
+          paramEditTitle: '编辑参数'
         }
       }
     },
@@ -482,7 +507,6 @@ const local: App.I18n.Schema = {
         addRole: '新增角色',
         editRole: '编辑角色'
       },
-
 
       log: {
         title: '日志列表',

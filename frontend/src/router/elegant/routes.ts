@@ -441,30 +441,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'metric-ai',
-    path: '/metric-ai/:id',
-    component: 'layout.base$view.metric-ai',
-    props: true,
-    meta: {
-      title: 'metric-ai',
-      i18nKey: 'route.metric-ai',
-      icon: 'mdi:chart-line',
-      hideInMenu: true
-    }
-  },
-  {
-    name: 'metric-detail',
-    path: '/metric-detail/:id',
-    component: 'layout.base$view.metric-detail',
-    props: true,
-    meta: {
-      title: 'metric-detail',
-      i18nKey: 'route.metric-detail',
-      icon: 'mdi:chart-line',
-      hideInMenu: true
-    }
-  },
-  {
     name: 'metric-exploration',
     path: '/metric-exploration/:id',
     component: 'layout.base$view.metric-exploration',
@@ -472,30 +448,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'metric-exploration',
       i18nKey: 'route.metric-exploration',
-      icon: 'mdi:chart-line',
-      hideInMenu: true
-    }
-  },
-  {
-    name: 'metric-publish',
-    path: '/metric-publish/:id',
-    component: 'layout.base$view.metric-publish',
-    props: true,
-    meta: {
-      title: 'metric-publish',
-      i18nKey: 'route.metric-publish',
-      icon: 'mdi:chart-line',
-      hideInMenu: true
-    }
-  },
-  {
-    name: 'metric-report',
-    path: '/metric-report/:id',
-    component: 'layout.base$view.metric-report',
-    props: true,
-    meta: {
-      title: 'metric-report',
-      i18nKey: 'route.metric-report',
       icon: 'mdi:chart-line',
       hideInMenu: true
     }
