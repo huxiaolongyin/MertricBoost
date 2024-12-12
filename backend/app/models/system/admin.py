@@ -15,7 +15,7 @@ from app.models.utils import (
 
 
 class User(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True, description="用户ID")
+    id = fields.IntField(primary_key=True, description="用户ID")
     user_name = fields.CharField(max_length=20, unique=True, description="用户名称")
     password = fields.CharField(max_length=128, description="密码")
     nick_name = fields.CharField(max_length=30, null=True, description="昵称")
@@ -35,7 +35,7 @@ class User(BaseModel, TimestampMixin):
 
 
 class Role(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True, description="角色ID")
+    id = fields.IntField(primary_key=True, description="角色ID")
     role_name = fields.CharField(max_length=20, unique=True, description="角色名称")
     role_code = fields.CharField(max_length=20, unique=True, description="角色编码")
     role_desc = fields.CharField(
@@ -55,7 +55,7 @@ class Role(BaseModel, TimestampMixin):
 
 
 class Api(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True, description="API ID")
+    id = fields.IntField(primary_key=True, description="API ID")
     path = fields.CharField(max_length=100, description="API路径")
     method = fields.CharEnumField(MethodType, description="请求方法")
     summary = fields.CharField(max_length=500, description="请求简介")
@@ -69,7 +69,7 @@ class Api(BaseModel, TimestampMixin):
 
 
 class Menu(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True, description="菜单ID")
+    id = fields.IntField(primary_key=True, description="菜单ID")
     menu_name = fields.CharField(max_length=100, description="菜单名称")
     menu_type = fields.CharEnumField(MenuType, description="菜单类型")
     route_name = fields.CharField(max_length=100, description="路由名称")
@@ -113,7 +113,7 @@ class Menu(BaseModel, TimestampMixin):
 
 
 class Button(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True, description="菜单ID")
+    id = fields.IntField(primary_key=True, description="菜单ID")
     button_code = fields.CharField(max_length=200, description="按钮编码")
     button_desc = fields.CharField(max_length=200, description="按钮描述")
     status = fields.CharEnumField(
@@ -125,7 +125,7 @@ class Button(BaseModel, TimestampMixin):
 
 
 class Log(BaseModel):
-    id = fields.IntField(pk=True, description="日志ID")
+    id = fields.IntField(primary_key=True, description="日志ID")
     log_type = fields.CharEnumField(LogType, description="日志类型")
     by_user = fields.ForeignKeyField(
         "app_system.User", null=True, on_delete=fields.NO_ACTION, description="操作人"
@@ -143,7 +143,7 @@ class Log(BaseModel):
 
 
 class APILog(BaseModel):
-    id = fields.IntField(pk=True, description="API日志ID")
+    id = fields.IntField(primary_key=True, description="API日志ID")
     ip_address = fields.CharField(max_length=60, description="IP地址")
     user_agent = fields.CharField(max_length=800, description="User-Agent")
     request_url = fields.CharField(max_length=255, description="请求URL")

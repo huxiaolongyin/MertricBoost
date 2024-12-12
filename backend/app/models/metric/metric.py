@@ -18,7 +18,7 @@ class ChartType(str, Enum):
 
 
 class Metric(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     data_model = fields.ForeignKeyField(
         "app_system.DataModel", related_name="metrics", description="数据模型"
     )

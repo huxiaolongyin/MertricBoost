@@ -5,7 +5,7 @@ from app.models.utils import BaseModel, TimestampMixin
 class DataModel(BaseModel, TimestampMixin):
     """数据模型信息"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     data_model_name = fields.CharField(max_length=50, description="模型名称")
     data_model_desc = fields.CharField(max_length=255, description="主题描述")
     status = fields.CharField(max_length=50, description="模型状态")

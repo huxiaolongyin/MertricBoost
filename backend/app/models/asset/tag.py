@@ -9,7 +9,7 @@ from app.models.utils import (
 class Tag(BaseModel, TimestampMixin):
     """标签类型表"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     tag_name = fields.CharField(max_length=50, unique=True, description="标签名称")
     tag_type = fields.CharField(max_length=50, description="标签类型")
     tag_desc = fields.CharField(max_length=255, description="标签描述")
@@ -25,7 +25,7 @@ class Tag(BaseModel, TimestampMixin):
 class MetricTag(BaseModel, TimestampMixin):
     """指标标签关系表"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     metric = fields.ForeignKeyField(
         "app_system.Metric", description="指标"
     )  # 关联到指标表

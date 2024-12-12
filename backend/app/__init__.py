@@ -42,6 +42,7 @@ def create_app() -> FastAPI:
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     start_time = time.time()
+    print("App is starting...")
     try:
         await modify_db()
         await init_menus()

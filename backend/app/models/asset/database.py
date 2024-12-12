@@ -5,7 +5,7 @@ from app.models.utils import BaseModel, TimestampMixin
 class Database(BaseModel, TimestampMixin):
     """数据库信息"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     database_name = fields.CharField(max_length=50, description="数据库名称")
     database_type = fields.CharField(max_length=50, description="数据库类型")
     database_host = fields.CharField(max_length=50, description="数据库主机")

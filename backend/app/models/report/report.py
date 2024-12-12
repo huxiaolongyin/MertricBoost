@@ -5,8 +5,9 @@ from app.models.utils import (
     TimestampMixin,
 )
 
+
 class Report(BaseModel, TimestampMixin):
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     report_name = fields.CharField(max_length=100, description="报告名称")
     report_type = fields.CharField(max_length=100, description="报告类型")
     report_content = fields.TextField(description="报告内容")
@@ -25,4 +26,3 @@ class Report(BaseModel, TimestampMixin):
     class Meta:
         table = "reports"
         table_description = "报告"
-    

@@ -6,7 +6,7 @@ authors = [
     { name = "Jacob Zheng", email = "1453366421@qq.com" },
 ]
 dependencies = [
-    "fastapi>=0.111.0",
+    "fastapi==0.115.6",
     "uvicorn[standard]>=0.29.0",
     "tortoise-orm[aiosqlite]>=0.20.1",
     "tortoise-orm[asyncmy]==0.21.7",
@@ -31,7 +31,8 @@ readme = "README.md"
 
 [project.optional-dependencies]
 dev = [
-    "pyinstrument==5.0.0"
+    "pyinstrument==5.0.0",
+    "pytest==8.3.4"
 ]
 
 
@@ -48,3 +49,13 @@ distribution = false
 name = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 verify_ssl = true
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+# 忽略 过时的passlib 对 setuptools 中 pkg_resources的引用
+# 警告匹配格式 action:message:category:module
+filterwarnings = [
+    "ignore:pkg_resources is deprecated as an API.*:DeprecationWarning"
+]

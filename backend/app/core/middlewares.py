@@ -35,11 +35,9 @@ class SimpleBaseMiddleware:
 
         await response(scope, receive, send_wrapper)
 
-    async def before_request(self, request: Request) -> ASGIApp | None:
-        ...
+    async def before_request(self, request: Request) -> ASGIApp | None: ...
 
-    async def after_request(self, request: Request, response: dict):
-        ...
+    async def after_request(self, request: Request, response: dict): ...
 
 
 class BackGroundTaskMiddleware(SimpleBaseMiddleware):
@@ -56,24 +54,32 @@ class APILoggerMiddleware(BaseHTTPMiddleware):
         request.state.start_time = datetime.now()
         path = request.url.path
 
-        if (
-                all([declude not in path for declude in APP_SETTINGS.ADD_LOG_ORIGINS_DECLUDE])
-                and (
-                "*" in APP_SETTINGS.ADD_LOG_ORIGINS_INCLUDE
-                or any([include in path for include in APP_SETTINGS.ADD_LOG_ORIGINS_INCLUDE]))
+        if all(
+            [declude not in path for declude in APP_SETTINGS.ADD_LOG_ORIGINS_DECLUDE]
+        ) and (
+            "*" in APP_SETTINGS.ADD_LOG_ORIGINS_INCLUDE
+            or any(
+                [include in path for include in APP_SETTINGS.ADD_LOG_ORIGINS_INCLUDE]
+            )
         ):
             if request.scope["type"] == "http":
                 token = request.headers.get("Authorization")
                 user_obj = None
                 if token:
-                    status, _, decode_data = check_token(token.replace("Bearer ", "", 1))
+                    status, _, decode_data = check_token(
+                        token.replace("Bearer ", "", 1)
+                    )
                     if status and decode_data:
                         user_id = int(decode_data["data"]["userId"])
                         user_obj = await User.filter(id=user_id).first()
                         if user_obj:
                             CTX_USER_ID.set(user_id)
                 try:
-                    request_data = await request.json() if request.method in ["POST", "PUT", "PATCH"] else None
+                    request_data = (
+                        await request.json()
+                        if request.method in ["POST", "PUT", "PATCH"]
+                        else None
+                    )
                 except JSONDecodeError:
                     request_data = None
 
@@ -82,11 +88,13 @@ class APILoggerMiddleware(BaseHTTPMiddleware):
                     "user_agent": request.headers.get("user-agent"),
                     "request_url": str(request.url),
                     "request_params": dict(request.query_params) or None,
-                    "request_data": request_data
+                    "request_data": request_data,
                 }
                 api_log_obj = await APILog.create(**api_log_data)
                 request.state.api_log_id = api_log_obj.id
-                await Log.create(log_type=LogType.ApiLog, by_user=user_obj, api_log=api_log_obj)
+                await Log.create(
+                    log_type=LogType.ApiLog, by_user=user_obj, api_log=api_log_obj
+                )
 
         response = await call_next(request)
         return response
@@ -98,7 +106,10 @@ class APILoggerAddResponseMiddleware(SimpleBaseMiddleware):
     """
 
     async def after_request(self, request: Request, response: dict) -> None:
-        if hasattr(request.state, "api_log_id") and response.get("type") == "http.response.body":
+        if (
+            hasattr(request.state, "api_log_id")
+            and response.get("type") == "http.response.body"
+        ):
             response_body = response.get("body", b"")
             try:
                 resp = orjson.loads(response_body)
@@ -106,7 +117,9 @@ class APILoggerAddResponseMiddleware(SimpleBaseMiddleware):
                 if api_log_obj:
                     api_log_obj.response_data = resp
                     api_log_obj.response_code = resp.get("code", "-1")
-                    api_log_obj.process_time = (datetime.now() - request.state.start_time).total_seconds()
+                    api_log_obj.process_time = (
+                        datetime.now() - request.state.start_time
+                    ).total_seconds()
                     await api_log_obj.save()
 
             except orjson.JSONDecodeError:

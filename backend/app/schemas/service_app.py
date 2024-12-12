@@ -10,7 +10,9 @@ class ServiceAppBase(BaseModel):
     create_by: Annotated[Union[str, int], Field(alias="createBy")] = None
 
 
-class ServiceAppCreate(ServiceAppBase): ...
+class ServiceAppCreate(ServiceAppBase):
+    app_key: str = Field(alias="appKey")
+    app_secret: str = Field(alias="appSecret")
 
 
 class ServiceAppUpdate(ServiceAppBase): ...

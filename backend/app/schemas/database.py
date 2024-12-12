@@ -1,5 +1,5 @@
 from typing import Annotated
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from app.models.system import StatusType
 
 
@@ -16,8 +16,7 @@ class DatabaseBase(BaseModel):
     create_by: Annotated[str, Field(alias="createBy")] = None
 
     # 允许原始名称和别名来访问和设置字段值
-    class Config:
-        populate_by_name = True
+    model_config = ConfigDict(populate_by_name=True)
 
 
 class DatabaseCreate(DatabaseBase): ...
@@ -31,5 +30,4 @@ class UpdatePassword(BaseModel):
     old_password: str = Field(alias="oldPassword")
     new_password: str = Field(alias="newPassword")
 
-    class Config:
-        populate_by_name = True
+    model_config = ConfigDict(populate_by_name=True)

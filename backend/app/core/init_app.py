@@ -2,7 +2,7 @@ from aerich import Command
 from fastapi import FastAPI
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
-from tortoise.contrib.fastapi import register_tortoise
+from tortoise.contrib.fastapi import RegisterTortoise
 
 from app.api import api_router
 from app.controllers import role_controller
@@ -19,7 +19,11 @@ from app.core.exceptions import (
     ResponseValidationError,
     ResponseValidationHandle,
 )
-from app.core.middlewares import BackGroundTaskMiddleware, APILoggerMiddleware, APILoggerAddResponseMiddleware
+from app.core.middlewares import (
+    BackGroundTaskMiddleware,
+    APILoggerMiddleware,
+    APILoggerAddResponseMiddleware,
+)
 from app.models.system import Menu, Role, User, Button, Api
 from app.models.system import StatusType, IconType, MenuType
 from app.settings import APP_SETTINGS
@@ -42,7 +46,7 @@ def make_middlewares():
 
 
 def register_db(app: FastAPI):
-    register_tortoise(
+    RegisterTortoise(
         app,
         config=APP_SETTINGS.TORTOISE_ORM,
         generate_schemas=True,
@@ -179,11 +183,15 @@ async def init_menus():
         icon_type=IconType.iconify,
     )
 
-    button_code1 = await Button.create(button_code="B_CODE1", button_desc="超级管理员可见")
+    button_code1 = await Button.create(
+        button_code="B_CODE1", button_desc="超级管理员可见"
+    )
     await parent_menu.buttons.add(button_code1)
     button_code2 = await Button.create(button_code="B_CODE2", button_desc="管理员可见")
     await parent_menu.buttons.add(button_code2)
-    button_code3 = await Button.create(button_code="B_CODE3", button_desc="管理员和用户可见")
+    button_code3 = await Button.create(
+        button_code="B_CODE3", button_desc="管理员和用户可见"
+    )
     await parent_menu.buttons.add(button_code3)
 
     children_menu = [
@@ -300,7 +308,7 @@ async def init_menus():
             i18n_key="route.function_hide-child_three",
             hide_in_menu=True,
             active_menu="function_hide-child",
-        )
+        ),
     ]
     await Menu.bulk_create(children_menu)
 
@@ -470,8 +478,7 @@ async def init_menus():
         icon_type=IconType.iconify,
     )
     button_add_del_batch_del = await Button.create(
-        button_code="B_Add_Del_Batch-del",
-        button_desc="新增_删除_批量删除"
+        button_code="B_Add_Del_Batch-del", button_desc="新增_删除_批量删除"
     )
 
     await parent_menu.buttons.add(button_add_del_batch_del)
@@ -490,8 +497,7 @@ async def init_menus():
         icon_type=IconType.iconify,
     )
     button_refreshAPI = await Button.create(
-        button_code="B_refreshAPI",
-        button_desc="刷新API"
+        button_code="B_refreshAPI", button_desc="刷新API"
     )
 
     await parent_menu.buttons.add(button_refreshAPI)
@@ -570,8 +576,12 @@ async def init_users():
     role_exist = await role_controller.model.exists()
     if not role_exist:
         # 超级管理员拥有所有菜单
-        role_super = await Role.create(role_name="超级管理员", role_code="R_SUPER", role_desc="超级管理员")
-        role_super_menu_objs = await Menu.filter(constant=False)  # 过滤常量路由(公共路由)
+        role_super = await Role.create(
+            role_name="超级管理员", role_code="R_SUPER", role_desc="超级管理员"
+        )
+        role_super_menu_objs = await Menu.filter(
+            constant=False
+        )  # 过滤常量路由(公共路由)
         for menu_obj in role_super_menu_objs:
             await role_super.menus.add(menu_obj)
 
@@ -581,24 +591,32 @@ async def init_users():
         await role_super.buttons.add(button_refreshAPI)
 
         # 管理员拥有 首页 关于 系统管理-API管理 系统管理-用户管理
-        role_admin = await Role.create(role_name="管理员", role_code="R_ADMIN", role_desc="管理员")
+        role_admin = await Role.create(
+            role_name="管理员", role_code="R_ADMIN", role_desc="管理员"
+        )
 
         role_admin_apis = [
             ("get", "/api/v1/system-manage/logs"),
             ("get", "/api/v1/system-manage/apis"),
             ("get", "/api/v1/system-manage/users"),
             ("get", "/api/v1/system-manage/roles"),
-            ("post", "/api/v1/system-manage/users"),  #新增用户
-            ("patch", "/api/v1/system-manage/users/{user_id}"),  #修改用户
-            ("delete", "/api/v1/system-manage/users/{user_id}"),  #删除用户
-            ("delete", "/api/v1/system-manage/users"),  #批量删除用户
-
+            ("post", "/api/v1/system-manage/users"),  # 新增用户
+            ("patch", "/api/v1/system-manage/users/{user_id}"),  # 修改用户
+            ("delete", "/api/v1/system-manage/users/{user_id}"),  # 删除用户
+            ("delete", "/api/v1/system-manage/users"),  # 批量删除用户
         ]
         for api_method, api_path in role_admin_apis:
             api_obj: Api = await Api.get(method=api_method, path=api_path)
             await role_admin.apis.add(api_obj)
 
-        role_admin_menus = ["home", "about", "function_toggle-auth", "manage_log", "manage_api", "manage_user"]
+        role_admin_menus = [
+            "home",
+            "about",
+            "function_toggle-auth",
+            "manage_log",
+            "manage_api",
+            "manage_user",
+        ]
         for route_name in role_admin_menus:
             menu_obj: Menu = await Menu.get(route_name=route_name)
             await role_admin.menus.add(menu_obj)
@@ -608,13 +626,24 @@ async def init_users():
         await role_super.buttons.add(button_code2)
 
         # 普通用户拥有 首页 关于 系统管理-API管理
-        role_user = await Role.create(role_name="普通用户", role_code="R_USER", role_desc="普通用户")
-        role_user_apis = [("get", "/api/v1/system-manage/logs"), ("get", "/api/v1/system-manage/apis")]
+        role_user = await Role.create(
+            role_name="普通用户", role_code="R_USER", role_desc="普通用户"
+        )
+        role_user_apis = [
+            ("get", "/api/v1/system-manage/logs"),
+            ("get", "/api/v1/system-manage/apis"),
+        ]
         for api_method, api_path in role_user_apis:
             api_obj: Api = await Api.get(method=api_method, path=api_path)
             await role_user.apis.add(api_obj)
 
-        role_user_menus = ["home", "about", "function_toggle-auth", "manage_log", "manage_api"]
+        role_user_menus = [
+            "home",
+            "about",
+            "function_toggle-auth",
+            "manage_log",
+            "manage_api",
+        ]
         for route_name in role_user_menus:
             menu_obj: Menu = await Menu.get(route_name=route_name)
             await role_user.menus.add(menu_obj)

@@ -13,3 +13,7 @@
 # 临时文件
 temp**
 tmp**
+
+.pytest_cache
+
+.vscode

@@ -5,7 +5,7 @@ from app.models.utils import BaseModel, TimestampMixin
 class DataDomain(BaseModel, TimestampMixin):
     """数据域信息"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     domain_name = fields.CharField(max_length=50, description="数据域名称")
     domain_desc = fields.CharField(max_length=255, description="数据域描述")
     create_by = fields.ForeignKeyField(
@@ -20,7 +20,7 @@ class DataDomain(BaseModel, TimestampMixin):
 class TopicDomain(BaseModel, TimestampMixin):
     """主题域信息"""
 
-    id = fields.IntField(pk=True)
+    id = fields.IntField(primary_key=True)
     domain_name = fields.CharField(max_length=50, description="数据域名称")
     domain_desc = fields.CharField(max_length=255, description="数据域描述")
     create_by = fields.ForeignKeyField(
