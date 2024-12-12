@@ -7,7 +7,7 @@ authors = [
 ]
 dependencies = [
     "fastapi>=0.111.0",
-    "uvicorn>=0.29.0",
+    "uvicorn[standard]>=0.29.0",
     "tortoise-orm[aiosqlite]>=0.20.1",
     "tortoise-orm[asyncmy]==0.21.7",
     "pydantic>=2.7.1",
