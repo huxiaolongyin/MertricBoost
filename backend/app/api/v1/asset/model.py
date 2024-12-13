@@ -53,7 +53,7 @@ async def _(
     if createBy:
         q &= Q(create_by__user_name=createBy)
 
-    total, data_model_objs = await data_model_controller.list(
+    total, data_model_objs = await data_model_controller.get_list(
         page=current,
         page_size=size,
         search=q,

@@ -19,7 +19,13 @@ async def _(log_in: LogSearch = Depends()):
     q = Q()
     if log_in.log_type:
         q &= Q(log_type=log_in.log_type)
-    if log_in.log_user and (_by_user := await user_controller.get_by_username(user_name=log_in.log_user)) is not None:
+    if (
+        log_in.log_user
+        and (
+            _by_user := await user_controller.get_by_username(user_name=log_in.log_user)
+        )
+        is not None
+    ):
         q &= Q(by_user=_by_user)
     if log_in.log_detail:
         q &= Q(log_detail__contains=log_in.log_detail)
@@ -33,7 +39,10 @@ async def _(log_in: LogSearch = Depends()):
         q &= Q(api_log__response_code=log_in.response_code)
     if log_in.time_range:
         _timeRange = log_in.time_range.split(",")
-        q &= Q(create_time__gt=datetime.fromtimestamp(int(_timeRange[0]) / 1000), create_time__lt=datetime.fromtimestamp(int(_timeRange[1]) / 1000))
+        q &= Q(
+            create_time__gt=datetime.fromtimestamp(int(_timeRange[0]) / 1000),
+            create_time__lt=datetime.fromtimestamp(int(_timeRange[1]) / 1000),
+        )
 
     user_id = CTX_USER_ID.get()
     user_obj = await user_controller.get(id=user_id)
@@ -49,12 +58,24 @@ async def _(log_in: LogSearch = Depends()):
     if log_in.size is None:
         log_in.size = 10
 
-    if "R_ADMIN" in user_role_codes and log_in.log_type not in [LogType.ApiLog, LogType.UserLog]:  # 管理员只能查看API日志和用户日志
+    if "R_ADMIN" in user_role_codes and log_in.log_type not in [
+        LogType.ApiLog,
+        LogType.UserLog,
+    ]:  # 管理员只能查看API日志和用户日志
         return Fail(msg="Permission Denied")
-    elif "R_SUPER" not in user_role_codes and "R_ADMIN" not in user_role_codes and log_in.log_type != LogType.ApiLog:  # 非超级管理员和管理员只能查看API日志
+    elif (
+        "R_SUPER" not in user_role_codes
+        and "R_ADMIN" not in user_role_codes
+        and log_in.log_type != LogType.ApiLog
+    ):  # 非超级管理员和管理员只能查看API日志
         return Fail(msg="Permission Denied")
 
-    total, log_objs = await log_controller.list(page=log_in.current, page_size=log_in.size, search=q, order=["-id"])
+    total, log_objs = await log_controller.get_list(
+        page=log_in.current,
+        page_size=log_in.size,
+        search=q,
+        order=["-id"],
+    )
 
     records = []
     for obj in log_objs:
@@ -72,7 +93,9 @@ async def _(log_in: LogSearch = Depends()):
 
         records.append(data)
     data = {"records": records}
-    return SuccessExtra(data=data, total=total, current=log_in.current, size=log_in.size)
+    return SuccessExtra(
+        data=data, total=total, current=log_in.current, size=log_in.size
+    )
 
 
 @router.get("/logs/{log_id}", summary="查看日志")
@@ -84,8 +107,8 @@ async def _(log_id: int):
 
 @router.patch("/logs/{log_id}", summary="更新日志")
 async def _(
-        log_id: int,
-        log_in: LogUpdate,
+    log_id: int,
+    log_in: LogUpdate,
 ):
     await log_controller.update(id=log_id, obj_in=log_in)
     return Success(msg="Update Successfully")
@@ -93,7 +116,7 @@ async def _(
 
 @router.delete("/logs/{log_id}", summary="删除日志")
 async def _(
-        log_id: int,
+    log_id: int,
 ):
     await log_controller.remove(id=log_id)
     return Success(msg="Deleted Successfully", data={"deleted_id": log_id})

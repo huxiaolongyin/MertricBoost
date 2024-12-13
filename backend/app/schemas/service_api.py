@@ -1,6 +1,6 @@
-from typing import Annotated
+from typing import Annotated, Any
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Any
 from app.models.system import StatusType
 
 
@@ -26,7 +26,7 @@ class ServiceApiBase(BaseModel):
     api_desc: str = Field(alias="apiDesc")
     api_method: str = Field(alias="apiMethod")
     status: Annotated[StatusType | None, Field()] = StatusType.enable
-    create_by: Annotated[str, Field(alias="createBy")] = None
+    create_by: Annotated[Any, Field(alias="createBy")] = None
     app_id: int = Field(alias="appId")
     metric_id: int = Field(alias="metricId")
 

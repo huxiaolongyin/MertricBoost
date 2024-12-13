@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any
 from pydantic import BaseModel, Field, ConfigDict
 
 
@@ -7,7 +7,7 @@ class DomainBase(BaseModel):
 
     domain_name: str = Field(alias="domainName")
     domain_desc: str = Field(alias="domainDesc")
-    create_by: Annotated[str, Field(alias="createBy")] = None
+    create_by: Annotated[Any, Field(alias="createBy")] = None
 
     # 允许原始名称和别名来访问和设置字段值
     model_config = ConfigDict(populate_by_name=True)

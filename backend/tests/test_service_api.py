@@ -1,22 +1,5 @@
-from fastapi.testclient import TestClient
-from app import create_app
-import pytest
-
-# 创建应用实例,
-app = create_app()
-
-
-# 创建测试客户端, 避免fastapi生命周期启动时,没有正确执行startup函数, 从而初始化ORM
-@pytest.fixture(scope="module")
-def client():
-    app = create_app()
-    with TestClient(app) as c:
-        yield c
-
-
 # 1. 测试应用列表获取
 def test_get_api_list(client):
-    # 测试未提供用户名的情况
     response = client.get("/api/v1/service/api")
     assert response.status_code == 200
     assert response.json()["msg"] == "获取成功"
@@ -75,13 +58,11 @@ def test_get_api_list_with_user(client):
         "metricId": 14,
         "params": [],
     }
-    response = client.patch(
-        "/api/v1/service/api", params={"id": api_id}, json=update_data
-    )
+    response = client.patch(f"/api/v1/service/api/{api_id}", json=update_data)
     assert response.status_code == 200
     assert response.json()["msg"] == "更新成功"
 
     # 删除API
-    response = client.delete(f"/api/v1/service/api", params={"id": api_id})
+    response = client.delete(f"/api/v1/service/api/{api_id}")
     assert response.status_code == 200
     assert response.json()["msg"] == "删除成功"

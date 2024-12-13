@@ -15,12 +15,12 @@ router = APIRouter()
 
 @router.get("/apis", summary="查看API列表")
 async def _(
-        current: int = Query(1, description="页码"),
-        size: int = Query(10, description="每页数量"),
-        path: str = Query(None, description="API路径"),
-        summary: str = Query(None, description="API简介"),
-        tags: str = Query(None, description="API模块"),
-        status: str = Query(None, description="API状态"),
+    current: int = Query(1, description="页码"),
+    size: int = Query(10, description="每页数量"),
+    path: str = Query(None, description="API路径"),
+    summary: str = Query(None, description="API简介"),
+    tags: str = Query(None, description="API模块"),
+    status: str = Query(None, description="API状态"),
 ):
     q = Q()
     if path:
@@ -37,7 +37,12 @@ async def _(
     user_role_objs: list[Role] = await user_obj.roles
     user_role_codes = [role_obj.role_code for role_obj in user_role_objs]
     if "R_SUPER" in user_role_codes:
-        total, api_objs = await api_controller.list(page=current, page_size=size, search=q, order=["tags", "id"])
+        total, api_objs = await api_controller.get_list(
+            page=current,
+            page_size=size,
+            search=q,
+            order=["tags", "id"],
+        )
     else:
         api_objs: list[Api] = []
         for role_obj in user_role_objs:
@@ -57,7 +62,11 @@ async def _(
         data["tags"] = "|".join(data["tags"])
         records.append(data)
     data = {"records": records}
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiGetList, by_user_id=user_obj.id)
+    await insert_log(
+        log_type=LogType.UserLog,
+        log_detail_type=LogDetailType.ApiGetList,
+        by_user_id=user_obj.id,
+    )
     return SuccessExtra(data=data, total=total, current=current, size=size)
 
 
@@ -65,7 +74,9 @@ async def _(
 async def _(api_id: int):
     api_obj = await api_controller.get(id=api_id)
     data = await api_obj.to_dict(exclude_fields=["id", "create_time", "update_time"])
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiGetOne, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiGetOne, by_user_id=0
+    )
     return Success(data=data)
 
 
@@ -83,10 +94,12 @@ def build_api_tree(apis: list[Api]):
                 parent_map[node_id] = node
                 parent_map[parent_id]["children"].append(node)
             parent_id = node_id
-        parent_map[parent_id]["children"].append({
-            "id": api.id,
-            "summary": api.summary,
-        })
+        parent_map[parent_id]["children"].append(
+            {
+                "id": api.id,
+                "summary": api.summary,
+            }
+        )
     return parent_map["root"]["children"]
 
 
@@ -96,39 +109,53 @@ async def _():
     data = []
     if api_objs:
         data = build_api_tree(api_objs)
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiGetTree, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiGetTree, by_user_id=0
+    )
     return Success(data=data)
 
 
 @router.post("/apis", summary="创建API")
 async def _(
-        api_in: ApiCreate,
+    api_in: ApiCreate,
 ):
     if isinstance(api_in.tags, str):
         api_in.tags = api_in.tags.split("|")
     new_api = await api_controller.create(obj_in=api_in)
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiCreateOne, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog,
+        log_detail_type=LogDetailType.ApiCreateOne,
+        by_user_id=0,
+    )
     return Success(msg="Created Successfully", data={"created_id": new_api.id})
 
 
 @router.patch("/apis/{api_id}", summary="更新API")
 async def _(
-        api_id: int,
-        api_in: ApiUpdate,
+    api_id: int,
+    api_in: ApiUpdate,
 ):
     if isinstance(api_in.tags, str):
         api_in.tags = api_in.tags.split("|")
     await api_controller.update(id=api_id, obj_in=api_in)
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiUpdateOne, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog,
+        log_detail_type=LogDetailType.ApiUpdateOne,
+        by_user_id=0,
+    )
     return Success(msg="Update Successfully", data={"updated_id": api_id})
 
 
 @router.delete("/apis/{api_id}", summary="删除API")
 async def _(
-        api_id: int,
+    api_id: int,
 ):
     await api_controller.remove(id=api_id)
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiDeleteOne, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog,
+        log_detail_type=LogDetailType.ApiDeleteOne,
+        by_user_id=0,
+    )
     return Success(msg="Deleted Successfully", data={"deleted_id": api_id})
 
 
@@ -140,12 +167,18 @@ async def _(ids: str = Query(..., description="API ID列表, 用逗号隔开")):
         api_obj = await Api.get(id=int(api_id))
         await api_obj.delete()
         deleted_ids.append(int(api_id))
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiBatchDelete, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog,
+        log_detail_type=LogDetailType.ApiBatchDelete,
+        by_user_id=0,
+    )
     return Success(msg="Deleted Successfully", data={"deleted_ids": deleted_ids})
 
 
 @router.post("/apis/refresh/", summary="刷新API列表")
 async def _():
     await refresh_api_list()
-    await insert_log(log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiRefresh, by_user_id=0)
+    await insert_log(
+        log_type=LogType.UserLog, log_detail_type=LogDetailType.ApiRefresh, by_user_id=0
+    )
     return Success()

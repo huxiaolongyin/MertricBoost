@@ -29,8 +29,11 @@ async def _(
     if status:
         q &= Q(status__contains=status)
 
-    total, role_objs = await role_controller.list(
-        page=current, page_size=size, search=q, order=["id"]
+    total, role_objs = await role_controller.get_list(
+        page=current,
+        page_size=size,
+        search=q,
+        order=["id"],
     )
     records = [
         await role_obj.to_dict(exclude_fields=["role_desc"]) for role_obj in role_objs

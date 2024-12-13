@@ -55,7 +55,7 @@ async def _(
     if createBy:
         q &= Q(create_by__user_name=createBy)
 
-    total, metric_objs = await metric_controller.list(
+    total, metric_objs = await metric_controller.get_list(
         page=1,
         page_size=10,
         search=q,
@@ -139,7 +139,7 @@ async def _(
     if id:
         q &= Q(id=id)
 
-    total, metric_objs = await metric_controller.list(
+    total, metric_objs = await metric_controller.get_list(
         page=1,
         page_size=10,
         search=q,

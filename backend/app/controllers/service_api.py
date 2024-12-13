@@ -77,15 +77,13 @@ class ServiceApiController(CRUDBase[ServiceApi, ServiceApiCreate, ServiceApiUpda
         """
         通过API名称获取API
         """
-        api = await self.model.get_or_none(api_name=api_name)
-        return api
+        return await self.model.get_or_none(api_name=api_name)
 
     async def get_api_by_path(self, api_path: str) -> ServiceApi:
         """
         通过API路径获取API
         """
-        api = await self.model.get_or_none(api_path=api_path)
-        return api
+        return await self.model.get_or_none(api_path=api_path)
 
     async def update(self, id, obj_in: ServiceApiUpdate) -> ServiceApi:
         """

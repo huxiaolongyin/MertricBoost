@@ -6,6 +6,7 @@ from .system_manage import router_system
 from .metric import router_metric
 from .asset import router_asset
 from .service import router_service
+from .report import router_report
 
 v1_router = APIRouter()
 
@@ -15,3 +16,4 @@ v1_router.include_router(router_system, prefix="/system-manage", tags=["系统�
 v1_router.include_router(router_metric, prefix="/metric", tags=["指标管理"])
 v1_router.include_router(router_asset, prefix="/asset", tags=["数据资产"])
 v1_router.include_router(router_service, prefix="/service", tags=["数据服务"])
+v1_router.include_router(router_report, tags=["报表管理"])

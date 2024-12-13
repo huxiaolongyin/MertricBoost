@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
@@ -15,7 +15,7 @@ class MetricBase(BaseModel):
     chart_display_date: int = Field(alias="chartDisplayDate")
     # favorite_status: str = Field(alias="favoriteStatus")
     publish_status: str = Field(alias="publishStatus")
-    create_by: Annotated[str, Field(alias="createBy")] = None
+    create_by: Annotated[Any, Field(alias="createBy")] = None
 
 
 class MetricSearch(BaseModel):

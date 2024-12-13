@@ -25,27 +25,31 @@ async def _(
     if databaseName:
         q &= Q(database_name__contains=databaseName)
     if databaseType:
-        q &= Q(database_type__contains=databaseType)
+        q &= Q(database_type=databaseType)
     if status:
-        q &= Q(status__contains=status)  # 等同于 SQL: WHERE status LIKE '%status%'
+        q &= Q(status=status)  # 等同于 SQL: WHERE status LIKE '%status%'
     if createBy:
         q &= Q(create_by__user_name=createBy)
 
-    total, database_objs = await database_controller.list(
-        page=current, page_size=size, search=q, order=["id"]
+    total, database_objs = await database_controller.get_list(
+        page=current,
+        page_size=size,
+        search=q,
+        order=["id"],
     )
     records = [
         await database_obj.to_dict(exclude_fields=["password"])
         for database_obj in database_objs
     ]
 
-    data = {"records": records}
     await insert_log(
         log_type=LogType.SystemLog,
         log_detail_type=LogDetailType.DataBaseGet,
         by_user_id=0,
     )
-    return SuccessExtra(data=data, total=total, current=current, size=size)
+    return SuccessExtra(
+        data={"records": records}, total=total, current=current, size=size
+    )
 
 
 @router.post("/databases", summary="创建数据库连接")
@@ -82,7 +86,7 @@ async def _(
 async def _(
     database_id: int,
 ):
-    await database_controller.remove(database_id=database_id)
+    await database_controller.remove(id=database_id)
     await insert_log(
         log_type=LogType.SystemLog,
         log_detail_type=LogDetailType.DataBaseDelete,

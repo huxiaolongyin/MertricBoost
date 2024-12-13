@@ -25,7 +25,7 @@ class MetricTagController(CRUDBase[MetricTag, MetricTagCreate, MetricTagUpdate])
     def __init__(self):
         super().__init__(model=MetricTag)
 
-    async def list(self, metric_ids: list) -> list[MetricTag]:
+    async def get_list(self, metric_ids: list) -> list[MetricTag]:
         query = self.model.filter(metric_id__in=metric_ids).select_related(
             "tag", "create_by"
         )

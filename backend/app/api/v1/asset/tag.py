@@ -19,8 +19,11 @@ async def _(
     q = Q()
     if createBy:
         q &= Q(create_by__user_name=createBy)
-    total, tag_objs = await tag_controller.list(
-        page=current, page_size=size, search=q, order=["id"]
+    total, tag_objs = await tag_controller.get_list(
+        page=current,
+        page_size=size,
+        search=q,
+        order=["id"],
     )
     records = []
     for tag_obj in tag_objs:
@@ -53,7 +56,7 @@ async def _(tag_id: int, tag_in: TagUpdate):
 @router.delete("/tag/{tag_id}", summary="删除标签信息")
 async def _(tag_id: int):
     # 如果存在标签指标关联，则不允许删除
-    metric_tag_objs = await metric_tag_controller.list(metric_ids=[tag_id])
+    metric_tag_objs = await metric_tag_controller.get_list(metric_ids=[tag_id])
     if metric_tag_objs:
         return Fail(msg="存在标签指标关联，不允许删除")
     await tag_controller.remove(tag_id=tag_id)
@@ -69,7 +72,7 @@ async def _(tag_id: int):
 async def _(
     metric_ids: List[int] = Query(None),
 ):
-    total, metric_tag_objs = await metric_tag_controller.list(metric_ids)
+    total, metric_tag_objs = await metric_tag_controller.get_list(metric_ids)
 
     data = {"records": metric_tag_objs}
     await insert_log(LogType.SystemLog, LogDetailType.MetricTagGet, by_user_id=0)

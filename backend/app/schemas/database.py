@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any
 from pydantic import BaseModel, Field, ConfigDict
 from app.models.system import StatusType
 
@@ -13,7 +13,7 @@ class DatabaseBase(BaseModel):
     database_database: str = Field(alias="databaseDatabase")
     status: Annotated[StatusType | None, Field()] = StatusType.enable
     database_description: Annotated[str | None, Field()] = None
-    create_by: Annotated[str, Field(alias="createBy")] = None
+    create_by: Annotated[Any, Field(alias="createBy")] = None
 
     # 允许原始名称和别名来访问和设置字段值
     model_config = ConfigDict(populate_by_name=True)

@@ -30,7 +30,7 @@ async def _(
         total, data = cache[cache_key]
     else:
         # return SuccessExtra(data=data, total=total, current=current, size=size)
-        total, data_domain_objs = await data_domain_controller.list(
+        total, data_domain_objs = await data_domain_controller.get_list(
             page=current,
             page_size=size,
             search=q,
@@ -97,7 +97,7 @@ async def _(
     # 使用 &= 运算符来添加条件，相当于 AND 操作
     if createBy:
         q &= Q(create_by__user_name=createBy)
-    total, topic_domain_objs = await topic_domain_controller.list(
+    total, topic_domain_objs = await topic_domain_controller.get_list(
         page=current,
         page_size=size,
         search=q,

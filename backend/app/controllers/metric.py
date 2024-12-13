@@ -126,7 +126,9 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         """
         # 获取指标的标签
 
-        _, metric_tag_objs = await metric_tag_controller.list(metric_ids=[metric.id])
+        _, metric_tag_objs = await metric_tag_controller.get_list(
+            metric_ids=[metric.id]
+        )
 
         metric.tags = next(
             (item["tags"] for item in metric_tag_objs if "tags" in item), []
@@ -205,7 +207,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             return "查询错误"
 
     @classmethod
-    async def list(
+    async def get_list(
         cls,
         page: int,
         page_size: int,
