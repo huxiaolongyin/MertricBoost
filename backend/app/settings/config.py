@@ -98,6 +98,7 @@ class Settings(BaseSettings):
                     "app.models.metric",
                     "app.models.asset",
                     "app.models.service",
+                    "app.models.report",
                 ],
                 "default_connection": "conn_system",
             },
