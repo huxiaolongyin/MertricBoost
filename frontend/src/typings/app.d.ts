@@ -296,6 +296,7 @@ declare namespace App {
       common: {
         action: string;
         add: string;
+        append: string;
         addSuccess: string;
         backToHome: string;
         batchDelete: string;
@@ -625,6 +626,33 @@ declare namespace App {
               tagName: string;
               tagType: string;
               tagDesc: string;
+            };
+          };
+        };
+        service: {
+          serviceApi: {
+            title: string;
+            addApi: string;
+            editApi: string;
+            apiName: string;
+            apiDesc: string;
+            apiMethod: string;
+            status: string;
+            apiPath: string;
+            metricName: string;
+            appName: string;
+            form: {
+              apiName: string;
+              apiDesc: string;
+              apiMethod: string;
+              apiPath: string;
+              status: string;
+              metricName: string;
+              appName: string;
+              baseInfo: string;
+              paramSetting: string;
+              paramAddTitle: string;
+              paramEditTitle: string;
             };
           };
         };

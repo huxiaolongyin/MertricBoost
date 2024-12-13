@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query, Body
 from tortoise.expressions import Q
-from app.schemas.base import SuccessExtra, Success, Error
+from app.schemas.base import SuccessExtra, Success, Fail
 from app.controllers import service_app_controller
 from app.models.system import LogType, LogDetailType, User
 from app.api.v1.utils import insert_log
@@ -9,7 +9,7 @@ from app.schemas.service_app import ServiceAppCreate, ServiceAppUpdate
 router = APIRouter()
 
 
-@router.get("/app", summary="获取应用列表")
+@router.get("/apps", summary="获取应用列表")
 async def _(
     current: int = Query(1, description="页码"),
     size: int = Query(10, description="每页数量"),
@@ -20,7 +20,7 @@ async def _(
 ):
     user = await User.get_or_none(user_name=userName)
     if not user:
-        return Error(msg="用户不存在")
+        return Fail(msg="用户不存在")
     q = Q()
     if appName:
         q &= Q(app_name__contains=appName)
@@ -33,7 +33,12 @@ async def _(
         page_size=size,
         search=q,
     )
-    data = {"records": [await app_obj.to_dict() for app_obj in app_objs]}
+    records = []
+    for app_obj in app_objs:
+        app_dict = await app_obj.to_dict()
+        app_dict["createBy"] = app_obj.create_by.user_name
+        records.append(app_dict)
+
     await insert_log(
         log_type=LogType.SystemLog,
         log_detail_type=LogDetailType.ServiceAppGet,
@@ -41,21 +46,39 @@ async def _(
     )
     return SuccessExtra(
         code=LogDetailType.ServiceAppGet.value,
-        data=data,
+        data={"records": records},
         total=total,
         current=current,
         size=size,
     )
 
 
-@router.post("/app", summary="创建应用")
+@router.get("/apps/{id}", summary="获取应用详情")
+async def _(
+    id: int,
+):
+    app_obj = await service_app_controller.get(id)
+    if not app_obj:
+        return Fail(msg="应用不存在")
+    apis = await app_obj.apis.all()
+    app_dict = await app_obj.to_dict()
+    apis = [(api.id, api.api_name) for api in apis]
+    app_dict["apis"] = apis
+
+    return Success(
+        code=LogDetailType.ServiceAppGet.value,
+        data={"records": app_dict},
+    )
+
+
+@router.post("/apps", summary="创建应用")
 async def _(
     app_in: ServiceAppCreate,
 ):
     # 校验应用名称是否重复
     app_obj = await service_app_controller.get_app_by_name(app_in.app_name)
     if app_obj:
-        return Error(msg="应用名称已存在")
+        return Fail(msg="应用名称已存在")
     app_obj = await service_app_controller.create(app_in)
     await insert_log(
         log_type=LogType.SystemLog,
@@ -69,7 +92,7 @@ async def _(
     )
 
 
-@router.patch("/app/{id}", summary="更新应用")
+@router.patch("/apps/{id}", summary="更新应用")
 async def _(
     id: int,
     app_in: ServiceAppUpdate = Body(description="应用信息"),
@@ -87,20 +110,20 @@ async def _(
     )
 
 
-@router.delete("/app/{id}", summary="删除应用")
+@router.delete("/apps/{id}", summary="删除应用")
 async def _(
     id: int,
-    userName: str = Query(None, description="用户名"),
+    # userName: str = Query(None, description="用户名"),
 ):
-    user = await User.get_or_none(user_name=userName)
-    if not user:
-        return Error(msg="用户不存在")
+    # user = await User.get_or_none(user_name=userName)
+    # if not user:
+    #     return Fail(msg="用户不存在")
     await service_app_controller.remove(id)
-    await insert_log(
-        log_type=LogType.SystemLog,
-        log_detail_type=LogDetailType.ServiceAppDelete,
-        by_user_id=user.id,
-    )
+    # await insert_log(
+    #     log_type=LogType.SystemLog,
+    #     log_detail_type=LogDetailType.ServiceAppDelete,
+    #     by_user_id=user.id,
+    # )
     return Success(
         code=LogDetailType.ServiceAppDelete.value,
         msg="删除成功",

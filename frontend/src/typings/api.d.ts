@@ -16,7 +16,7 @@ declare namespace Api {
       /** total count */
       total: number;
 
-      userName: string
+      userName: string;
     }
 
     /** 分页查询列表数据常用参数 */
@@ -167,14 +167,14 @@ declare namespace Api {
         | 'createBy'
         | 'displayStatus'
       > &
-      Api.Common.CommonSearchParams & {
-        dateRange: [number, number];
-        dimensionDrillDown: string; // 发送给接口的参数
-        dimensionFilter: string;
-        comparisonOperators: string;
-        conditions: string[];
-        sort: Sort;
-      }
+        Api.Common.CommonSearchParams & {
+          dateRange: [number, number];
+          dimensionDrillDown: string; // 发送给接口的参数
+          dimensionFilter: string;
+          comparisonOperators: string;
+          conditions: string[];
+          sort: Sort;
+        }
     >;
 
     type Sort = 'asc' | 'desc';
@@ -246,17 +246,6 @@ declare namespace Api {
       metricId: number;
       tag: string;
     };
-
-
-    type ParamValue = {
-      paramName: string | null;
-      paramLoc?: string | null;
-      paramType: string | null;
-      isRequired: boolean;
-      example: string | null;
-      paramDesc: string | null;
-    };
-
   }
 
   /**
@@ -265,7 +254,7 @@ declare namespace Api {
    * 后端 API 模块：“DataService”
    */
   namespace DataService {
-    type Method = 'get' | 'post'
+    type Method = 'get' | 'post';
 
     type ServiceApi = Common.CommonRecord<{
       id: number;
@@ -274,28 +263,25 @@ declare namespace Api {
       apiDesc: string;
       apiPath: string;
       apiMethod: Method;
+      appName: string;
       appId: number;
+      status: string;
       createBy: string;
       createTime: string;
       updateTime: string;
     }>;
 
-    type ServiceApiParams = {
-      paramName: string;
-      paramLoc?: string;
-      paramType: string;
-      paramDesc: string;
-      isRequired: boolean;
-      default: string;
-      example: string;
-    };
-
     // api 搜索参数
-    type ServiceApiSearchParams = CommonType.RecordNullable<Pick<ServiceApi, 'apiName' | 'apiDesc' | 'apiPath' | 'status' | 'apiMethod' | 'createBy'> & Api.Common.CommonSearchParams>;
-
+    type ServiceApiSearchParams = CommonType.RecordNullable<
+      Pick<ServiceApi, 'metricName' | 'apiName' | 'status' | 'apiMethod' | 'appName' | 'createBy'> &
+        Api.Common.CommonSearchParams
+    >;
 
     // api 添加参数
-    type ServiceApiAddParams = CommonType.RecordNullable<Pick<ServiceApi, 'metricName' | 'apiName' | 'apiDesc' | 'apiPath' | 'status' | 'apiMethod' | 'createBy' | 'appId'>> & {
+    type ServiceApiAddParams = CommonType.RecordNullable<
+      Pick<ServiceApi, 'metricName' | 'apiName' | 'apiDesc' | 'apiPath' | 'apiMethod' | 'createBy' | 'appName'>
+    > & {
+      status: Api.Common.EnableStatus;
       params: ServiceApiParams[];
     };
 
@@ -316,33 +302,64 @@ declare namespace Api {
           apiPath: string;
           apiMethod: Method;
           appId: number;
+          status: string;
           createBy: string;
           createTime: string;
           updateTime: string;
           params: ServiceApiParams[];
         }
-      ]
+      ];
     };
 
+    type ServiceApiParams = {
+      id: number;
+      paramName: string;
+      paramLoc?: string;
+      paramType: string;
+      paramDesc: string;
+      isRequired: number;
+      default: string;
+      example: string;
+    };
+
+    type ServiceApiParamsUpdateParams = CommonType.RecordNullable<ServiceApiParams>;
 
     // APP
     type ServiceApp = Common.CommonRecord<{
       id: number;
       appName: string;
       appDesc: string;
+      status: Api.Common.EnableStatus;
+      appKey: string;
+      appSecret: string;
+      createBy: string;
     }>;
 
     // app 搜索参数
-    type ServiceAppSearchParams = CommonType.RecordNullable<Pick<ServiceApp, 'status' | 'appName' | 'createBy'> & Api.Common.CommonSearchParams>;
+    type ServiceAppSearchParams = CommonType.RecordNullable<
+      Pick<ServiceApp, 'status' | 'appName' | 'createBy'> & Api.Common.CommonSearchParams
+    >;
 
     // app 添加参数
-    type ServiceAppAddParams = CommonType.RecordNullable<Pick<ServiceApp, 'appName' | 'appDesc'>>;
+    type ServiceAppAddParams = CommonType.RecordNullable<
+      Pick<ServiceApp, 'appName' | 'appDesc' | 'appKey' | 'appSecret' | 'status' | 'createBy'>
+    >;
 
     // app 更新参数
     type ServiceAppUpdateParams = CommonType.RecordNullable<Pick<ServiceApp, 'id'>> & ServiceAppAddParams;
 
     // app 列表
     type ServiceAppList = Common.PaginatingQueryRecord<ServiceApp>;
+
+    type ServiceAppDetail = {
+      records: [
+        {
+          id: number;
+          appName: string;
+          appDesc: string;
+        }
+      ];
+    };
   }
 
   /**
@@ -518,7 +535,7 @@ declare namespace Api {
     /** log search params */
     type LogSearchParams = CommonType.RecordNullable<
       Pick<Log, 'logType' | 'logUser' | 'logDetailType' | 'requestUrl' | 'createTime' | 'responseCode'> &
-      Common.CommonSearchParams & { timeRange: string }
+        Common.CommonSearchParams & { timeRange: string }
     >;
 
     /** log list */
@@ -563,7 +580,7 @@ declare namespace Api {
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
       Pick<User, 'userName' | 'password' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'> &
-      Common.CommonSearchParams
+        Common.CommonSearchParams
     >;
 
     /** user list */
@@ -833,4 +850,3 @@ declare namespace Api {
     type TableColumnsList = Common.PaginatingQueryRecord<TableColumns>;
   }
 }
-

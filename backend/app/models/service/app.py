@@ -9,7 +9,7 @@ class ServiceApp(BaseModel, TimestampMixin):
     id = fields.IntField(primary_key=True)
     app_name = fields.CharField(max_length=50, unique=True, description="应用名称")
     app_desc = fields.CharField(max_length=255, description="应用描述")
-    status = fields.IntField(default=2, description="应用状态")
+    status = fields.CharField(default="2", max_length=50, description="应用状态")
     app_key = fields.CharField(max_length=255, unique=True, description="应用key")
     app_secret = fields.CharField(max_length=255, description="应用密钥")
     create_by = fields.ForeignKeyField(

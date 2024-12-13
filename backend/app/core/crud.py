@@ -1,5 +1,4 @@
-from typing import Any, Generic, NewType, TypeVar
-
+from typing import Any, Generic, NewType, TypeVar, Optional, List
 from pydantic import BaseModel
 from pydantic.main import IncEx
 from tortoise.expressions import Q
@@ -18,12 +17,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def get(self, id: int) -> ModelType:
         return await self.model.get(id=id)
 
-    async def list(
+    async def get_list(
         self,
         page: int,
         page_size: int,
         search: Q = Q(),
         order: list[str] | None = None,
+        prefetch: Optional[List[str]] = None,
     ) -> tuple[Total, list[ModelType]]:
         if order is None:
             order = []
@@ -31,6 +31,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         query = self.model.filter(search)
 
         total = await query.count()
+
+        if prefetch:
+            query = query.prefetch_related(*prefetch)
+
         result = (
             await query.offset((page - 1) * page_size).limit(page_size).order_by(*order)
         )

@@ -68,6 +68,7 @@
     "jsbarcode": "3.11.6",
     "json5": "2.2.3",
     "naive-ui": "2.40.1",
+    "nanoid": "5.0.7",
     "nprogress": "0.2.0",
     "pinia": "2.2.4",
     "pinyin-pro": "3.24.2",
@@ -131,4 +132,3 @@
   },
   "website": "https://admin.soybeanjs.cn"
 }
-

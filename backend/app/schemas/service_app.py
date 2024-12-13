@@ -1,4 +1,4 @@
-from typing import Annotated, Union
+from typing import Annotated, Any
 from pydantic import BaseModel, Field
 from app.models.system import StatusType
 
@@ -9,7 +9,7 @@ class ServiceAppBase(BaseModel):
     status: Annotated[StatusType | None, Field(alias="status")] = StatusType.enable
     app_key: str = Field(alias="appKey")
     app_secret: str = Field(alias="appSecret")
-    create_by: Annotated[Union[str, int], Field(alias="createBy")] = None
+    create_by: Annotated[Any, Field(alias="createBy")] = None
 
 
 class ServiceAppCreate(ServiceAppBase): ...

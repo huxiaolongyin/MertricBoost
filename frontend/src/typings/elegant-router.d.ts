@@ -67,11 +67,7 @@ declare module "@elegant-router/types" {
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
     "metric": "/metric";
-    "metric-ai": "/metric-ai/:id";
-    "metric-detail": "/metric-detail/:id";
     "metric-exploration": "/metric-exploration/:id";
-    "metric-publish": "/metric-publish/:id";
-    "metric-report": "/metric-report/:id";
     "plugin": "/plugin";
     "plugin_barcode": "/plugin/barcode";
     "plugin_charts": "/plugin/charts";
@@ -156,11 +152,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "manage"
     | "metric"
-    | "metric-ai"
-    | "metric-detail"
     | "metric-exploration"
-    | "metric-publish"
-    | "metric-report"
     | "plugin"
     | "report"
     | "service"
@@ -215,11 +207,7 @@ declare module "@elegant-router/types" {
     | "manage_role"
     | "manage_user-detail"
     | "manage_user"
-    | "metric-ai"
-    | "metric-detail"
     | "metric-exploration"
-    | "metric-publish"
-    | "metric-report"
     | "metric"
     | "plugin_barcode"
     | "plugin_charts_antv"
