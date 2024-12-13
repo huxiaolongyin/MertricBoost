@@ -1,5 +1,5 @@
 from tortoise.expressions import Q
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Body
 from app.schemas.base import SuccessExtra, Success, Error
 from app.schemas.service_api import ServiceApiCreate
 from app.controllers.service_api import ServiceApiController
@@ -70,13 +70,28 @@ async def _(id: int):
 
 @router.post("/api", summary="创建指标发布分享")
 async def _(metric_api_in: ServiceApiCreate):
+    # 判断API是否已经存在
+    api_name = metric_api_in.api_name
+    existing_api = await ServiceApiController().get_api_by_name(api_name)
+    if existing_api:
+        return Error(msg="API名称已存在")
+
+    # 判断路径是否已经存在
+    api_path = metric_api_in.api_path
+    existing_api = await ServiceApiController().get_api_by_path(api_path)
+    if existing_api:
+        return Error(msg="API路径已存在")
+
     new_metric_api = await ServiceApiController().create(obj_in=metric_api_in)
 
     return Success(msg="创建成功", data={"create_id": new_metric_api.id})
 
 
 @router.patch("/api/{id}", summary="更新指标发布分享")
-async def _(id: int, metric_api_in: ServiceApiCreate):
+async def _(
+    id: int,
+    metric_api_in: ServiceApiCreate = Body(description="接口信息"),
+):
     await ServiceApiController().update(id=id, obj_in=metric_api_in)
     return Success(msg="更新成功", data={"update_id": id})
 

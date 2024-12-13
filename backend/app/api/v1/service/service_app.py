@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Body
 from tortoise.expressions import Q
 from app.schemas.base import SuccessExtra, Success, Error
 from app.controllers import service_app_controller
@@ -52,6 +52,10 @@ async def _(
 async def _(
     app_in: ServiceAppCreate,
 ):
+    # 校验应用名称是否重复
+    app_obj = await service_app_controller.get_app_by_name(app_in.app_name)
+    if app_obj:
+        return Error(msg="应用名称已存在")
     app_obj = await service_app_controller.create(app_in)
     await insert_log(
         log_type=LogType.SystemLog,
@@ -65,10 +69,10 @@ async def _(
     )
 
 
-@router.put("/app/{id}", summary="更新应用")
+@router.patch("/app/{id}", summary="更新应用")
 async def _(
     id: int,
-    app_in: ServiceAppUpdate,
+    app_in: ServiceAppUpdate = Body(description="应用信息"),
 ):
     app_obj = await service_app_controller.update(id, app_in)
     await insert_log(
@@ -84,7 +88,10 @@ async def _(
 
 
 @router.delete("/app/{id}", summary="删除应用")
-async def _(id: int, userName: str = Query(None, description="用户名")):
+async def _(
+    id: int,
+    userName: str = Query(None, description="用户名"),
+):
     user = await User.get_or_none(user_name=userName)
     if not user:
         return Error(msg="用户不存在")

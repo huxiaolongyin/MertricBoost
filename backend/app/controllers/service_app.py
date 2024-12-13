@@ -47,6 +47,12 @@ class ServiceAppController(CRUDBase[ServiceApp, ServiceAppCreate, ServiceAppUpda
         obj_in.create_by = await User.get(user_name=obj_in.create_by)
         return await super().create(obj_in, exclude)
 
+    async def get_app_by_name(self, app_name: str) -> ServiceApp:
+        """
+        根据应用名称获取应用
+        """
+        return await self.model.get_or_none(app_name=app_name)
+
     async def update(self, id, obj_in: ServiceAppUpdate, exclude=None):
         """
         更新应用
