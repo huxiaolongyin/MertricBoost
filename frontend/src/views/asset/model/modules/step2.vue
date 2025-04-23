@@ -3,7 +3,7 @@ import { NInput, NSelect } from 'naive-ui';
 import { onMounted } from 'vue';
 import { fetchTableColumns } from '@/service/api';
 import { useDataModelFormStore } from '@/store/modules/model';
-
+import { dateFormatOptions, metricFormatOptions, metricStaticOptions, staticTypeOptions } from '@/constants/options';
 defineOptions({
   name: 'ModelStep2'
 });
@@ -17,33 +17,6 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const staticTypeOptions = [
-  { label: '日期', value: 'date' },
-  { label: '维度', value: 'dim' },
-  { label: '指标', value: 'metric' },
-  { label: '普通', value: 'none' }
-];
-
-const dateFormatOptions = [
-  { label: 'YYYY-MM-DD', value: '%Y-%m-%d' },
-  { label: 'YYYY/MM/DD', value: '%Y/%m/%d' },
-  { label: 'YYYY年MM月DD日', value: '%Y年%m月%d日' }
-];
-
-const metricStaticOptions = [
-  { label: '平均值', value: 'avg' },
-  { label: '最大值', value: 'max' },
-  { label: '最小值', value: 'min' },
-  { label: '总和', value: 'sum' },
-  { label: '计数', value: 'count' }
-];
-
-const formatOptions = [
-  { label: '数值', value: 'number' },
-  { label: '货币', value: 'currency' },
-  { label: '百分比', value: 'percent' },
-  { label: '流量', value: 'flow' }
-];
 // 获取表的字段信息
 const fetchColumns = async () => {
   if (!dataModelFormStore.stepOne.databaseId || !dataModelFormStore.stepOne.tableName) {
@@ -143,7 +116,7 @@ const columns = [
         return (
           <NSelect
             v-model:value={row.format}
-            options={formatOptions}
+            options={metricFormatOptions}
             placeholder="请选择指标格式"
             onUpdate:value={value => {
               row.format = value;

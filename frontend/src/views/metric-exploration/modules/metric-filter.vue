@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import type { SelectOption } from 'naive-ui';
 import { reactive, ref, watch } from 'vue';
+import { filterOptions, sortOptions, statisticalPeriodOptions } from '@/constants/options';
 
 // 定义组件的名称
 defineOptions({
@@ -22,29 +23,6 @@ const filter = reactive<{
 // 双向绑定数据
 const metricData = defineModel<Api.Metric.MetricData>('metricData', { required: true });
 const searchDetailParams = defineModel<Api.Metric.MetricDetailSearchParams>('searchDetailParams', { required: true });
-
-// 添加维度筛选options
-const FilterOptions: SelectOption[] = [
-  { label: '=', value: '=' },
-  { label: '!=', value: '!=' },
-  { label: 'IN', value: 'in' },
-  { label: 'NOT IN', value: 'not in' }
-];
-
-// 添加统计周期筛选options
-const StatisticalPeriodOptions: SelectOption[] = [
-  { label: '日', value: 'daily' },
-  { label: '周', value: 'weekly' },
-  // { label: "季度", value: "quarter" },
-  { label: '月', value: 'monthly' },
-  { label: '年', value: 'yearly' }
-];
-
-// 升序或者降序
-const sortOptions: SelectOption[] = [
-  { label: '升序', value: 'ASC' },
-  { label: '降序', value: 'DESC' }
-];
 
 // 添加维度筛选框
 const conditionOptions = ref<SelectOption[]>([]);
@@ -137,7 +115,7 @@ watch(
           <NFormItem label="统计周期：" label-placement="left" class="ml-5 w-2/12">
             <NSelect
               v-model:value="searchDetailParams.statisticalPeriod"
-              :options="StatisticalPeriodOptions"
+              :options="statisticalPeriodOptions"
               clearable
             />
           </NFormItem>
@@ -161,7 +139,7 @@ watch(
         <NFormItem label="维度筛选：" label-placement="left">
           <NFlex :size="5" class="w-full">
             <NSelect v-model:value="filter.dim" class="w-2/12" clearable :options="metricData.dimCols" />
-            <NSelect v-model:value="filter.operator" class="w-1/12" clearable :options="FilterOptions" />
+            <NSelect v-model:value="filter.operator" class="w-1/12" clearable :options="filterOptions" />
             <NSelect
               v-model:value="filter.value"
               class="w-2/12"

@@ -14,7 +14,7 @@ class Metric(BaseModel, TimestampMixin):
     metric_name = fields.CharField(max_length=100, description="指标名称")
     metric_desc = fields.CharField(max_length=500, description="指标描述/业务口径")
     statistical_period = fields.CharEnumField(StatisticalPeriod, description="统计周期")
-    statistic_scope = fields.IntField(description="统计范围")
+    statistic_scope = fields.IntField(description="统计范围", null=True)
     chart_type = fields.CharEnumField(ChartType, description="图表类型")
     sensitivity = fields.CharEnumField(Sensitivity, description="敏感度")
 

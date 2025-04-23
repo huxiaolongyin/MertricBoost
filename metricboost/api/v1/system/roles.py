@@ -141,7 +141,6 @@ async def _(role_id: int):
 
 @router.patch("/roles/{role_id}/menus", summary="更新角色菜单")
 async def _(role_id: int, role_in: RoleUpdateAuthrization):
-    print(role_in)
     if role_in.role_home is not None:
         role_obj = await role_controller.update(
             id=role_id, obj_in=dict(role_home=role_in.role_home)
@@ -150,7 +149,6 @@ async def _(role_id: int, role_in: RoleUpdateAuthrization):
             await role_obj.menus.clear()
             for menu_id in role_in.menu_ids:
                 menu_objs = [await menu_controller.get(id=menu_id)]
-                print(menu_objs)
                 if not menu_objs:
                     raise Exception(msg="菜单不存在", code=400)
                 while len(menu_objs) > 0:
@@ -235,7 +233,6 @@ async def _(role_id: int, role_in: RoleUpdateAuthrization):
     role_obj = await role_controller.get(id=role_id)
     if role_in.api_ids is None:
         return Error(msg="No APIs to update")
-    print(role_in.api_ids)
     await role_obj.apis.clear()
     for api_id in role_in.api_ids:
         api_obj = await Api.get(id=api_id)

@@ -13,7 +13,9 @@ class MetricBase(BaseModel):
     statistical_period: StatisticalPeriod = Field(
         ..., description="统计周期", alias="statisticalPeriod"
     )
-    statistic_scope: int = Field(..., description="统计范围", alias="statisticScope")
+    statistic_scope: Optional[int] = Field(
+        None, description="统计范围", alias="statisticScope"
+    )
     chart_type: ChartType = Field(..., description="图表类型", alias="chartType")
     sensitivity: Sensitivity = Field(..., description="敏感度")
     update_by_id: Optional[int] = Field(None, description="更新人", alias="updateById")

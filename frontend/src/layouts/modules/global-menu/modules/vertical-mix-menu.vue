@@ -31,6 +31,7 @@ const {
   getActiveFirstLevelMenuKey
   //
 } = useMixMenuContext();
+
 const { selectedKey } = useMenu();
 
 const inverted = computed(() => !themeStore.darkMode && themeStore.sider.inverted);
@@ -93,12 +94,16 @@ watch(
       </FirstLevelMenu>
       <div
         class="relative h-full transition-width-300"
-        :style="{ width: appStore.mixSiderFixed && hasChildMenus ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
+        :style="{
+          width: appStore.mixSiderFixed && hasChildMenus ? themeStore.sider.mixChildMenuWidth + 'px' : '0px'
+        }"
       >
         <DarkModeContainer
           class="absolute-lt h-full flex-col-stretch nowrap-hidden shadow-sm transition-all-300"
           :inverted="inverted"
-          :style="{ width: showDrawer ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
+          :style="{
+            width: showDrawer ? themeStore.sider.mixChildMenuWidth + 'px' : '0px'
+          }"
         >
           <header class="flex-y-center justify-between px-12px" :style="{ height: themeStore.header.height + 'px' }">
             <h2 class="text-16px text-primary font-bold">{{ $t('system.title') }}</h2>

@@ -53,7 +53,7 @@ const customRoutes: CustomRoute[] = [
         }
       }
     ]
-  },
+  }
   // {
   //   name: 'document',
   //   path: '/document',
@@ -192,7 +192,6 @@ export function createStaticRoutes() {
       authRoutes.push(item);
     }
   });
-
   return {
     constantRoutes,
     authRoutes

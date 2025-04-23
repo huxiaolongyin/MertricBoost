@@ -36,13 +36,13 @@ const rules: FormRules = {
 const {
   options: databaseOptions,
   loading: databaseLoading,
-  fetchOptions: fetchDatabaseOptions
+  fetchOptions: fetchdatabaseOptions
 } = useLoadOptions(() => fetchDatabaseList({ status: '1' }), {
   labelKey: 'name',
   valueKey: 'id'
 });
 
-fetchDatabaseOptions();
+fetchdatabaseOptions();
 
 // 当选中数据库时加载表列表
 const {

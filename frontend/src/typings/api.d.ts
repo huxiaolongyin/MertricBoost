@@ -113,7 +113,7 @@ declare namespace Api {
   namespace Metric {
     type StatisticType = 'sum' | 'avg' | 'max' | 'min' | 'count' | 'default';
 
-    type StatisticalPeriod = 'daily' | 'monthly' | 'yearly';
+    type StatisticalPeriod = 'daily' | 'monthly' | 'yearly' | 'cumulative';
 
     type ChartType = 'bar' | 'line';
 
@@ -126,7 +126,7 @@ declare namespace Api {
       statisticalPeriod: StatisticalPeriod; // 统计周期
       statisticScope: number; // 统计范围
       chartType: ChartType | ''; // 图表类型
-      sensitivity: number; // 敏感等级
+      sensitivity: number | ''; // 敏感等级
       domains: string[]; // 领域
       domainIds: number[]; // 领域ID
       tags: string[]; // 标签

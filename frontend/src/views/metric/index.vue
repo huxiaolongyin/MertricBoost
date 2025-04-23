@@ -21,7 +21,7 @@ const searchParams = ref<Api.Metric.MetricListSearchParams>({
   nameOrDesc: '',
   domainIds: [],
   tagIds: [],
-  sensitivity: null,
+  sensitivity: '',
   page: 1,
   pageSize: 12
 });

@@ -284,6 +284,7 @@ class DomainType(StrEnum):
 
 
 class ChartType(str, Enum):
+    Default = ""
     LINE = "line"
     BAR = "bar"
 
@@ -302,6 +303,7 @@ class StatisticalPeriod(str, Enum):
     monthly = "monthly"  # 月
     quarterly = "quarterly"  # 季度
     yearly = "yearly"  # 年
+    cumulative = "cumulative"  # 累计
 
 
 class EditMode(str, Enum):

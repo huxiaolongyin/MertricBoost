@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { onMounted } from 'vue';
-import { OPTIONS_CONFIG } from '@/constants/options';
+import { orderOptions, sensitiveOptions } from '@/constants/options';
 import { useLoadOptions } from '@/hooks/common/option';
 import { $t } from '@/locales';
 import { fetchGetDomainList, fetchGetTagList } from '@/service/api';
-
 // 定义“搜索”组件的选项
 defineOptions({
   name: 'SearchFilter'
@@ -33,12 +32,6 @@ const {
   labelKey: 'tagName',
   valueKey: 'id'
 });
-
-// 获取排序方式列表
-const orderOptions = [
-  { label: '创建时间升序', value: 'create_time' },
-  { label: '创建时间降序', value: '-create_time' }
-];
 
 onMounted(async () => {
   await fetchDomainOptions();
@@ -91,7 +84,7 @@ onMounted(async () => {
           placeholder="请选择标签"
           :loading="tagLoading"
           clearable
-          class="dark:bg-slate-700"
+          class="w-3/4 dark:bg-slate-700"
         />
       </div>
     </NGi>
@@ -104,7 +97,7 @@ onMounted(async () => {
         </div>
         <NRadioGroup v-model:value="formData!.sensitivity">
           <NRadioButton
-            v-for="item in OPTIONS_CONFIG.sensitive"
+            v-for="item in sensitiveOptions"
             :key="item.value"
             :value="item.value"
             :label="item.label"
@@ -125,9 +118,15 @@ onMounted(async () => {
           :options="orderOptions"
           placeholder="请选择排序方式"
           clearable
-          class="dark:bg-slate-700"
+          class="w-3/4 dark:bg-slate-700"
         />
       </div>
     </NGi>
   </NGrid>
 </template>
+
+<style scoped>
+.search-input {
+  width: 65%;
+}
+</style>

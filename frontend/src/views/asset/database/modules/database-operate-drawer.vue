@@ -5,7 +5,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { fetchAddDatabase, fetchTestDatabase, fetchUpdateDatabase } from '@/service/api';
 import { useAuthStore } from '@/store/modules/auth';
-
+import { databaseOptions } from '@/constants/options';
 // 用户状态，用于获取用户名
 const authStore = useAuthStore();
 
@@ -57,61 +57,6 @@ function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
     createBy: authStore.userInfo.userName
   };
 }
-
-//  数据库类型
-const typeOptions = computed(() => {
-  return [
-    {
-      label: 'MySQL',
-      value: 'MySQL'
-    },
-    {
-      label: 'Oracle',
-      value: 'Oracle'
-    },
-    {
-      label: 'SQL Server',
-      value: 'SQL Server'
-    },
-    {
-      label: 'PostgreSQL',
-      value: 'PostgreSQL'
-    },
-    {
-      label: 'MongoDB',
-      value: 'MongoDB'
-    },
-    {
-      label: 'Redis',
-      value: 'Redis'
-    },
-    {
-      label: 'ClickHouse',
-      value: 'ClickHouse'
-    },
-    {
-      label: 'HBase',
-      value: 'HBase'
-    },
-    {
-      label: 'Hive',
-      value: 'Hive'
-    },
-    {
-      label: 'Elasticsearch',
-      value: 'Elasticsearch'
-    },
-    {
-      label: 'Kafka',
-      value: 'Kafka'
-    },
-    {
-      label: 'RabbitMQ',
-      value: 'RabbitMQ'
-    }
-  ];
-  // return enableStatusOptions;
-});
 
 type RuleKey = Exclude<keyof Api.SystemManage.DatabaseAddParams, 'description' | 'createBy' | 'password'>;
 
@@ -187,7 +132,7 @@ watch(visible, () => {
           <NSelect
             v-model:value="model.type"
             :placeholder="$t('page.dataAsset.database.form.type')"
-            :options="typeOptions"
+            :options="databaseOptions"
           />
         </NFormItem>
 
