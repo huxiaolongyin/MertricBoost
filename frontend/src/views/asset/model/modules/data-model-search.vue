@@ -29,11 +29,8 @@ function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm :model="model" label-placement="left" :label-width="80">
       <NGrid responsive="screen" item-responsive>
-
-        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.dataModel.dataModelName')" path="dataModelName"
-          class="pr-24px">
-          <NInput v-model:value="model.dataModelName"
-            :placeholder="$t('page.dataAsset.dataModel.form.dataModelName')" />
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.dataModel.name')" path="name" class="pr-24px">
+          <NInput v-model:value="model.name" :placeholder="$t('page.dataAsset.dataModel.form.name')" />
         </NFormItemGi>
         <!-- 
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.dataModel.dataDomain')" path="dataDomain"
@@ -44,15 +41,20 @@ function search() {
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.dataModel.topicDomain')" path="topicDomain"
           class="pr-24px">
           <NInput v-model:value="model.topicDomain" :placeholder="$t('page.dataAsset.dataModel.form.topicDomain')" />
-        </NFormItemGi> -->
+        </NFormItemGi> 
+-->
 
         <NFormItemGi span="24 s:12 m:6" :label="$t('common.createBy')" path="createBy" class="pr-24px">
           <NInput v-model:value="model.createBy" :placeholder="$t('page.dataAsset.dataModel.form.createBy')" />
         </NFormItemGi>
 
         <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.dataModel.status')" path="status" class="pr-24px">
-          <NSelect v-model:value="model.status" :placeholder="$t('page.dataAsset.dataModel.form.status')"
-            :options="translateOptions(enableStatusOptions)" clearable />
+          <NSelect
+            v-model:value="model.status"
+            :placeholder="$t('page.dataAsset.dataModel.form.status')"
+            :options="translateOptions(enableStatusOptions)"
+            clearable
+          />
         </NFormItemGi>
 
         <NFormItemGi span="24 s:12 m:6">

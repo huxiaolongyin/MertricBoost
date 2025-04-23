@@ -15,8 +15,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   apiFn: fetchGetApiList,
   showTotal: true,
   apiParams: {
-    current: 1,
-    size: 10,
+    page: 1,
+    pageSize: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
@@ -100,7 +100,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
         }
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
-          2: 'warning'
+          0: 'warning'
         };
         const label = $t(enableStatusRecord[row.status]);
         return <NTag type={tagMap[row.status]}>{label}</NTag>;

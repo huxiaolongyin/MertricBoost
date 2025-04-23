@@ -43,7 +43,7 @@ function search() {
           <NInput v-model:value="model.createBy" />
         </NFormItemGi>
 
-        <NFormItemGi span="24 m:6" class="pr-16px">
+        <NFormItemGi span="24 m:12" class="pr-16px">
           <NFlex class="w-full" justify="end">
             <NButton @click="reset">
               <template #icon>

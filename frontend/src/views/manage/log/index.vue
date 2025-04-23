@@ -15,8 +15,8 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
   apiFn: fetchGetLogList,
   showTotal: true,
   apiParams: {
-    current: 1,
-    size: 10,
+    page: 1,
+    pageSize: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     logType: '1',
@@ -108,19 +108,19 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
     }
   ],
   transformer: res => {
-    const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
+    const { records = [], page = 1, pageSize = 10, total = 0 } = res.data || {};
 
     const recordsWithIndex = records.map((item, index) => {
       return {
         ...item,
-        index: total - (current - 1) * size + index // 倒序展示index
+        index: total - (page - 1) * pageSize + index // 倒序展示index
       };
     });
 
     return {
       data: recordsWithIndex,
-      pageNum: current,
-      pageSize: size,
+      pageNum: page,
+      pageSize,
       total
     };
   }

@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'MetricBoost',
+    title: '数字底座平台',
     updateTitle: '系统版本更新通知',
     updateContent: '检测到系统有新版本发布，是否立即刷新页面？',
     updateConfirm: '立即刷新',
@@ -377,52 +377,51 @@ const local: App.I18n.Schema = {
       }
     },
     metric: {
-      topicDomain: '主题域',
-      displayStatus: '展示类型',
-      publishStatus: '发布状态',
+      metricPlaceholder: '指标名称或描述搜索',
+      domain: '域分类',
+      tag: '标签',
       sensitivity: '敏感度',
-      metricPlaceholder: '指标搜索',
+      order: '排序',
       formTile: {
         modelForm: '模型配置',
         metricForm: '指标配置',
         sensitivityForm: '敏感度配置',
         staticForm: '统计配置',
-        chartForm: '图表配置',
-        publishForm: '发布配置'
+        chartForm: '图表配置'
       }
     },
     dataAsset: {
       database: {
         title: '数据库列表',
-        databaseName: '名称',
-        databaseType: '类型',
-        databaseHost: '主机',
-        databasePort: '端口',
-        databaseDatabase: '数据库',
-        databaseUser: '用户名',
+        name: '名称',
+        type: '类型',
+        host: '主机',
+        port: '端口',
+        databaseId: '数据库',
+        username: '用户名',
         password: '密码',
         createBy: '创建人',
         status: '状态',
-        databaseDesc: '描述',
+        description: '描述',
         addDatabase: '新增数据库',
         editDatabase: '编辑数据库',
         form: {
-          databaseName: '请输入名称',
-          databaseType: '请选择类型',
-          databaseHost: '请输入主机',
-          databasePort: '请输入端口',
-          databaseDatabase: '请输入数据库',
+          name: '请输入名称',
+          type: '请选择类型',
+          host: '请输入主机',
+          port: '请输入端口',
+          database: '请输入数据库',
           status: '请选择状态',
-          databaseUser: '请输入用户名',
+          username: '请输入用户名',
           password: '请输入密码',
-          databaseDesc: '请输入描述',
+          description: '请输入描述',
           createBy: '请输入创建人'
         }
       },
       dataModel: {
         title: '数据模型',
-        dataModelName: '模型名称',
-        dataModelDesc: '模型描述',
+        name: '模型名称',
+        description: '模型描述',
         dataDomain: '数据域',
         topicDomain: '主题域',
         status: '状态',
@@ -433,8 +432,8 @@ const local: App.I18n.Schema = {
         databaseSelect: '数据库',
         tableName: '表名',
         form: {
-          dataModelName: '请输入模型名称',
-          dataModelDesc: '请输入模型描述',
+          name: '请输入模型名称',
+          description: '请输入模型描述',
           dataDomain: '请选择数据域',
           topicDomain: '请选择主题域',
           status: '请选择状态',

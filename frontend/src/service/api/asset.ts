@@ -1,3 +1,4 @@
+import Qs from 'qs';
 import { request } from '../request';
 
 // 获取数据库
@@ -39,7 +40,7 @@ export function fetchDeleteDatabase(data?: Api.Common.CommonDeleteParams) {
 export function fetchTestDatabase(data?: Api.SystemManage.DatabaseTestParams) {
   const params = new URLSearchParams();
   if (data?.id) {
-    params.append('database_id', data?.id.toString());
+    params.append('databaseId', data?.id.toString());
   }
   return request<Api.SystemManage.DatabaseList>({
     url: `/asset/databases/test${params.toString() ? `?${params.toString()}` : ''}`,
@@ -51,7 +52,25 @@ export function fetchTestDatabase(data?: Api.SystemManage.DatabaseTestParams) {
 // 获取数据域信息
 export function fetchGetDataDomainList(params?: Api.SystemManage.DomainSearchParams) {
   return request<Api.SystemManage.DomainList>({
-    url: '/asset/data-domain',
+    url: '/asset/domains?domainType=1',
+    method: 'get',
+    params
+  });
+}
+
+// 获取所有域信息
+export function fetchGetDomainList(params?: Api.SystemManage.DomainSearchParams) {
+  return request<Api.SystemManage.DomainList>({
+    url: '/asset/domains',
+    method: 'get',
+    params
+  });
+}
+
+// 获取主题域信息
+export function fetchGetTopicDomainList(params?: Api.SystemManage.DomainSearchParams) {
+  return request<Api.SystemManage.DomainList>({
+    url: '/asset/domains?domainType=2',
     method: 'get',
     params
   });
@@ -60,70 +79,53 @@ export function fetchGetDataDomainList(params?: Api.SystemManage.DomainSearchPar
 // 添加数据域信息
 export function fetchAddDataDomain(data?: Api.SystemManage.DomainAddParams) {
   return request<Api.SystemManage.DomainList, 'json'>({
-    url: '/asset/data-domain',
+    url: '/asset/domains',
     method: 'post',
-    data
-  });
-}
-
-// 更新数据域信息
-export function fetchUpdateDataDomain(data?: Api.SystemManage.DomainUpdateParams) {
-  return request<Api.SystemManage.DomainList, 'json'>({
-    url: `/asset/data-domain/${data?.id}`,
-    method: 'patch',
-    data
-  });
-}
-
-// 删除数据域信息
-export function fetchDeleteDataDomain(data?: Api.Common.CommonDeleteParams) {
-  return request<Api.SystemManage.DomainList>({
-    url: `/asset/data-domain/${data?.id}`,
-    method: 'delete'
-  });
-}
-
-// 获取主题域信息
-export function fetchGetTopicDomainList(params?: Api.SystemManage.DomainSearchParams) {
-  return request<Api.SystemManage.DomainList>({
-    url: '/asset/topic-domain',
-    method: 'get',
-    params
+    data: {
+      ...data,
+      domainType: '1'
+    }
   });
 }
 
 // 添加主题域信息
 export function fetchAddTopicDomain(data?: Api.SystemManage.DomainAddParams) {
   return request<Api.SystemManage.DomainList, 'json'>({
-    url: '/asset/topic-domain',
+    url: '/asset/domains',
     method: 'post',
-    data
+    data: {
+      ...data,
+      domainType: '2'
+    }
   });
 }
 
-// 更新主题域信息
-export function fetchUpdateTopicDomain(data?: Api.SystemManage.DomainUpdateParams) {
+// 更新域信息
+export function fetchUpdateDomain(data?: Api.SystemManage.DomainUpdateParams) {
   return request<Api.SystemManage.DomainList, 'json'>({
-    url: `/asset/topic-domain/${data?.id}`,
+    url: `/asset/domains/${data?.id}`,
     method: 'patch',
     data
   });
 }
 
-// 删除主题域信息
-export function fetchDeleteTopicDomain(data?: Api.Common.CommonDeleteParams) {
+// 删除域信息
+export function fetchDeleteDomain(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.DomainList>({
-    url: `/asset/topic-domain/${data?.id}`,
+    url: `/asset/domains/${data?.id}`,
     method: 'delete'
   });
 }
 
 // 获取主题数据模型
-export function fetchDataModelList(params?: Api.SystemManage.DataModelSearchParams) {
+export function fetchDataModelList(modelParams?: Api.SystemManage.DataModelSearchParams) {
   return request<Api.SystemManage.DataModelList>({
     url: '/asset/model',
     method: 'get',
-    params
+    params: modelParams,
+    paramsSerializer: {
+      serialize: params => Qs.stringify(params, { arrayFormat: 'repeat' })
+    }
   });
 }
 
@@ -156,7 +158,7 @@ export function fetchDeleteDataModel(data?: Api.Common.CommonDeleteParams) {
 // 通过数据库、sql获取数据预览
 export function fetchDataPreview(params?: Api.SystemManage.DataPreviewSearchParams) {
   return request<Api.SystemManage.DataPreviewList>({
-    url: '/asset/model/data-preview',
+    url: '/asset/model/preview',
     method: 'get',
     params
   });
@@ -180,10 +182,9 @@ export function fetchTableColumns(params?: Api.SystemManage.TableColumnsSearchPa
   });
 }
 
-
 // 获取标签列表
-export function fetchTag(params?: Api.DataAsset.TagSearchParams) {
-  return request<Api.DataAsset.TagList, 'json'>({
+export function fetchGetTagList(params?: Api.Asset.TagSearchParams) {
+  return request<Api.Asset.TagList, 'json'>({
     url: `/asset/tag`,
     method: 'get',
     params
@@ -191,8 +192,8 @@ export function fetchTag(params?: Api.DataAsset.TagSearchParams) {
 }
 
 // 创建标签
-export function fetchAddTag(data?: Api.DataAsset.TagAddParams) {
-  return request<Api.DataAsset.TagData, 'json'>({
+export function fetchAddTag(data?: Api.Asset.TagAddParams) {
+  return request<Api.Asset.TagData, 'json'>({
     url: `/asset/tag`,
     method: 'post',
     data
@@ -200,8 +201,8 @@ export function fetchAddTag(data?: Api.DataAsset.TagAddParams) {
 }
 
 // 更新标签
-export function fetchUpdateTag(data?: Api.DataAsset.TagUpdateParams) {
-  return request<Api.DataAsset.TagData, 'json'>({
+export function fetchUpdateTag(data?: Api.Asset.TagUpdateParams) {
+  return request<Api.Asset.TagData, 'json'>({
     url: `/asset/tag/${data?.id}`,
     method: 'patch',
     data
@@ -210,25 +211,25 @@ export function fetchUpdateTag(data?: Api.DataAsset.TagUpdateParams) {
 
 // 删除标签
 export function fetchDeleteTag(data?: Api.Common.CommonDeleteParams) {
-  return request<Api.DataAsset.TagData, 'json'>({
+  return request<Api.Asset.TagData, 'json'>({
     url: `/asset/tag/${data?.id}`,
     method: 'delete'
   });
 }
 
-// 创建指标标签
-export function fetchAddMetricTag(data?: Api.DataAsset.MetricTagAddParams) {
-  return request<Api.DataAsset.TagData, 'json'>({
-    url: `/asset/metric-tag`,
+// 创建指标标签关系
+export function fetchAddMetricTag(data?: Api.Asset.MetricTagAddParams) {
+  return request<Api.Asset.TagData, 'json'>({
+    url: `/metric/tag`,
     method: 'post',
     data
   });
 }
 
-// 删除指标标签
-export function fetchDeleteMetricTag(params?: Api.DataAsset.MetricTagDeleteParams) {
-  return request<Api.DataAsset.TagData, 'json'>({
-    url: `/asset/metric-tag`,
+// 删除指标标签关系
+export function fetchDeleteMetricTag(params?: Api.Asset.MetricTagDeleteParams) {
+  return request<Api.Asset.TagData, 'json'>({
+    url: `/metric/tag`,
     method: 'delete',
     params
   });

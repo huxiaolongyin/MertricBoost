@@ -22,6 +22,7 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
 
   const EXPAND_KEY = '__expand__';
 
+  // 使用 useHookTable 创建表格实例
   const {
     loading,
     empty,
@@ -38,21 +39,18 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     apiParams,
     columns: config.columns,
     transformer: res => {
-      const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
-
-      // 确保大小大于0，如果小于0，会导致分页计算错误。
-      const pageSize = size <= 0 ? 10 : size;
+      const { records = [], page = 1, pageSize = 10, total = 0 } = res.data || {};
 
       const recordsWithIndex = records.map((item, index) => {
         return {
           ...item,
-          index: (current - 1) * pageSize + index + 1
+          index: (page - 1) * pageSize + index + 1
         };
       });
 
       return {
         data: recordsWithIndex,
-        pageNum: current,
+        pageNum: page,
         pageSize,
         total
       };
@@ -115,6 +113,7 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     immediate
   });
 
+  // 分页器配置
   const pagination: PaginationProps = reactive({
     page: 1,
     pageSize: 10,
@@ -124,8 +123,8 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
       pagination.page = page;
 
       updateSearchParams({
-        current: page,
-        size: pagination.pageSize!
+        page,
+        pageSize: pagination.pageSize!
       });
 
       getData();
@@ -135,8 +134,8 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
       pagination.page = 1;
 
       updateSearchParams({
-        current: pagination.page,
-        size: pageSize
+        page: pagination.page,
+        pageSize
       });
 
       getData();
@@ -174,8 +173,8 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     });
 
     updateSearchParams({
-      current: pageNum,
-      size: pagination.pageSize!
+      page: pageNum,
+      pageSize: pagination.pageSize!
     });
 
     await getData();

@@ -712,9 +712,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.task',
     meta: {
       title: 'task',
-      i18nKey: 'route.task',
-      icon: 'mdi:calendar-clock',
-      order: 6
+      i18nKey: 'route.task'
     }
   },
   {

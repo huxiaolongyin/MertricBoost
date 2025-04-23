@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchAddDatabase, fetchUpdateDatabase, fetchTestDatabase } from '@/service/api';
-import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { $t } from '@/locales';
+import { fetchAddDatabase, fetchTestDatabase, fetchUpdateDatabase } from '@/service/api';
 import { useAuthStore } from '@/store/modules/auth';
 
 // 用户状态，用于获取用户名
@@ -41,26 +41,25 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-
 const model: Api.SystemManage.DatabaseUpdateParams = reactive(createDefaultModel());
 
 function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
   return {
-    databaseName: '',
-    databaseType: null,
-    databaseHost: '',
-    databasePort: 3306,
-    databaseUser: '',
+    name: '',
+    type: null,
+    host: '',
+    port: 3306,
+    username: '',
     password: '',
-    databaseDatabase: '',
-    databaseDesc: '',
+    databaseId: '',
+    description: '',
     status: null,
-    createBy: authStore.userInfo.userName,
+    createBy: authStore.userInfo.userName
   };
 }
 
 //  数据库类型
-const databaseTypeOptions = computed(() => {
+const typeOptions = computed(() => {
   return [
     {
       label: 'MySQL',
@@ -109,26 +108,27 @@ const databaseTypeOptions = computed(() => {
     {
       label: 'RabbitMQ',
       value: 'RabbitMQ'
-    }]
+    }
+  ];
   // return enableStatusOptions;
-})
+});
 
-type RuleKey = Exclude<keyof Api.SystemManage.DatabaseAddParams, 'databaseDesc' | 'createBy' | 'password'>;
+type RuleKey = Exclude<keyof Api.SystemManage.DatabaseAddParams, 'description' | 'createBy' | 'password'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  databaseName: defaultRequiredRule,
-  databaseType: defaultRequiredRule,
-  databaseHost: defaultRequiredRule,
-  databasePort: defaultRequiredRule,
-  databaseUser: defaultRequiredRule,
+  name: defaultRequiredRule,
+  type: defaultRequiredRule,
+  host: defaultRequiredRule,
+  port: defaultRequiredRule,
+  username: defaultRequiredRule,
   // password: defaultRequiredRule,
-  databaseDatabase: defaultRequiredRule,
-  status: defaultRequiredRule,
+  databaseId: defaultRequiredRule,
+  status: defaultRequiredRule
 };
 
-const databaseId = computed(() => props.rowData?.id || -1);
+// const databaseId = computed(() => props.rowData?.id || -1);
 
-const isEdit = computed(() => props.operateType === 'edit');
+// const isEdit = computed(() => props.operateType === 'edit');
 
 function handleInitModel() {
   Object.assign(model, createDefaultModel());
@@ -148,7 +148,6 @@ async function handleTest() {
   if (!error) {
     window.$message?.success($t('common.testSuccess'));
   }
-
 }
 async function handleSubmit() {
   await validate();
@@ -180,36 +179,40 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.dataAsset.database.databaseName')" path="databaseName">
-          <NInput v-model:value="model.databaseName" :placeholder="$t('page.dataAsset.database.form.databaseName')" />
+        <NFormItem :label="$t('page.dataAsset.database.name')" path="name">
+          <NInput v-model:value="model.name" :placeholder="$t('page.dataAsset.database.form.name')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databaseType')" path="databaseType">
-          <NSelect v-model:value="model.databaseType" :placeholder="$t('page.dataAsset.database.form.databaseType')"
-            :options="databaseTypeOptions" />
+        <NFormItem :label="$t('page.dataAsset.database.type')" path="type">
+          <NSelect
+            v-model:value="model.type"
+            :placeholder="$t('page.dataAsset.database.form.type')"
+            :options="typeOptions"
+          />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databaseHost')" path="databaseHost">
-          <NInput v-model:value="model.databaseHost" :placeholder="$t('page.dataAsset.database.form.databaseHost')" />
+        <NFormItem :label="$t('page.dataAsset.database.host')" path="host">
+          <NInput v-model:value="model.host" :placeholder="$t('page.dataAsset.database.form.host')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databasePort')" path="databasePort">
-          <NInputNumber v-model:value="model.databasePort"
-            :placeholder="$t('page.dataAsset.database.form.databasePort')" />
+        <NFormItem :label="$t('page.dataAsset.database.port')" path="port">
+          <NInputNumber v-model:value="model.port" :placeholder="$t('page.dataAsset.database.form.port')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databaseDatabase')" path="databaseDatabase">
-          <NInput v-model:value="model.databaseDatabase"
-            :placeholder="$t('page.dataAsset.database.form.databaseDatabase')" />
+        <NFormItem :label="$t('page.dataAsset.database.database')" path="database">
+          <NInput v-model:value="model.databaseId" :placeholder="$t('page.dataAsset.database.form.database')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databaseUser')" path="databaseUser">
-          <NInput v-model:value="model.databaseUser" :placeholder="$t('page.dataAsset.database.form.databaseUser')" />
+        <NFormItem :label="$t('page.dataAsset.database.username')" path="username">
+          <NInput v-model:value="model.username" :placeholder="$t('page.dataAsset.database.form.username')" />
         </NFormItem>
 
         <NFormItem :label="$t('page.dataAsset.database.password')" path="password">
-          <NInput v-model:value="model.password" :placeholder="$t('page.dataAsset.database.form.password')"
-            type="password" />
+          <NInput
+            v-model:value="model.password"
+            :placeholder="$t('page.dataAsset.database.form.password')"
+            type="password"
+          />
         </NFormItem>
 
         <NFormItem :label="$t('page.dataAsset.database.status')" path="status">
@@ -218,8 +221,8 @@ watch(visible, () => {
           </NRadioGroup>
         </NFormItem>
 
-        <NFormItem :label="$t('page.dataAsset.database.databaseDesc')" path="databaseDesc">
-          <NInput v-model:value="model.databaseDesc" :placeholder="$t('page.dataAsset.database.form.databaseDesc')" />
+        <NFormItem :label="$t('page.dataAsset.database.description')" path="description">
+          <NInput v-model:value="model.description" :placeholder="$t('page.dataAsset.database.form.description')" />
         </NFormItem>
       </NForm>
 

@@ -62,7 +62,7 @@ export function useRouterPush(inSetup = true) {
    * Navigate to login page
    *
    * @param loginModule The login module
-   * @param redirectUrl The redirect url, if not specified, it will be the current route fullPath
+   * @param redirectUrl The redirect url, if not specified, it will be the page route fullPath
    */
   async function toLogin(loginModule?: UnionKey.LoginModule, redirectUrl?: string) {
     const module = loginModule || 'pwd-login';

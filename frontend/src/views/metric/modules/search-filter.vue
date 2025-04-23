@@ -1,115 +1,133 @@
+<script setup lang="ts">
+import { Icon } from '@iconify/vue';
+import { onMounted } from 'vue';
+import { OPTIONS_CONFIG } from '@/constants/options';
+import { useLoadOptions } from '@/hooks/common/option';
+import { $t } from '@/locales';
+import { fetchGetDomainList, fetchGetTagList } from '@/service/api';
+
+// 定义“搜索”组件的选项
+defineOptions({
+  name: 'SearchFilter'
+});
+
+// 设置模型和父组件的通信
+const formData = defineModel<Api.Metric.MetricListSearchParams>('formData');
+
+// 获取主题域列表
+const {
+  options: domainOptions,
+  loading: domainLoading,
+  fetchOptions: fetchDomainOptions
+} = useLoadOptions(() => fetchGetDomainList(), {
+  labelKey: 'domainName',
+  valueKey: 'id'
+});
+
+// 获取标签列表
+const {
+  options: tagOptions,
+  loading: tagLoading,
+  fetchOptions: fetchTagOptions
+} = useLoadOptions(() => fetchGetTagList(), {
+  labelKey: 'tagName',
+  valueKey: 'id'
+});
+
+// 获取排序方式列表
+const orderOptions = [
+  { label: '创建时间升序', value: 'create_time' },
+  { label: '创建时间降序', value: '-create_time' }
+];
+
+onMounted(async () => {
+  await fetchDomainOptions();
+  await fetchTagOptions();
+});
+</script>
+
 <template>
   <!-- 搜索框 -->
-  <div class="flex justify-center w-full">
-    <NInput v-model:value="formData!.chineseName" :placeholder="$t('page.metric.metricPlaceholder')"
-      class='my-3 h-10 rounded-xl dark:bg-slate-700 flex items-center' style="width: 65%">
+  <div class="w-full flex justify-center">
+    <NInput
+      v-model:value="formData!.nameOrDesc"
+      :placeholder="$t('page.metric.metricPlaceholder')"
+      class="search-input my-3 h-10 flex items-center rounded-xl dark:bg-slate-700"
+    >
       <template #suffix>
         <Icon icon="mdi:magnify" width="28" height="28" class="text-gray-500" />
       </template>
     </NInput>
   </div>
   <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
-
-    <!-- 主题域选择框 -->
+    <!-- 域选择框 -->
     <NGi>
-      <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-18 ml-8 justify-center">{{ $t("page.metric.topicDomain") }}</div>
-        <NSelect v-model:value="formData!.topicDomain" :options="topicDomainOptions" placeholder="请选择主题域"
-          :loading="topicDomainLoading" clearable class="dark:bg-slate-700" />
-      </div>
-    </NGi>
-    数据服务
-    <!-- 展示类型 -->
-    <NGi>
-      <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.displayStatus") }}</div>
-        <NRadioGroup v-model:value="formData!.displayStatus">
-          <NRadioButton v-for="item in OPTIONS_CONFIG.showType" :key='item.value' :value="item.value"
-            :label="item.label" class="dark:bg-slate-700" />
-        </NRadioGroup>
+      <div class="mt-4 w-full flex items-center">
+        <div class="ml-8 w-18 justify-center text-dark dark:text-white">
+          {{ $t('page.metric.domain') }}
+        </div>
+        <NSelect
+          v-model:value="formData!.domainIds"
+          multiple
+          :options="domainOptions"
+          placeholder="请选择域分类"
+          :loading="domainLoading"
+          clearable
+          class="dark:bg-slate-700"
+        />
       </div>
     </NGi>
 
-    <!-- 发布状态 -->
+    <!-- 标签类型 -->
     <NGi>
-      <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.publishStatus") }}</div>
-        <NRadioGroup v-model:value="formData!.publishStatus">
-          <NRadioButton v-for="item in OPTIONS_CONFIG.publish" :key='item.value' :value="item.value" :label="item.label"
-            class="dark:bg-slate-700" />
-        </NRadioGroup>
+      <div class="mt-4 w-full flex items-center">
+        <div class="ml-8 w-18 justify-center text-dark dark:text-white">
+          {{ $t('page.metric.tag') }}
+        </div>
+        <NSelect
+          v-model:value="formData!.tagIds"
+          multiple
+          :options="tagOptions"
+          placeholder="请选择标签"
+          :loading="tagLoading"
+          clearable
+          class="dark:bg-slate-700"
+        />
       </div>
     </NGi>
 
     <!-- 敏感度 -->
     <NGi>
-      <div class="flex items-center w-full mt-4">
-        <div class="text-dark dark:text-white w-20 ml-12 ">{{ $t("page.metric.sensitivity") }}</div>
+      <div class="mt-4 w-full flex items-center">
+        <div class="ml-12 w-20 text-dark dark:text-white">
+          {{ $t('page.metric.sensitivity') }}
+        </div>
         <NRadioGroup v-model:value="formData!.sensitivity">
-          <NRadioButton v-for="item in OPTIONS_CONFIG.sensitive" :key='item.value' :value="item.value"
-            :label="item.label" class="dark:bg-slate-700" />
+          <NRadioButton
+            v-for="item in OPTIONS_CONFIG.sensitive"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+            class="dark:bg-slate-700"
+          />
         </NRadioGroup>
+      </div>
+    </NGi>
+
+    <!-- 排序 -->
+    <NGi>
+      <div class="mt-4 w-full flex items-center">
+        <div class="ml-8 w-18 justify-center text-dark dark:text-white">
+          {{ $t('page.metric.order') }}
+        </div>
+        <NSelect
+          v-model:value="formData!.order"
+          :options="orderOptions"
+          placeholder="请选择排序方式"
+          clearable
+          class="dark:bg-slate-700"
+        />
       </div>
     </NGi>
   </NGrid>
 </template>
-
-<script setup lang="ts">
-import { Icon } from "@iconify/vue";
-import { OPTIONS_CONFIG } from '@/constants/options'
-import { useLoadOptions } from '@/hooks/common/option'
-import { fetchGetTopicDomainList } from "@/service/api";
-import { $t } from '@/locales';
-import { onMounted } from "vue";
-
-// 定义“搜索”组件的选项
-defineOptions({
-  name: "Search",
-})
-
-// 设置模型和父组件的通信
-const formData = defineModel<Api.Metric.MetricSearchParams>('formData');
-
-// 获取主题域列表
-const {
-  options: topicDomainOptions,
-  loading: topicDomainLoading,
-  fetchOptions: fetchTopicDomainOptions
-} = useLoadOptions(
-  () => fetchGetTopicDomainList(),
-  'domainName',
-  'id')
-
-
-
-// 定义按钮组的选项
-interface RadioGroup {
-  radiotitle: string
-  radioType: keyof Api.Metric.MetricSearchParams | 'displayStatus'
-  options: {
-    value: string
-    label: string
-  }[]
-}
-
-const radioGroups: RadioGroup[] = [
-  {
-    radiotitle: '展示类型',
-    radioType: 'displayStatus',
-    options: OPTIONS_CONFIG.showType
-  },
-  {
-    radiotitle: '是否发布',
-    radioType: 'publishStatus',
-    options: OPTIONS_CONFIG.publish
-  },
-  {
-    radiotitle: '敏感度',
-    radioType: 'sensitivity',
-    options: OPTIONS_CONFIG.sensitive
-  }
-]
-onMounted(async () =>
-  await fetchTopicDomainOptions()
-)
-</script>

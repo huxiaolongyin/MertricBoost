@@ -27,7 +27,7 @@ const { loading, data, refresh, reload, page, pageSize, pageCount, send, remove 
   (pageNum, size) =>
     fetchGetUserList({
       ...searchParams,
-      current: pageNum,
+      page: pageNum,
       size
     }),
   {

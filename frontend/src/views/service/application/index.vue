@@ -16,8 +16,8 @@ const authStore = useAuthStore();
 const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchServiceAppList,
   apiParams: {
-    current: 1,
-    size: 10,
+    page: 1,
+    pageSize: 10,
     // 如果要在Form中使用searchParams，则需要定义以下属性，且值为null
     // 该值不能为undefined，否则Form中的属性将不会反应
     status: null,
@@ -52,7 +52,7 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
 
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
-          2: 'warning'
+          0: 'warning'
         };
 
         const label = $t(enableStatusRecord[row.status]);

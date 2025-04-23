@@ -1,5 +1,5 @@
 [project]
-name = "Metric-Boost-Backend"
+name = "Metric-Boost"
 version = "0.1.0"
 description = "用于Metric Boost的Python后端"
 authors = [
@@ -23,14 +23,16 @@ dependencies = [
     "asyncmy==0.2.9",
     "python-dotenv==1.0.1",
     "cryptography==43.0.3",
-    "cachetools==5.5.0"
+    "cachetools==5.5.0",
+    "pyinstrument>=5.0.0",
+    "python-dateutil==2.9.0.post0"
 ]
 requires-python = ">=3.10"
 readme = "README.md"
 
 # 设置 安装目录
 [tool.setuptools]
-packages = ["app"]
+packages = ["metricboost"]
 
 # 取消 Python Development Master 的分发，专注于包的安装
 [tool.pdm]

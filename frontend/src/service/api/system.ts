@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/system-manage/roles',
+    url: '/system/roles',
     method: 'get',
     params
   });
@@ -12,7 +12,7 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
 /** get user list */
 export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
   return request<Api.SystemManage.UserList>({
-    url: '/system-manage/users',
+    url: '/system/users',
     method: 'get',
     params
   });
@@ -21,7 +21,7 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.MenuList>({
-    url: '/system-manage/menus',
+    url: '/system/menus',
     method: 'get'
   });
 }
@@ -29,7 +29,7 @@ export function fetchGetMenuList() {
 /** get all pages */
 export function fetchGetAllPages() {
   return request<string[]>({
-    url: '/system-manage/menus/pages/',
+    url: '/system/menus/pages/',
     method: 'get'
   });
 }
@@ -37,7 +37,7 @@ export function fetchGetAllPages() {
 /** get menu tree */
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
-    url: '/system-manage/menus/tree/',
+    url: '/system/menus/tree/',
     method: 'get'
   });
 }
@@ -45,7 +45,7 @@ export function fetchGetMenuTree() {
 /** get menu button tree */
 export function fetchGetMenuButtonTree() {
   return request<Api.SystemManage.ButtonTree[]>({
-    url: '/system-manage/menus/buttons/tree/',
+    url: '/system/menus/buttons/tree/',
     method: 'get'
   });
 }
@@ -53,7 +53,7 @@ export function fetchGetMenuButtonTree() {
 /** get log list */
 export function fetchGetLogList(params?: Api.SystemManage.LogSearchParams) {
   return request<Api.SystemManage.LogList>({
-    url: '/system-manage/logs',
+    url: '/system/logs',
     method: 'get',
     params
   });
@@ -62,14 +62,14 @@ export function fetchGetLogList(params?: Api.SystemManage.LogSearchParams) {
 /** delete log */
 export function fetchDeleteLog(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.LogList>({
-    url: `/system-manage/logs/${data?.id}`,
+    url: `/system/logs/${data?.id}`,
     method: 'delete'
   });
 }
 
 export function fetchBatchDeleteLog(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.LogList>({
-    url: '/system-manage/logs',
+    url: '/system/logs',
     method: 'delete',
     params: { ids: data?.ids.join(',') }
   });
@@ -77,7 +77,7 @@ export function fetchBatchDeleteLog(data?: Api.Common.CommonBatchDeleteParams) {
 /** update log */
 export function fetchUpdateLog(data?: Api.SystemManage.LogUpdateParams) {
   return request<Api.SystemManage.LogList, 'json'>({
-    url: `/system-manage/logs/${data?.id}`,
+    url: `/system/logs/${data?.id}`,
     method: 'patch',
     data
   });
@@ -86,7 +86,7 @@ export function fetchUpdateLog(data?: Api.SystemManage.LogUpdateParams) {
 /** get api tree */
 export function fetchGetApiTree() {
   return request<Api.SystemManage.MenuTree[]>({
-    url: '/system-manage/apis/tree/',
+    url: '/system/apis/tree/',
     method: 'get'
   });
 }
@@ -94,7 +94,7 @@ export function fetchGetApiTree() {
 /** refresh api from fastapi */
 export function fetchRefreshAPI() {
   return request<Api.SystemManage.ApiList>({
-    url: '/system-manage/apis/refresh/',
+    url: '/system/apis/refresh/',
     method: 'post'
   });
 }
@@ -102,7 +102,7 @@ export function fetchRefreshAPI() {
 /** get api list */
 export function fetchGetApiList(params?: Api.SystemManage.ApiSearchParams) {
   return request<Api.SystemManage.ApiList>({
-    url: '/system-manage/apis',
+    url: '/system/apis',
     method: 'get',
     params
   });
@@ -111,7 +111,7 @@ export function fetchGetApiList(params?: Api.SystemManage.ApiSearchParams) {
 /** add api */
 export function fetchAddApi(data?: Api.SystemManage.ApiAddParams) {
   return request<Api.SystemManage.ApiList, 'json'>({
-    url: '/system-manage/apis',
+    url: '/system/apis',
     method: 'post',
     data
   });
@@ -120,14 +120,14 @@ export function fetchAddApi(data?: Api.SystemManage.ApiAddParams) {
 /** delete api */
 export function fetchDeleteApi(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.ApiList>({
-    url: `/system-manage/apis/${data?.id}`,
+    url: `/system/apis/${data?.id}`,
     method: 'delete'
   });
 }
 
 export function fetchBatchDeleteApi(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.ApiList>({
-    url: '/system-manage/apis',
+    url: '/system/apis',
     method: 'delete',
     params: { ids: data?.ids.join(',') }
   });
@@ -135,7 +135,7 @@ export function fetchBatchDeleteApi(data?: Api.Common.CommonBatchDeleteParams) {
 /** update api */
 export function fetchUpdateApi(data?: Api.SystemManage.ApiUpdateParams) {
   return request<Api.SystemManage.ApiList, 'json'>({
-    url: `/system-manage/apis/${data?.id}`,
+    url: `/system/apis/${data?.id}`,
     method: 'patch',
     data
   });
@@ -144,7 +144,7 @@ export function fetchUpdateApi(data?: Api.SystemManage.ApiUpdateParams) {
 /** add user */
 export function fetchAddUser(data?: Api.SystemManage.UserAddParams) {
   return request<Api.SystemManage.UserList, 'json'>({
-    url: '/system-manage/users',
+    url: '/system/users',
     method: 'post',
     data
   });
@@ -153,14 +153,14 @@ export function fetchAddUser(data?: Api.SystemManage.UserAddParams) {
 /** delete user */
 export function fetchDeleteUser(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.UserList>({
-    url: `/system-manage/users/${data?.id}`,
+    url: `/system/users/${data?.id}`,
     method: 'delete'
   });
 }
 
 export function fetchBatchDeleteUser(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.UserList>({
-    url: '/system-manage/users',
+    url: '/system/users',
     method: 'delete',
     params: { ids: data?.ids.join(',') }
   });
@@ -168,7 +168,7 @@ export function fetchBatchDeleteUser(data?: Api.Common.CommonBatchDeleteParams) 
 /** update user */
 export function fetchUpdateUser(data?: Api.SystemManage.UserUpdateParams) {
   return request<Api.SystemManage.UserList, 'json'>({
-    url: `/system-manage/users/${data?.id}`,
+    url: `/system/users/${data?.id}`,
     method: 'patch',
     data
   });
@@ -177,7 +177,7 @@ export function fetchUpdateUser(data?: Api.SystemManage.UserUpdateParams) {
 /** add role */
 export function fetchAddRole(data?: Api.SystemManage.RoleUpdateParams) {
   return request<Api.SystemManage.RoleList, 'json'>({
-    url: '/system-manage/roles',
+    url: '/system/roles',
     method: 'post',
     data
   });
@@ -186,14 +186,14 @@ export function fetchAddRole(data?: Api.SystemManage.RoleUpdateParams) {
 /** delete role */
 export function fetchDeleteRole(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.RoleList>({
-    url: `/system-manage/roles/${data?.id}`,
+    url: `/system/roles/${data?.id}`,
     method: 'delete'
   });
 }
 
 export function fetchBatchDeleteRole(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/system-manage/roles',
+    url: '/system/roles',
     method: 'delete',
     params: { ids: data?.ids.join(',') }
   });
@@ -202,7 +202,7 @@ export function fetchBatchDeleteRole(data?: Api.Common.CommonBatchDeleteParams) 
 /** update role */
 export function fetchUpdateRole(data?: Api.SystemManage.RoleUpdateParams) {
   return request<Api.SystemManage.RoleList, 'json'>({
-    url: `/system-manage/roles/${data?.id}`,
+    url: `/system/roles/${data?.id}`,
     method: 'patch',
     data
   });
@@ -211,7 +211,7 @@ export function fetchUpdateRole(data?: Api.SystemManage.RoleUpdateParams) {
 /** get role menu ids */
 export function fetchGetRoleMenu(data?: Api.SystemManage.RoleAuthorizedParams) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/menus`,
+    url: `/system/roles/${data?.id}/menus`,
     method: 'get'
   });
 }
@@ -219,7 +219,7 @@ export function fetchGetRoleMenu(data?: Api.SystemManage.RoleAuthorizedParams) {
 /** update role menu ids */
 export function fetchUpdateRoleMenu(data?: Api.SystemManage.RoleAuthorizedList) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/menus`,
+    url: `/system/roles/${data?.id}/menus`,
     method: 'patch',
     data
   });
@@ -228,7 +228,7 @@ export function fetchUpdateRoleMenu(data?: Api.SystemManage.RoleAuthorizedList) 
 /** get role button ids */
 export function fetchGetRoleButton(data?: Api.SystemManage.RoleAuthorizedParams) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/buttons`,
+    url: `/system/roles/${data?.id}/buttons`,
     method: 'get'
   });
 }
@@ -236,7 +236,7 @@ export function fetchGetRoleButton(data?: Api.SystemManage.RoleAuthorizedParams)
 /** update role button ids */
 export function fetchUpdateRoleButton(data?: Api.SystemManage.RoleAuthorizedList) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/buttons`,
+    url: `/system/roles/${data?.id}/buttons`,
     method: 'patch',
     data
   });
@@ -245,7 +245,7 @@ export function fetchUpdateRoleButton(data?: Api.SystemManage.RoleAuthorizedList
 /** get role api ids */
 export function fetchGetRoleApi(data?: Api.SystemManage.RoleAuthorizedParams) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/apis`,
+    url: `/system/roles/${data?.id}/apis`,
     method: 'get'
   });
 }
@@ -253,7 +253,7 @@ export function fetchGetRoleApi(data?: Api.SystemManage.RoleAuthorizedParams) {
 /** update role api ids */
 export function fetchUpdateRoleApi(data?: Api.SystemManage.RoleAuthorizedList) {
   return request<Api.SystemManage.RoleAuthorizedList>({
-    url: `/system-manage/roles/${data?.id}/apis`,
+    url: `/system/roles/${data?.id}/apis`,
     method: 'patch',
     data
   });
@@ -262,7 +262,7 @@ export function fetchUpdateRoleApi(data?: Api.SystemManage.RoleAuthorizedList) {
 /** add menu */
 export function fetchAddMenu(data?: Api.SystemManage.MenuAddParams) {
   return request<Api.SystemManage.MenuList, 'json'>({
-    url: '/system-manage/menus',
+    url: '/system/menus',
     method: 'post',
     data
   });
@@ -271,14 +271,14 @@ export function fetchAddMenu(data?: Api.SystemManage.MenuAddParams) {
 /** delete menu */
 export function fetchDeleteMenu(data?: Api.Common.CommonDeleteParams) {
   return request<Api.SystemManage.MenuList>({
-    url: `/system-manage/menus/${data?.id}`,
+    url: `/system/menus/${data?.id}`,
     method: 'delete'
   });
 }
 
 export function fetchBatchDeleteMenu(data?: Api.Common.CommonBatchDeleteParams) {
   return request<Api.SystemManage.MenuList>({
-    url: '/system-manage/menus',
+    url: '/system/menus',
     method: 'delete',
     params: { ids: data?.ids.join(',') }
   });
@@ -287,7 +287,7 @@ export function fetchBatchDeleteMenu(data?: Api.Common.CommonBatchDeleteParams) 
 /** update menu */
 export function fetchUpdateMenu(data?: Api.SystemManage.MenuUpdateParams) {
   return request<Api.SystemManage.MenuList, 'json'>({
-    url: `/system-manage/menus/${data?.id}`,
+    url: `/system/menus/${data?.id}`,
     method: 'patch',
     data
   });

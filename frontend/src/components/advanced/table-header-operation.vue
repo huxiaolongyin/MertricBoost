@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { $t } from "@/locales";
+import { $t } from '@/locales';
 
 defineOptions({
-  name: "TableHeaderOperation",
+  name: 'TableHeaderOperation'
 });
 
 interface Props {
@@ -15,27 +15,27 @@ interface Props {
 const props = defineProps<Props>();
 
 interface Emits {
-  (e: "add"): void;
-  (e: "delete"): void;
-  (e: "refresh"): void;
+  (e: 'add'): void;
+  (e: 'delete'): void;
+  (e: 'refresh'): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const columns = defineModel<NaiveUI.TableColumnCheck[]>("columns", {
-  default: () => [],
+const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
+  default: () => []
 });
 
 const add = () => {
-  emit("add");
+  emit('add');
 };
 
 const batchDelete = () => {
-  emit("delete");
+  emit('delete');
 };
 
 const refresh = () => {
-  emit("refresh");
+  emit('refresh');
 };
 </script>
 
@@ -43,11 +43,11 @@ const refresh = () => {
   <NSpace :align="itemAlign" wrap justify="end" class="lt-sm:w-200px">
     <slot name="prefix"></slot>
     <slot name="default">
-      <NButton v-if="props.showAddButton" size="small" ghost type="primary" @click="add">
+      <NButton v-if="props.showAddButton || true" size="small" ghost type="primary" @click="add">
         <template #icon>
           <icon-ic-round-plus class="text-icon" />
         </template>
-        {{ $t("common.add") }}
+        {{ $t('common.add') }}
       </NButton>
       <NPopconfirm @positive-click="batchDelete">
         <template #trigger>
@@ -55,17 +55,17 @@ const refresh = () => {
             <template #icon>
               <icon-ic-round-delete class="text-icon" />
             </template>
-            {{ $t("common.batchDelete") }}
+            {{ $t('common.batchDelete') }}
           </NButton>
         </template>
-        {{ $t("common.confirmDelete") }}
+        {{ $t('common.confirmDelete') }}
       </NPopconfirm>
     </slot>
     <NButton size="small" @click="refresh">
       <template #icon>
         <icon-mdi-refresh class="text-icon" :class="{ 'animate-spin': loading }" />
       </template>
-      {{ $t("common.refresh") }}
+      {{ $t('common.refresh') }}
     </NButton>
     <TableColumnSetting v-model:columns="columns" />
     <slot name="suffix"></slot>

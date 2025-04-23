@@ -551,52 +551,51 @@ declare namespace App {
           };
         };
         metric: {
-          topicDomain: string;
-          displayStatus: string;
-          publishStatus: string;
-          sensitivity: string;
           metricPlaceholder: string;
+          domain: string;
+          tag: string;
+          sensitivity: string;
+          order: string;
           formTile: {
             modelForm: string;
             metricForm: string;
             sensitivityForm: string;
             staticForm: string;
             chartForm: string;
-            publishForm: string;
           };
         };
         dataAsset: {
           database: {
             title: string;
-            databaseName: string;
-            databaseType: string;
-            databaseHost: string;
-            databasePort: string;
-            databaseDatabase: string;
-            databaseUser: string;
+            name: string;
+            type: string;
+            host: string;
+            port: string;
+            databaseId: string;
+            username: string;
             password: string;
             createBy: string;
-            databaseDesc: string;
+            description: string;
             status: string;
             addDatabase: string;
             editDatabase: string;
             form: {
-              databaseName: string;
-              databaseType: string;
-              databaseHost: string;
-              databasePort: string;
-              databaseDatabase: string;
-              databaseUser: string;
+              name: string;
+              type: string;
+              host: string;
+              port: string;
+              database: string;
+              username: string;
               password: string;
               status: string;
-              databaseDesc: string;
+              description: string;
               createBy: string;
             };
           };
           dataModel: {
             title: string;
-            dataModelName: string;
-            dataModelDesc: string;
+            name: string;
+            description: string;
             dataDomain: string;
             topicDomain: string;
             status: string;
@@ -607,8 +606,8 @@ declare namespace App {
             databaseSelect: string;
             tableName: string;
             form: {
-              dataModelName: string;
-              dataModelDesc: string;
+              name: string;
+              description: string;
               dataDomain: string;
               topicDomain: string;
               status: string;

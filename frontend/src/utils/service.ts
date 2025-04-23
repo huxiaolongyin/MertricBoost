@@ -1,9 +1,9 @@
 import json5 from 'json5';
 
 /**
- * Create service config by current env
+ * Create service config by page env
  *
- * @param env The current env
+ * @param env The page env
  */
 export function createServiceConfig(env: Env.ImportMeta) {
   const { VITE_SERVICE_BASE_URL, VITE_OTHER_SERVICE_BASE_URL } = env;
@@ -43,7 +43,7 @@ export function createServiceConfig(env: Env.ImportMeta) {
 /**
  * get backend service base url
  *
- * @param env - the current env
+ * @param env - the page env
  * @param isProxy - if use proxy
  */
 export function getServiceBaseURL(env: Env.ImportMeta, isProxy: boolean) {

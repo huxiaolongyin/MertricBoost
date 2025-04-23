@@ -58,7 +58,6 @@ const handleInitModel = async () => {
   }
   if (props.operateType === 'edit' && props.rowData) {
     const response = await fetchServiceAppDetail({ id: props.rowData.id });
-    console.log(response.data?.records);
     Object.assign(model.value, response.data?.records);
   }
 };

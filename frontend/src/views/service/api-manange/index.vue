@@ -1,168 +1,105 @@
-<template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <ApiSearch
-      v-model:model="searchParams"
-      @reset="resetSearchParams"
-      @search="getData"
-    />
-    <NCard
-      title="API管理"
-      :bordered="false"
-      size="small"
-      class="sm:flex-1-hidden card-wrapper"
-    >
-      <template #header-extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @refresh="getData"
-          :show-add-button="false"
-        />
-        <!-- @delete="handleBatchDelete" -->
-      </template>
-      <NDataTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="702"
-        :loading="loading"
-        remote
-        :row-key="(row) => row.id"
-        :pagination="mobilePagination"
-        class="sm:h-full"
-      />
-      <ServiceApiDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getData"
-      />
-    </NCard>
-  </div>
-</template>
 <script setup lang="tsx">
-import { $t } from "@/locales";
-import ServiceApiDrawer from "./modules/service-api-operate-drawer.vue";
-import ApiSearch from "./modules/api-search.vue";
-import { enableStatusRecord } from "@/constants/business";
-import { fetchServiceApiList, fetchDeleteServiceApi } from "@/service/api";
-import { useAppStore } from "@/store/modules/app";
-import { useTable, useTableOperate } from "@/hooks/common/table";
-import { NButton, NPopconfirm, NTag } from "naive-ui";
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { enableStatusRecord } from '@/constants/business';
+import { useTable, useTableOperate } from '@/hooks/common/table';
+import { $t } from '@/locales';
+import { fetchBatchDeleteServiceApi, fetchDeleteServiceApi, fetchServiceApiList } from '@/service/api';
+import { useAppStore } from '@/store/modules/app';
+import ServiceApiOperateDrawer from './modules/service-api-operate-drawer.vue';
+import ServiceApiSearch from './modules/service-api-search.vue';
 
 const appStore = useAppStore();
 
-const {
-  columns,
-  columnChecks,
-  data,
-  loading,
-  getData,
-  mobilePagination,
-  searchParams,
-  resetSearchParams,
-} = useTable({
+const { columns, columnChecks, data, getData, loading, mobilePagination, searchParams, resetSearchParams } = useTable({
   apiFn: fetchServiceApiList,
+  showTotal: true,
   apiParams: {
-    current: 1,
-    size: 10,
-    // 如果要在Form中使用searchParams，则需要定义以下属性，且值为null
-    // 该值不能为undefined，否则Form中的属性将不会反应
+    page: 1,
+    pageSize: 10,
+    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
+    // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
-    apiMethod: null,
-    apiName: null,
     createBy: null,
+    apiName: null,
+    apiMethod: null
   },
   columns: () => [
     {
-      type: "selection",
-      align: "center",
-      width: 48,
+      type: 'selection',
+      align: 'center',
+      width: 48
     },
     {
-      key: "apiName",
-      title: "API名称",
-      width: 200,
+      key: 'index',
+      title: $t('common.index'),
+      align: 'center',
+      width: 64
     },
     {
-      key: "apiDesc",
-      title: "API描述",
-      width: 400,
+      key: 'apiName',
+      title: $t('page.service.serviceApi.apiName'),
+      align: 'center',
+      minWidth: 100
     },
     {
-      key: "metricName",
-      title: "指标名称",
-      width: 200,
+      key: 'apiDesc',
+      title: $t('page.service.serviceApi.apiDesc'),
+      align: 'center',
+      width: 200
     },
     {
-      key: "status",
-      title: "状态",
-      width: 80,
-      render: (row) => {
+      key: 'metricName',
+      title: $t('page.service.serviceApi.metricName'),
+      align: 'center',
+      width: 200
+    },
+    {
+      key: 'appName',
+      title: $t('page.service.serviceApi.appName'),
+      align: 'center',
+      width: 200
+    },
+    {
+      key: 'status',
+      title: $t('page.service.serviceApi.status'),
+      align: 'center',
+      width: 100,
+      render: row => {
         if (row.status === null) {
           return null;
         }
-
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          1: "success",
-          2: "warning",
+          1: 'success',
+          0: 'warning'
         };
-
         const label = $t(enableStatusRecord[row.status]);
-
         return <NTag type={tagMap[row.status]}>{label}</NTag>;
-      },
+      }
     },
     {
-      key: "apiMethod",
-      title: "类型",
-      width: 120,
-    },
-    {
-      key: "apiPath",
-      title: "API路径",
-      align: "center",
-      width: 160,
-    },
-
-    {
-      title: "创建时间",
-      key: "createTime",
-      width: 160,
-    },
-    {
-      title: "创建人",
-      key: "createBy",
-      width: 160,
-    },
-    {
-      key: "operate",
-      title: $t("common.operate"),
-      align: "center",
-      width: 160,
-      render: (row) => (
+      key: 'operate',
+      title: $t('common.operate'),
+      align: 'center',
+      width: 130,
+      render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t("common.edit")}
+            {$t('common.edit')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
-              default: () => $t("common.confirmDelete"),
+              default: () => $t('common.confirmDelete'),
               trigger: () => (
                 <NButton type="error" ghost size="small">
-                  {$t("common.delete")}
+                  {$t('common.delete')}
                 </NButton>
-              ),
+              )
             }}
           </NPopconfirm>
         </div>
-      ),
-    },
-  ],
+      )
+    }
+  ]
 });
 
 const {
@@ -173,9 +110,17 @@ const {
   handleEdit,
   checkedRowKeys,
   onBatchDeleted,
-  onDeleted,
+  onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
+
+async function handleBatchDelete() {
+  // request
+  const { error } = await fetchBatchDeleteServiceApi({ ids: checkedRowKeys.value });
+  if (!error) {
+    onBatchDeleted();
+  }
+}
 
 async function handleDelete(id: number) {
   // request
@@ -189,5 +134,42 @@ function edit(id: number) {
   handleEdit(id);
 }
 </script>
+
+<template>
+  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <ServiceApiSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
+    <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+      <template #header-extra>
+        <TableHeaderOperation
+          v-model:columns="columnChecks"
+          :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading"
+          @add="handleAdd"
+          @delete="handleBatchDelete"
+          @refresh="getData"
+        />
+      </template>
+      <NDataTable
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="962"
+        :loading="loading"
+        remote
+        :row-key="row => row.id"
+        :pagination="mobilePagination"
+        class="sm:h-full"
+      />
+      <ServiceApiOperateDrawer
+        v-model:visible="drawerVisible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        @submitted="getData"
+      />
+    </NCard>
+  </div>
+</template>
 
 <style scoped></style>

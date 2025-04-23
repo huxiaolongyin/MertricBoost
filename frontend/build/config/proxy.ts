@@ -4,7 +4,7 @@ import { createServiceConfig } from '../../src/utils/service';
 /**
  * Set http proxy
  *
- * @param env - The current env
+ * @param env - The page env
  * @param enable - If enable http proxy
  */
 export function createViteProxy(env: Env.ImportMeta, enable: boolean) {

@@ -97,7 +97,7 @@ export function getRouteIcons(route: App.Global.TabRoute) {
 
   // Route.matched only appears when there are multiple matches,so check if route.matched exists
   if (route.matched) {
-    // Find the meta of the current route from matched
+    // Find the meta of the page route from matched
     const currentRoute = route.matched.find(r => r.name === route.name);
     // If icon exists in currentRoute.meta, it will overwrite the default value
     icon = currentRoute?.meta?.icon || icon;

@@ -26,7 +26,6 @@ export function fetchAddServiceApi(data: Api.DataService.ServiceApiAddParams) {
 }
 
 export function fetchUpdateServiceApi(data: Api.DataService.ServiceApiUpdateParams) {
-  console.log(data);
   return request<Api.DataService.ServiceApiList, 'json'>({
     url: `/service/apis/${data.id}`,
     method: 'patch',

@@ -1,29 +1,28 @@
 <script setup lang="ts">
-import { $t } from "@/locales";
-import { enableStatusOptions } from "@/constants/business";
-import { translateOptions } from "@/utils/common";
-
+import { $t } from '@/locales';
+import { enableStatusOptions } from '@/constants/business';
+import { translateOptions } from '@/utils/common';
 defineOptions({
-  name: "DatabaseSearch",
+  name: 'DatabaseSearch'
 });
 
 interface Emits {
-  (e: "reset"): void;
-  (e: "search"): void;
+  (e: 'reset'): void;
+  (e: 'search'): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const model = defineModel<Api.SystemManage.DatabaseSearchParams>("model", {
-  required: true,
+const model = defineModel<Api.SystemManage.DatabaseSearchParams>('model', {
+  required: true
 });
 
 function reset() {
-  emit("reset");
+  emit('reset');
 }
 
 function search() {
-  emit("search");
+  emit('search');
 }
 </script>
 
@@ -31,48 +30,19 @@ function search() {
   <NCard :title="$t('common.search')" :bordered="false" size="small" class="card-wrapper">
     <NForm :model="model" label-placement="left" :label-width="60">
       <NGrid cols="30" responsive="screen" item-responsive>
-        <NFormItemGi
-          span="24 s:12 m:6"
-          :label="$t('page.dataAsset.database.databaseName')"
-          path="databaseName"
-          class="pr-16px"
-        >
-          <NInput
-            v-model:value="model.databaseName"
-            :placeholder="$t('page.dataAsset.database.form.databaseName')"
-          />
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.name')" path="name" class="pr-16px">
+          <NInput v-model:value="model.name" :placeholder="$t('page.dataAsset.database.form.name')" />
         </NFormItemGi>
 
-        <NFormItemGi
-          span="24 s:12 m:6"
-          :label="$t('page.dataAsset.database.databaseType')"
-          path="databaseType"
-          class="pr-16px"
-        >
-          <NInput
-            v-model:value="model.databaseType"
-            :placeholder="$t('page.dataAsset.database.form.databaseType')"
-          />
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.type')" path="type" class="pr-16px">
+          <NInput v-model:value="model.type" :placeholder="$t('page.dataAsset.database.form.type')" />
         </NFormItemGi>
 
-        <NFormItemGi
-          span="24 s:12 m:6"
-          :label="$t('page.dataAsset.database.createBy')"
-          path="createBy"
-          class="pr-16px"
-        >
-          <NInput
-            v-model:value="model.createBy"
-            :placeholder="$t('page.dataAsset.database.form.createBy')"
-          />
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.createBy')" path="createBy" class="pr-16px">
+          <NInput v-model:value="model.createBy" :placeholder="$t('page.dataAsset.database.form.createBy')" />
         </NFormItemGi>
 
-        <NFormItemGi
-          span="24 s:12 m:6"
-          :label="$t('page.dataAsset.database.status')"
-          path="status"
-          class="pr-16px"
-        >
+        <NFormItemGi span="24 s:12 m:6" :label="$t('page.dataAsset.database.status')" path="status" class="pr-16px">
           <NSelect
             v-model:value="model.status"
             :placeholder="$t('page.dataAsset.database.form.status')"
@@ -87,13 +57,13 @@ function search() {
               <template #icon>
                 <icon-ic-round-refresh class="text-icon" />
               </template>
-              {{ $t("common.reset") }}
+              {{ $t('common.reset') }}
             </NButton>
             <NButton type="primary" ghost @click="search">
               <template #icon>
                 <icon-ic-round-search class="text-icon" />
               </template>
-              {{ $t("common.search") }}
+              {{ $t('common.search') }}
             </NButton>
           </NFlex>
         </NFormItemGi>

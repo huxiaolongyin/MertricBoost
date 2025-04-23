@@ -13,8 +13,8 @@ const { columns, data, loading } = useTable({
   apiFn: fetchGetUserList,
   showTotal: true,
   apiParams: {
-    current: 1,
-    size: 999,
+    page: 1,
+    pageSize: 999,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
@@ -93,7 +93,7 @@ const { columns, data, loading } = useTable({
 
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
-          2: 'warning'
+          0: 'warning'
         };
 
         const label = $t(enableStatusRecord[row.status]);
