@@ -56,7 +56,7 @@ declare namespace Api {
       placeholder?: string;
     }
 
-    type TimeType = 'daily' | 'weekly' | 'monthly' | 'yearly';
+    type TimeType = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'cumulative';
 
     // 常用搜索参数
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'page' | 'pageSize'>;

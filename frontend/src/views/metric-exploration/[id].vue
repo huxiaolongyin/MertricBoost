@@ -30,7 +30,8 @@ const TIME_UNITS: Record<Api.Common.TimeType, number> = {
   weekly: 7 * 24 * 60 * 60 * 1000,
   monthly: 30 * 24 * 60 * 60 * 1000,
   // "quarter": 90 * 24 * 60 * 60 * 1000,
-  yearly: 365 * 24 * 60 * 60 * 1000
+  yearly: 365 * 24 * 60 * 60 * 1000,
+  cumulative: 0
 };
 
 // 计算日期差值
