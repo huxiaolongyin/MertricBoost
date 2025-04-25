@@ -19,9 +19,9 @@ const searchParams = defineModel<Api.Metric.MetricListSearchParams>('searchParam
   required: true
 });
 
-const emit = defineEmits({
-  clickId: (id: number) => id
-});
+const emit = defineEmits<{
+  (e: 'clickId', id: number): void;
+}>();
 
 // 获取小数位数，设置金额、流量、百分数的小数位数为 2 ，其他为 0 位
 const getDemicals = (FormatType: Api.Metric.FormatType) => {
@@ -65,12 +65,14 @@ const handleSelect = (key: string, item: Api.Metric.MetricData) => {
   if (key === 'metric-info') {
     emit('clickId', item.id);
   } else if (key === 'metric-exploration') {
-    routerPushByKey('metric-exploration', { params: { id: item.id.toString() } });
+    routerPushByKey('metric-exploration', { params: { id: item.id.toString() } }).catch(error => {
+      // eslint-disable-next-line no-console
+      console.log('路由导航失败:', error);
+      window.$message?.error('切换到指标探索页面失败，请刷新页面重试');
+    });
   } else if (key === 'metric-report') {
-    // routerPushByKey("metric-report", { params: { id: item.id.toString() } });
     window.$message?.warning('开发中，敬请期待');
   } else if (key === 'metric-api') {
-    // routerPushByKey("metric-api", { params: { id: item.id.toString() } });
     window.$message?.warning('开发中，敬请期待');
   } else if (key === 'delete') {
     window.$dialog?.warning({
