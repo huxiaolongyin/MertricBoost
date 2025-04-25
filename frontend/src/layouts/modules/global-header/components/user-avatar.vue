@@ -25,6 +25,7 @@ type DropdownOption =
       key: DropdownKey;
       label: string;
       icon?: () => VNode;
+      disabled?: boolean;
     }
   | {
       type: 'divider';
@@ -36,7 +37,8 @@ const options = computed(() => {
     {
       label: $t('common.userCenter'),
       key: 'user-center',
-      icon: SvgIconVNode({ icon: 'ph:user-circle', fontSize: 18 })
+      icon: SvgIconVNode({ icon: 'ph:user-circle', fontSize: 18 }),
+      disabled: true
     },
     {
       type: 'divider',
