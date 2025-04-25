@@ -1,9 +1,9 @@
 import type { SelectOption } from 'naive-ui';
 export const sensitiveOptions: SelectOption[] = [
   { value: '', label: '不限' },
-  { value: 1, label: '普通' },
-  { value: 2, label: '重要' },
-  { value: 3, label: '核心' }
+  { value: '1', label: '普通' },
+  { value: '2', label: '重要' },
+  { value: '3', label: '核心' }
 ];
 
 // 添加维度筛选options
