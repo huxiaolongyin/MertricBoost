@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { onMounted, ref, watch } from 'vue';
-import { $t } from '@/locales';
-import { fetchAddMetric, fetchGetMetricList } from '@/service/api';
-import MetricInfo from '../metric-exploration/modules/metric-info.vue';
+import { fetchGetMetricList } from '@/service/api';
 import MetricCard from './modules/metric-card.vue';
 import Search from './modules/search-filter.vue';
+import MetricOperateDrawer from './modules/metric-operate-drawer.vue';
 
 // 获取指标数据列表
 const metricDataList = ref<Api.Metric.MetricData[]>([]);
 
-// 定义模态框显示
-const infoShow = ref(false);
+const drawerVisible = ref<boolean>(false);
 
 // 记录总条数
 const totalCount = ref<number>(0);
+
+const operateType = ref<NaiveUI.TableOperateType>('add');
 
 // 初始化搜索、筛选查询
 const searchParams = ref<Api.Metric.MetricListSearchParams>({
@@ -26,32 +26,14 @@ const searchParams = ref<Api.Metric.MetricListSearchParams>({
   pageSize: 12
 });
 
-// 定义新增指标表单
-const metricAddForm = ref<Api.Metric.MetricUpdateParams>({
-  id: null,
-  metricName: '',
-  metricDesc: '',
-  dataModelId: null,
-  statisticalPeriod: null,
-  statisticScope: null,
-  chartType: null,
-  sensitivity: null
-  // domainIds: [],
-});
+// 定义指标
+const metricForm = ref<Api.Metric.MetricUpdateParams>({});
 
-// 获取指标数据列表
-const fetchMetricWithSearch = async (metircSearchParams: Api.Metric.MetricListSearchParams) => {
-  const response = await fetchGetMetricList({
-    ...metircSearchParams
-  });
-  return response;
-};
-
-// 跳转到新增指标页面
-const handleSubmit = () => {
-  fetchAddMetric(metricAddForm.value);
-  window.$message?.success($t('common.addSuccess'));
-  infoShow.value = false;
+// 定义点击指标卡片事件
+const handleClickCard = (id: number) => {
+  drawerVisible.value = true;
+  operateType.value = 'edit';
+  metricForm.value = metricDataList.value.filter(item => item.id === id)[0];
 };
 
 // 分页相关事件处理
@@ -67,20 +49,26 @@ const handlePageSizeChange = (pageSize: number) => {
     searchParams.value.pageSize = pageSize;
   }
 };
-// 页面加载时获取指标数据列表
-onMounted(async () => {
-  const response = await fetchMetricWithSearch(searchParams.value);
+
+// 获取指标数据
+const getMetricData = async () => {
+  const response = await fetchGetMetricList({
+    ...searchParams.value
+  });
   metricDataList.value = response.data?.records ?? [];
   totalCount.value = response.data?.total ?? 0;
+};
+
+// 页面加载时获取指标数据列表
+onMounted(async () => {
+  getMetricData();
 });
 
 // 监听搜索参数的变化
 watch(
   searchParams,
-  async newParams => {
-    const response = await fetchMetricWithSearch(newParams);
-    metricDataList.value = response.data?.records ?? [];
-    totalCount.value = response.data?.total ?? 0;
+  async () => {
+    getMetricData();
   },
   { deep: true }
 );
@@ -90,7 +78,11 @@ watch(
   <div>
     <NFlex vertical :size="16" class="mt-5">
       <Search v-model:form-data="searchParams" />
-      <MetricCard v-model:metric-data-list="metricDataList" v-model:search-params="searchParams" />
+      <MetricCard
+        v-model:metric-data-list="metricDataList"
+        v-model:search-params="searchParams"
+        @click-id="handleClickCard"
+      />
       <div class="mt-4 flex justify-center">
         <NPagination
           v-model:page="searchParams.page"
@@ -110,18 +102,15 @@ watch(
       width="60"
       height="60"
       class="bg-red-500"
-      @click="infoShow = true"
+      @click="drawerVisible = true"
     >
       <Icon icon="mdi:plus" class="text-white" width="35" height="35" />
     </NFloatButton>
-    <NDrawer v-model:show="infoShow" :width="800">
-      <NDrawerContent>
-        <template #header>新增指标</template>
-        <template #footer>
-          <NButton class="px-6" type="primary" @click="handleSubmit">提交</NButton>
-        </template>
-        <MetricInfo v-model:metric-data="metricAddForm" />
-      </NDrawerContent>
-    </NDrawer>
+    <MetricOperateDrawer
+      v-model:visible="drawerVisible"
+      :operate-type="operateType"
+      :row-data="metricForm"
+      @submitted="getMetricData"
+    />
   </div>
 </template>

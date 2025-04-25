@@ -2,9 +2,8 @@
 import { Icon } from '@iconify/vue';
 import { onMounted, ref, watch } from 'vue';
 import { useLoadOptions } from '@/hooks/common/option';
-import { $t } from '@/locales';
-import { fetchAddMetricTag, fetchDeleteMetricTag, fetchGetTagList, fetchUpdateMetric } from '@/service/api';
-import MetricInfo from './metric-info.vue';
+import { fetchAddMetricTag, fetchDeleteMetricTag, fetchGetTagList } from '@/service/api';
+import MetricOperateDrawer from '@/views/metric/modules/metric-operate-drawer.vue';
 
 // 定义组件的名称
 defineOptions({
@@ -15,7 +14,7 @@ defineOptions({
 const model = defineModel<Api.Metric.MetricData>('metricData', { required: true });
 
 // 定义基础信息显示
-const infoShow = ref(false);
+const drawerVisible = ref(false);
 
 // 当选中数据库时加载表列表
 const {
@@ -58,26 +57,6 @@ const handleAddTag = async (tagId: number) => {
   await fetchTagOptions();
   // 执行过滤操作
   filterOptions();
-};
-
-// 提交表单
-const handleSubmit = async () => {
-  const formData: Api.Metric.MetricUpdateParams = {
-    id: model.value.id,
-    metricName: model.value.metricName,
-    metricDesc: model.value.metricDesc,
-    dataModelId: model.value.dataModelId,
-    sensitivity: model.value.sensitivity,
-    statisticalPeriod: model.value.statisticalPeriod,
-    chartType: model.value.chartType
-  };
-  // 更新指标
-  const { error } = await fetchUpdateMetric(formData);
-  if (!error) {
-    window.$message?.success($t('common.updateSuccess'));
-  }
-  // 关闭抽屉
-  infoShow.value = false;
 };
 
 onMounted(async () => {
@@ -184,21 +163,13 @@ onMounted(async () => {
           </NGrid>
         </div>
       </NPopover>
-      <NButton quaternary size="tiny" @click="infoShow = true">
+      <NButton quaternary size="tiny" @click="drawerVisible = true">
         <template #icon>
           <Icon icon="mynaui:edit" />
         </template>
       </NButton>
     </NFlex>
-    <NDrawer v-model:show="infoShow" :width="1000">
-      <NDrawerContent>
-        <template #header>编辑指标</template>
-        <template #footer>
-          <NButton class="px-6" type="primary" @click="handleSubmit">提交</NButton>
-        </template>
-        <MetricInfo v-model:metric-data="model" />
-      </NDrawerContent>
-    </NDrawer>
+    <MetricOperateDrawer v-model:visible="drawerVisible" operate-type="edit" :row-data="metricData" />
     <div>
       <div class="font-medium">标签</div>
       <div class="mt-1 flex flex-wrap items-center">

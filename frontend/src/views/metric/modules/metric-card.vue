@@ -19,6 +19,10 @@ const searchParams = defineModel<Api.Metric.MetricListSearchParams>('searchParam
   required: true
 });
 
+const emit = defineEmits({
+  clickId: (id: number) => id
+});
+
 // 获取小数位数，设置金额、流量、百分数的小数位数为 2 ，其他为 0 位
 const getDemicals = (FormatType: Api.Metric.FormatType) => {
   switch (FormatType) {
@@ -59,8 +63,7 @@ const menuOptions = [
 const handleSelect = (key: string, item: Api.Metric.MetricData) => {
   const { routerPushByKey } = useRouterPush(false);
   if (key === 'metric-info') {
-    // eslint-disable-next-line no-console
-    console.log(item.id);
+    emit('clickId', item.id);
   } else if (key === 'metric-exploration') {
     routerPushByKey('metric-exploration', { params: { id: item.id.toString() } });
   } else if (key === 'metric-report') {
