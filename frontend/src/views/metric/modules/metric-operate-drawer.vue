@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { FormRules } from 'naive-ui';
 import { NForm, NFormItem, NInput, NInputNumber, NSelect } from 'naive-ui';
 import { computed, markRaw, onMounted, reactive, ref, watch } from 'vue';
 import { useLoadOptions } from '@/hooks/common/option';
@@ -143,13 +142,25 @@ const formFields = ref<Api.Metric.MetricFormFields>({
 });
 
 // 定义表单的校验规则
-const rules: FormRules = {
-  metricName: { required: true, message: '指标名称是必填项', trigger: 'blur' },
-  metricDesc: { required: true, message: '指标描述是必填项', trigger: 'blur' },
-  sensitivity: { required: true, message: '敏感等级是必填项', trigger: 'blur' },
-  statisticalPeriod: { required: true, message: '统计周期是必填项', trigger: 'blur' },
-  dataModelId: { required: true, message: '选用模型是必填项' }
-};
+const rules = computed(() => {
+  return {
+    metricName: { required: true, message: '指标名称是必填项', trigger: 'blur' },
+    metricDesc: { required: true, message: '指标描述是必填项', trigger: 'blur' },
+    sensitivity: { required: true, message: '敏感等级是必填项', trigger: 'blur' },
+    statisticalPeriod: { required: true, message: '统计周期是必填项', trigger: 'blur' },
+    dataModelId: { required: true, message: '选用模型是必填项', trigger: 'blur' },
+    statisticScope: {
+      required: !disableFields.value,
+      message: '统计范围是必填项',
+      trigger: 'blur'
+    },
+    chartType: {
+      required: !disableFields.value,
+      message: '选用图表是必填项',
+      trigger: 'blur'
+    }
+  };
+});
 
 function handleInitModel() {
   Object.assign(model, createDefaultModel());
@@ -192,6 +203,20 @@ watch(visible, () => {
     // restoreValidation();
   }
 });
+
+watch(
+  () => model.statisticalPeriod,
+  newVal => {
+    // Set disableFields to true when statisticalPeriod is 'cumulative'
+    if ((disableFields.value = newVal === 'cumulative')) {
+      disableFields.value = true;
+      model.statisticScope = null;
+      model.chartType = null;
+    } else {
+      disableFields.value = false;
+    }
+  }
+);
 </script>
 
 <template>

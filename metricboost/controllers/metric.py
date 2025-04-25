@@ -320,35 +320,44 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         dim_where_clause = self._build_dim_filter_clause(dim_filter)
 
         # 构建SQL查询
-        if dim_select:
-            # 如果有维度选择，则使用窗口函数限制每个日期的前15条记录
-            sql = f"""
-            WITH ranked_data AS (
+        if statistical_period != "cumulative":
+            if dim_select:
+                # 如果有维度选择，则使用窗口函数限制每个日期的前15条记录
+                sql = f"""
+                WITH ranked_data AS (
+                    SELECT
+                        {date_format_sql} as date,
+                        {agg}({metric_col}){extra_calc} as value{dim_clause},
+                        ROW_NUMBER() OVER (PARTITION BY {date_format_sql} ORDER BY {agg}({metric_col}){extra_calc} {sort}) as row_num
+                    FROM {table}
+                    WHERE {date_where_clause}{dim_where_clause}
+                    GROUP BY {date_format_sql}{dim_clause}
+                )
+                SELECT date, value{dim_clause} 
+                FROM ranked_data
+                WHERE row_num <= 10
+                ORDER BY date, value {sort}
+                """
+            else:
+                # 原始查询，不限制记录数
+                sql = f"""
                 SELECT
                     {date_format_sql} as date,
-                    {agg}({metric_col}){extra_calc} as value{dim_clause},
-                    ROW_NUMBER() OVER (PARTITION BY {date_format_sql} ORDER BY {agg}({metric_col}){extra_calc} {sort}) as row_num
+                    {agg}({metric_col}){extra_calc} as value{dim_clause}
                 FROM {table}
                 WHERE {date_where_clause}{dim_where_clause}
                 GROUP BY {date_format_sql}{dim_clause}
-            )
-            SELECT date, value{dim_clause} 
-            FROM ranked_data
-            WHERE row_num <= 10
-            ORDER BY date, value {sort}
-            """
+                ORDER BY date, value DESC
+                """
         else:
-            # 原始查询，不限制记录数
             sql = f"""
             SELECT
-                {date_format_sql} as date,
+                current_date() as date,
                 {agg}({metric_col}){extra_calc} as value{dim_clause}
             FROM {table}
             WHERE {date_where_clause}{dim_where_clause}
-            GROUP BY {date_format_sql}{dim_clause}
             ORDER BY date, value DESC
             """
-
         result = await db.execute(sql)
 
         try:
@@ -421,6 +430,13 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
                     ).replace(month=1, day=1),
                     "sql_format": f"DATE_FORMAT({date_col}, '%Y')",
                 },
+                "cumulative": {
+                    "format": "%Y-%m-%d",
+                    "date_func": lambda dt: dt.strftime("%Y-%m-%d"),
+                    "increment": lambda dt, i: dt + timedelta(days=i),
+                    "default_start": lambda: today - timedelta(days=default_scope),
+                    "sql_format": f"DATE_FORMAT({date_col}, '%Y-%m-%d')",
+                },
             }
 
             # 获取统计周期对应的设置
@@ -429,45 +445,57 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             # Step 1: 生成维度SQL子句
             date_format_sql = settings["sql_format"]
 
-            # Step 1: 生成 MySQL 筛选条件
-            if date_range and len(date_range) == 2:
-                start_date = datetime.strptime(date_range[0], "%Y-%m-%d").date()
-                end_date = datetime.strptime(date_range[1], "%Y-%m-%d").date()
-                date_where_clause = (
-                    f"{date_col} BETWEEN '{date_range[0]}' AND '{date_range[1]}'"
-                )
-            else:
-                start_date = settings["default_start"]()
+            # Step 2: 判断是否是累计
+            if statistical_period == "cumulative":
+                date_where_clause = "1=1"  # 始终为真的条件，不过滤时间
+
+                # 对于累计，我们只需要返回最近的一个日期
                 end_date = today
-                date_where_clause = f"{date_col} >= '{start_date.strftime('%Y-%m-%d')}'"
+                date_list = [today.strftime(settings["format"])]
+            else:
+                # Step 2: 生成 MySQL 筛选条件
+                if date_range and len(date_range) == 2:
+                    start_date = datetime.strptime(date_range[0], "%Y-%m-%d").date()
+                    end_date = datetime.strptime(date_range[1], "%Y-%m-%d").date()
+                    date_where_clause = (
+                        f"{date_col} BETWEEN '{date_range[0]}' AND '{date_range[1]}'"
+                    )
+                else:
+                    start_date = settings["default_start"]()
+                    end_date = today
+                    date_where_clause = (
+                        f"{date_col} >= '{start_date.strftime('%Y-%m-%d')}'"
+                    )
 
-            # Step 3: 生成日期序列
-            date_list = []
-            current_date = start_date
+                    # Step 3: 生成日期序列
+                    date_list = []
+                    current_date = start_date
 
-            if statistical_period == "weekly":
-                # Start from the first day of the week containing start_date
-                current_date = current_date - timedelta(days=current_date.weekday())
-            elif statistical_period == "monthly":
-                # Start from the first day of the month
-                current_date = current_date.replace(day=1)
-            elif statistical_period == "yearly":
-                # Start from the first day of the year
-                current_date = current_date.replace(month=1, day=1)
+                    if statistical_period == "weekly":
+                        # Start from the first day of the week containing start_date
+                        current_date = current_date - timedelta(
+                            days=current_date.weekday()
+                        )
+                    elif statistical_period == "monthly":
+                        # Start from the first day of the month
+                        current_date = current_date.replace(day=1)
+                    elif statistical_period == "yearly":
+                        # Start from the first day of the year
+                        current_date = current_date.replace(month=1, day=1)
 
-            # Track already added periods to avoid duplicates
-            added_periods = set()
+                    # Track already added periods to avoid duplicates
+                    added_periods = set()
 
-            # Generate the sequence
-            while current_date <= end_date:
-                period_str = settings["date_func"](current_date)
+                    # Generate the sequence
+                    while current_date <= end_date:
+                        period_str = settings["date_func"](current_date)
 
-                # Only add if we haven't added this period yet
-                if period_str not in added_periods:
-                    date_list.append(period_str)
-                    added_periods.add(period_str)
+                        # Only add if we haven't added this period yet
+                        if period_str not in added_periods:
+                            date_list.append(period_str)
+                            added_periods.add(period_str)
 
-                current_date = settings["increment"](current_date, 1)
+                        current_date = settings["increment"](current_date, 1)
             logger.debug(
                 f"日期格式化SQL: {date_format_sql}, 日期条件: {date_where_clause},  日期列表: {date_list}"
             )

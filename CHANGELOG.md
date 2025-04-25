@@ -7,6 +7,7 @@
 ## [unreleased]
 
 ### Added
+- 新增 累计统计模式
 
 ### Fixed
 - 敏感等级修改为字符串

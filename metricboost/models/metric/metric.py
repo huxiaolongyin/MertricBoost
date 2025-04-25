@@ -15,7 +15,7 @@ class Metric(BaseModel, TimestampMixin):
     metric_desc = fields.CharField(max_length=500, description="指标描述/业务口径")
     statistical_period = fields.CharEnumField(StatisticalPeriod, description="统计周期")
     statistic_scope = fields.IntField(description="统计范围", null=True)
-    chart_type = fields.CharEnumField(ChartType, description="图表类型")
+    chart_type = fields.CharEnumField(ChartType, description="图表类型", null=True)
     sensitivity = fields.CharEnumField(Sensitivity, description="敏感度")
 
     # 数据模型关系：一个模型可以有多个指标，一个指标属于一个模型
