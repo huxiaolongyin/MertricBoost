@@ -18,7 +18,6 @@ class DataMobdelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate]
         """
         更新数据模型关联的域ID
         """
-        print(domain_ids)
         await data_model.domains.clear()
         for domain_id in domain_ids:
             domain = await Domain.get_or_none(id=domain_id)

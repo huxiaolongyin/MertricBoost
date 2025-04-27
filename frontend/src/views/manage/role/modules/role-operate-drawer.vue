@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchAddRole, fetchUpdateRole } from '@/service/api';
+import { fetchAddRole, fetchGetDomainTree, fetchUpdateRole } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { filteredSensitiveOptions } from '@/constants/options';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
 import ApiAuthModal from './/api-auth-modal.vue';
@@ -46,8 +47,6 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-// type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status'>;
-
 const model: Api.SystemManage.RoleUpdateParams = reactive(createDefaultModel());
 
 function createDefaultModel(): Api.SystemManage.RoleAddParams {
@@ -56,21 +55,35 @@ function createDefaultModel(): Api.SystemManage.RoleAddParams {
     roleCode: '',
     roleDesc: '',
     roleHome: '',
-    status: null
+    sensitivity: '',
+    domainIds: [],
+    status: '0'
   };
 }
 
-type RuleKey = Exclude<keyof Api.SystemManage.RoleAddParams, 'roleDesc' | 'roleHome'>;
+type RuleKey = Exclude<keyof Api.SystemManage.RoleAddParams, 'roleDesc' | 'roleHome' | 'domainIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
   roleCode: defaultRequiredRule,
-  status: defaultRequiredRule
+  status: defaultRequiredRule,
+  sensitivity: defaultRequiredRule
 };
 
 const roleId = computed(() => props.rowData?.id || -1);
 
 const isEdit = computed(() => props.operateType === 'edit');
+
+// 获取主题域列表
+const domainOptions = ref<Api.SystemManage.DomainTree[]>([]);
+
+// 创建一个函数来获取领域树数据
+async function fetchDomainTreeOptions() {
+  const { error, data } = await fetchGetDomainTree();
+  if (!error && data) {
+    domainOptions.value = data;
+  }
+}
 
 function handleInitModel() {
   Object.assign(model, createDefaultModel());
@@ -102,6 +115,11 @@ async function handleSubmit() {
   emit('submitted');
 }
 
+// 在组件挂载时获取数据
+onMounted(() => {
+  fetchDomainTreeOptions();
+});
+
 watch(visible, () => {
   if (visible.value) {
     handleInitModel();
@@ -119,6 +137,23 @@ watch(visible, () => {
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleCode')" path="roleCode">
           <NInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.role.sensitivity')" path="sensitivity">
+          <NSelect
+            v-model:value="model.sensitivity"
+            :placeholder="$t('page.manage.role.form.sensitivity')"
+            :options="filteredSensitiveOptions"
+          />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.role.domains')" path="domains">
+          <NTreeSelect
+            v-model:value="model.domainIds"
+            multiple
+            cascade
+            checkable
+            :placeholder="$t('page.manage.role.form.domains')"
+            :options="domainOptions"
+          />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleStatus')" path="status">
           <NRadioGroup v-model:value="model.status">

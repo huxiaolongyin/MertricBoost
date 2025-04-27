@@ -201,6 +201,7 @@ export function fetchBatchDeleteRole(data?: Api.Common.CommonBatchDeleteParams) 
 
 /** update role */
 export function fetchUpdateRole(data?: Api.SystemManage.RoleUpdateParams) {
+  console.log(data);
   return request<Api.SystemManage.RoleList, 'json'>({
     url: `/system/roles/${data?.id}`,
     method: 'patch',

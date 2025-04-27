@@ -1,7 +1,7 @@
 from tortoise import fields
 
 from metricboost.models.base import BaseModel, TimestampMixin
-from metricboost.models.enums import StatusType
+from metricboost.models.enums import Sensitivity, StatusType
 
 
 class Role(BaseModel, TimestampMixin):
@@ -15,10 +15,18 @@ class Role(BaseModel, TimestampMixin):
     status = fields.CharEnumField(
         enum_type=StatusType, default=StatusType.enable, description="状态"
     )
+    sensitivity = fields.CharEnumField(
+        enum_type=Sensitivity, default=Sensitivity.LOW, description="敏感度"
+    )
 
     menus = fields.ManyToManyField("app_system.Menu", related_name="role_menus")
     apis = fields.ManyToManyField("app_system.Api", related_name="role_apis")
     buttons = fields.ManyToManyField("app_system.Button", related_name="role_buttons")
+    domains = fields.ManyToManyField("app_system.Domain", related_name="role_domains")
 
     class Meta:
         table = "roles"
+
+    @property
+    def is_admin(self) -> bool:
+        return self.role_code == "R_SUPER"

@@ -5,6 +5,7 @@ import { orderOptions, sensitiveOptions } from '@/constants/options';
 import { useLoadOptions } from '@/hooks/common/option';
 import { $t } from '@/locales';
 import { fetchGetDomainList, fetchGetTagList } from '@/service/api';
+
 // 定义“搜索”组件的选项
 defineOptions({
   name: 'SearchFilter'

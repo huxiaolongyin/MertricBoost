@@ -666,11 +666,15 @@ declare namespace App {
             title: string;
             roleName: string;
             roleCode: string;
+            sensitivity: string;
+            domains: string;
             roleStatus: string;
             roleDesc: string;
             form: {
               roleName: string;
               roleCode: string;
+              sensitivity: string;
+              domains: string;
               roleStatus: string;
               roleDesc: string;
             };
@@ -679,6 +683,8 @@ declare namespace App {
             menuAuth: string;
             buttonAuth: string;
             apiAuth: string;
+            domainAuth: string;
+            sensitiveAuth: string;
           };
 
           log: {

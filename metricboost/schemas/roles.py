@@ -2,7 +2,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from metricboost.models.enums import StatusType
+from metricboost.models.enums import Sensitivity, StatusType
 
 
 class RoleBase(BaseModel):
@@ -14,7 +14,9 @@ class RoleBase(BaseModel):
     role_home: Annotated[
         str | None, Field(alias="roleHome", description="角色首页")
     ] = None
-    status: Annotated[StatusType | None, Field()] = None
+    status: Annotated[StatusType | None, Field(alias="status")] = None
+    sensitivity: Annotated[Sensitivity | None, Field(alias="sensitivity")] = None
+    domainIds: Annotated[list[int | str] | None, Field(alias="domainIds")] = None
 
     model_config = ConfigDict(allow_extra=True, populate_by_name=True)
 
@@ -37,4 +39,7 @@ class RoleUpdateAuthrization(BaseModel):
     ] = None
     button_ids: Annotated[
         list[int] | None, Field(alias="buttonIds", description="按钮id列表")
+    ] = None
+    domain_ids: Annotated[
+        list[int] | None, Field(alias="domainIds", description="域id列表")
     ] = None

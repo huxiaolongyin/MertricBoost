@@ -38,9 +38,9 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         metric = await super().create(metric_data)
 
         # 处理域关联
-        if hasattr(obj_in, "domain_ids") and obj_in.domain_ids:
-            domains = await Domain.filter(id__in=obj_in.domain_ids)
-            await metric.domains.add(*domains)
+        # if hasattr(obj_in, "domain_ids") and obj_in.domain_ids:
+        #     domains = await Domain.filter(id__in=obj_in.domain_ids)
+        #     await metric.domains.add(*domains)
 
         # 处理标签关联
         if hasattr(obj_in, "tag_ids") and obj_in.tag_ids:
@@ -70,13 +70,13 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         updated_metric = await super().update(id=id, obj_in=metric_data)
 
         # 处理域关联
-        if hasattr(obj_in, "domain_ids") and obj_in.domain_ids is not None:
-            # 清除现有关联
-            await updated_metric.domains.clear()
-            # 添加新关联
-            if obj_in.domain_ids:
-                domains = await Domain.filter(id__in=obj_in.domain_ids)
-                await updated_metric.domains.add(*domains)
+        # if hasattr(obj_in, "domain_ids") and obj_in.domain_ids is not None:
+        #     # 清除现有关联
+        #     await updated_metric.domains.clear()
+        #     # 添加新关联
+        #     if obj_in.domain_ids:
+        #         domains = await Domain.filter(id__in=obj_in.domain_ids)
+        #         await updated_metric.domains.add(*domains)
 
         # 处理标签关联
         if hasattr(obj_in, "tag_ids") and obj_in.tag_ids is not None:
@@ -112,6 +112,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         Returns:
             格式化后的指标字典
         """
+        await metric.data_model.fetch_related("domains")
         metric_dict = {
             "id": metric.id,
             "metricName": metric.metric_name,
@@ -126,7 +127,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             "updateBy": metric.update_by.user_name,
             "createBy": metric.create_by.user_name,
             "tags": [tag.tag_name for tag in metric.tags],
-            "domains": [domain.domain_name for domain in metric.domains],
+            "domains": [domain.domain_name for domain in metric.data_model.domains],
             "metricFormat": metric.data_model.metric_format,
             "dimCols": metric.data_model.dimension_columns,
             "data": await self.get_metric_data(
@@ -213,9 +214,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             return None
 
         # 加载关联数据
-        await metric.fetch_related(
-            "tags", "domains", "create_by", "update_by", "data_model"
-        )
+        await metric.fetch_related("tags", "create_by", "update_by", "data_model")
 
         return await self._format_metric_to_dict(
             metric,
@@ -233,6 +232,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         page_size: int = 10,
         search: Q = Q(),
         order: str = None,
+        distinct: bool = False,
     ):
         """
         获取指标列表
@@ -251,7 +251,8 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             page_size=page_size,
             search=search,
             order=order,
-            prefetch=["tags", "domains", "create_by", "update_by", "data_model"],
+            prefetch=["tags", "create_by", "update_by", "data_model"],
+            distinct=distinct,
         )
 
         result = []
@@ -454,12 +455,15 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
                 date_list = [today.strftime(settings["format"])]
             else:
                 # Step 2: 生成 MySQL 筛选条件
+                # 如果传入了日期范围，则使用传入的日期范围
                 if date_range and len(date_range) == 2:
                     start_date = datetime.strptime(date_range[0], "%Y-%m-%d").date()
                     end_date = datetime.strptime(date_range[1], "%Y-%m-%d").date()
                     date_where_clause = (
                         f"{date_col} BETWEEN '{date_range[0]}' AND '{date_range[1]}'"
                     )
+
+                # 如果没有传入日期范围，则使用默认的日期范围
                 else:
                     start_date = settings["default_start"]()
                     end_date = today
@@ -467,33 +471,31 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
                         f"{date_col} >= '{start_date.strftime('%Y-%m-%d')}'"
                     )
 
-                    # Step 3: 生成日期序列
-                    date_list = []
-                    current_date = start_date
+                # Step 3: 生成日期序列
+                date_list = []
+                current_date = start_date
 
-                    if statistical_period == "weekly":
-                        # Start from the first day of the week containing start_date
-                        current_date = current_date - timedelta(
-                            days=current_date.weekday()
-                        )
-                    elif statistical_period == "monthly":
-                        # Start from the first day of the month
-                        current_date = current_date.replace(day=1)
-                    elif statistical_period == "yearly":
-                        # Start from the first day of the year
-                        current_date = current_date.replace(month=1, day=1)
+                if statistical_period == "weekly":
+                    # Start from the first day of the week containing start_date
+                    current_date = current_date - timedelta(days=current_date.weekday())
+                elif statistical_period == "monthly":
+                    # Start from the first day of the month
+                    current_date = current_date.replace(day=1)
+                elif statistical_period == "yearly":
+                    # Start from the first day of the year
+                    current_date = current_date.replace(month=1, day=1)
 
-                    # Track already added periods to avoid duplicates
-                    added_periods = set()
+                # Track already added periods to avoid duplicates
+                added_periods = set()
 
-                    # Generate the sequence
-                    while current_date <= end_date:
-                        period_str = settings["date_func"](current_date)
+                # Generate the sequence
+                while current_date <= end_date:
+                    period_str = settings["date_func"](current_date)
 
-                        # Only add if we haven't added this period yet
-                        if period_str not in added_periods:
-                            date_list.append(period_str)
-                            added_periods.add(period_str)
+                    # Only add if we haven't added this period yet
+                    if period_str not in added_periods:
+                        date_list.append(period_str)
+                        added_periods.add(period_str)
 
                         current_date = settings["increment"](current_date, 1)
             logger.debug(

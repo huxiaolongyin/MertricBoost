@@ -26,11 +26,11 @@ class Metric(BaseModel, TimestampMixin):
     )
 
     # 多对多关系：指标与域
-    domains = fields.ManyToManyField(
-        "app_system.Domain",
-        related_name="metrics",
-        description="关联的域",
-    )
+    # domains = fields.ManyToManyField(
+    #     "app_system.Domain",
+    #     related_name="metrics",
+    #     description="关联的域",
+    # )
 
     # 多对多关系：指标与标签
     tags = fields.ManyToManyField(

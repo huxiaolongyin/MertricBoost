@@ -56,7 +56,7 @@ class Database(BaseModel, TimestampMixin):
     async def execute(self, sql: str) -> list[dict]:
         """执行 SQL 语句"""
         conn = await self.get_connection()
-        logger.debug(f"执行SQL查询: {sql}")
+        # logger.debug(f"执行SQL查询: {sql}")
         try:
             async with conn.cursor(aiomysql.DictCursor) as cursor:
                 await cursor.execute(sql)

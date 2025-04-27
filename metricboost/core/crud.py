@@ -31,6 +31,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         search: Q = Q(),
         order: list[str] | None = None,
         prefetch: Optional[List[str]] = None,
+        distinct: bool = False,
     ) -> tuple[int, list[ModelType]]:
         """
         获取列表数据
@@ -46,6 +47,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         # 过滤
         query = self.model.filter(search)
+
+        # 去重
+        if distinct:
+            query = query.distinct()
 
         # 查询总数
         total = await query.count()

@@ -29,7 +29,6 @@ export function fetchGetMetricDetail(data?: Api.Metric.MetricDetailSearchParams)
 
 // 添加指标
 export function fetchAddMetric(data?: Api.Metric.MetricAddParams) {
-  console.log(data);
   return request<Api.Metric.MetricData, 'json'>({
     url: '/metric/create',
     method: 'post',

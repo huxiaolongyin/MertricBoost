@@ -81,7 +81,6 @@ async def lifespan(app: FastAPI):
     finally:
         end_time = time.time()
         runtime = end_time - start_time
-        print("")
         logger.info(f"应用 {app.title} 运行时间: {runtime:.2f} 秒")
         await Log.create(
             log_type=LogType.SystemLog, log_detail_type=LogDetailType.SystemStop

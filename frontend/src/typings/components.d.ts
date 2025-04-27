@@ -127,6 +127,7 @@ declare module 'vue' {
     NThing: typeof import('naive-ui')['NThing']
     NTooltip: typeof import('naive-ui')['NTooltip']
     NTree: typeof import('naive-ui')['NTree']
+    NTreeSelect: typeof import('naive-ui')['NTreeSelect']
     NWatermark: typeof import('naive-ui')['NWatermark']
     PinToggler: typeof import('./../components/common/pin-toggler.vue')['default']
     ReloadButton: typeof import('./../components/common/reload-button.vue')['default']

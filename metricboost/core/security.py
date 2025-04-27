@@ -24,7 +24,3 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
     except Exception:
         return False
-
-
-if __name__ == "__main__":
-    print(get_password_hash("123456"))

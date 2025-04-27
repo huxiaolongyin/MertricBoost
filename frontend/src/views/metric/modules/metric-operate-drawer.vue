@@ -4,7 +4,7 @@ import { computed, markRaw, onMounted, reactive, ref, watch } from 'vue';
 import { useLoadOptions } from '@/hooks/common/option';
 import { $t } from '@/locales';
 import { fetchAddMetric, fetchDataModelList, fetchUpdateMetric } from '@/service/api';
-import { chartTypeOptions, sensitiveOptions, statisticalPeriodOptions } from '@/constants/options';
+import { chartTypeOptions, filteredSensitiveOptions, statisticalPeriodOptions } from '@/constants/options';
 
 defineOptions({
   name: 'MetricOperateDrawer'
@@ -51,7 +51,7 @@ const createDefaultModel = (): Api.Metric.MetricUpdateParams => {
     // domainIds: [],
   };
 };
-const model = reactive<Api.Metric.MetricUpdateParams>(createDefaultModel());
+const model = reactive<Api.Metric.MetricUpdateParams>({});
 
 // 加载非禁用的模型列表
 const {
@@ -62,8 +62,11 @@ const {
   labelKey: 'name',
   valueKey: 'id'
 });
+
 // 加载过滤掉不限选项
-const filteredSensitiveOptions = sensitiveOptions.filter(option => !(option.value === '' && option.label === '不限'));
+// const filteredSensitiveOptions = sensitiveOptions.filter(
+//   (option) => !(option.value === "" && option.label === "不限")
+// );
 
 // 加载禁用
 const disableFields = ref(false);
@@ -144,7 +147,11 @@ const formFields = ref<Api.Metric.MetricFormFields>({
 // 定义表单的校验规则
 const rules = computed(() => {
   return {
-    metricName: { required: true, message: '指标名称是必填项', trigger: 'blur' },
+    metricName: {
+      required: true,
+      message: '指标名称是必填项',
+      trigger: ['blur', 'change']
+    },
     metricDesc: { required: true, message: '指标描述是必填项', trigger: 'blur' },
     sensitivity: { required: true, message: '敏感等级是必填项', trigger: 'blur' },
     statisticalPeriod: { required: true, message: '统计周期是必填项', trigger: 'blur' },
@@ -174,8 +181,6 @@ function closeDrawer() {
 }
 
 async function handleSubmit() {
-  //   await validate();
-  // request
   if (props.operateType === 'add') {
     const { error } = await fetchAddMetric(model);
     if (!error) {
@@ -192,17 +197,17 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-onMounted(
-  async () =>
-    // 加载数据
-    await fetchDataModelOptions()
+onMounted(async () => await fetchDataModelOptions());
+
+watch(
+  () => visible.value,
+  newVal => {
+    if (newVal) {
+      handleInitModel();
+    }
+  },
+  { immediate: true }
 );
-watch(visible, () => {
-  if (visible.value) {
-    handleInitModel();
-    // restoreValidation();
-  }
-});
 
 watch(
   () => model.statisticalPeriod,

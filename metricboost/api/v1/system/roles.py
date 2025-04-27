@@ -6,6 +6,7 @@ from metricboost.controllers.role import role_controller
 from metricboost.core.exceptions import HTTPException
 from metricboost.core.response import Error, Success, SuccessExtra
 from metricboost.logger import insert_log
+from metricboost.models.asset import Domain
 from metricboost.models.system import Api, Button, LogDetailType, LogType, Role
 from metricboost.schemas.roles import RoleCreate, RoleUpdate, RoleUpdateAuthrization
 
@@ -33,10 +34,15 @@ async def _(
         page_size=page_size,
         search=q,
         order=["id"],
+        prefetch=["domains"],
     )
-    records = [
-        await role_obj.to_dict(exclude_fields=["role_desc"]) for role_obj in role_objs
-    ]
+    records = []
+    for role_obj in role_objs:
+        role_dict = await role_obj.to_dict(exclude_fields=["role_desc"])
+        domain_ids = [domain.id for domain in role_obj.domains]
+        role_dict.update({"domainIds": domain_ids})
+        records.append(role_dict)
+
     data = {"records": records}
     await insert_log(
         log_type=LogType.AdminLog,
@@ -80,7 +86,13 @@ async def _(role_in: RoleCreate):
 
 @router.patch("/roles/{role_id}", summary="更新角色")
 async def _(role_id: int, role_in: RoleUpdate):
-    await role_controller.update(id=role_id, obj_in=role_in)
+    await role_controller.update(id=role_id, obj_in=role_in, exclude=["domainIds"])
+    if "数据域" in role_in.domainIds:
+        role_in.domainIds.remove("数据域")
+    if "主题域" in role_in.domainIds:
+        role_in.domainIds.remove("主题域")
+    await role_controller.update_domain_by_ids(id=role_id, domain_ids=role_in.domainIds)
+
     await insert_log(
         log_type=LogType.AdminLog,
         log_detail_type=LogDetailType.RoleUpdateOne,
@@ -245,3 +257,22 @@ async def _(role_id: int, role_in: RoleUpdateAuthrization):
         by_user_id=0,
     )
     return Success(msg="Updated Successfully", data={"api_ids": role_in.api_ids})
+
+
+# @router.patch("/roles/{role_id}/domain", summary="更新角色的域分类")
+# async def _(role_id: int, role_in: RoleUpdateAuthrization):
+#     role_obj = await role_controller.get(id=role_id)
+#     if role_in.domain_ids is None:
+#         return Error(msg="No Domains to update")
+#     await role_obj.domains.clear()
+#     for domain_id in role_in.domain_ids:
+#         domain_obj = await Domain.get(id=domain_id)
+#         await role_obj.domains.add(domain_obj)
+
+#     await insert_log(
+#         log_type=LogType.AdminLog,
+#         log_detail_type=LogDetailType.RoleUpdateDomains,
+#         log_detail="更新角色的域分类",
+#         by_user_id=0,
+#     )
+#     return Success(msg="Updated Successfully", data={"domain_ids": role_in.domain_ids})

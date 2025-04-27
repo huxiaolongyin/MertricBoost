@@ -134,12 +134,16 @@ class LogDetailType(StrEnum):
     RoleUpdateButtons = "1505"
     RoleGetApis = "1506"
     RoleUpdateApis = "1507"
+    RoleGetDomains = "1508"
+    RoleUpdateDomains = "1509"
+    RoleGetSensitivity = "1510"
+    RoleUpdateSensitivity = "1511"
 
-    RoleGetOne = "1511"
-    RoleCreateOne = "1512"
-    RoleUpdateOne = "1513"
-    RoleDeleteOne = "1514"
-    RoleBatchDeleteOne = "1515"
+    RoleGetOne = "1521"
+    RoleCreateOne = "1522"
+    RoleUpdateOne = "1523"
+    RoleDeleteOne = "1524"
+    RoleBatchDeleteOne = "1525"
 
     # 用户(1600-1699)
     UserGetList = "1601"

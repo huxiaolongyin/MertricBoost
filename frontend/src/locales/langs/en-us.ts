@@ -464,16 +464,22 @@ const local: App.I18n.Schema = {
         title: 'Role List',
         roleName: 'Role Name',
         roleCode: 'Role Code',
+        domains: 'Domains',
+        sensitivity: 'Sensitivity',
         roleStatus: 'Role Status',
         roleDesc: 'Role Description',
         menuAuth: 'Menu Auth',
         buttonAuth: 'Button Auth',
         apiAuth: 'API Auth',
+        domainAuth: 'Domain Auth',
+        sensitiveAuth: 'Sensitivity Auth',
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',
-          roleStatus: 'Please select role status',
-          roleDesc: 'Please enter role description'
+          domains: '请选择域分类',
+          sensitivity: '请选择敏感等级',
+          roleStatus: '请选择角色状态',
+          roleDesc: '请输入角色描述'
         },
         addRole: 'Add Role',
         editRole: 'Edit Role'

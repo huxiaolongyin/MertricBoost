@@ -8,6 +8,7 @@ from metricboost.controllers.domain import domain_controller
 from metricboost.core.ctx import get_current_user_id
 from metricboost.core.response import Error, Success, SuccessExtra
 from metricboost.logger import insert_log
+from metricboost.models.asset import Domain
 from metricboost.models.enums import DomainType
 from metricboost.models.system import LogDetailType, LogType
 from metricboost.schemas.domain import DomainCreate, DomainUpdate
@@ -16,6 +17,34 @@ router = APIRouter()
 
 # 统一缓存实例，为不同类型域分别设置缓存键前缀
 domain_cache = TTLCache(maxsize=300, ttl=300)  # 5分钟过期
+
+
+def build_domain_tree(domains: list[Domain]):
+    """
+    构建域树
+    :param domains:
+    :return:
+    """
+    tree = [
+        {"key": "数据域", "label": "数据域", "children": []},
+        {"key": "主题域", "label": "主题域", "children": []},
+    ]
+    for domain in domains:
+        if domain.domain_type == DomainType.DATA:
+            tree[0]["children"].append(
+                {
+                    "key": domain.id,
+                    "label": domain.domain_name,
+                }
+            )
+        else:
+            tree[1]["children"].append(
+                {
+                    "key": domain.id,
+                    "label": domain.domain_name,
+                }
+            )
+    return tree
 
 
 @router.get(
@@ -105,7 +134,19 @@ async def get_domains(
             log_detail=f"获取域列表失败: {str(e)}",
             by_user_id=user_id,
         )
-        return Error(msg=f"获取域列表失败: {str(e)}")
+        return Error(msg=f"获取域列表s失败: {str(e)}")
+
+
+@router.get("/domains/tree", summary="获取域树")
+async def get_domain_tree():
+    """
+    获取域树
+    """
+    domain_objs = await Domain.all()
+    data = []
+    if domain_objs:
+        data = build_domain_tree(domain_objs)
+    return Success(data=data)
 
 
 @router.post("/domains", summary="创建域信息")

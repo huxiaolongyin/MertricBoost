@@ -10,17 +10,47 @@ from metricboost.controllers.metric import metric_controller
 from metricboost.core.ctx import get_current_user_id
 from metricboost.core.response import Error, Success, SuccessExtra
 from metricboost.logger import insert_log
-from metricboost.models.system import LogDetailType, LogType
+from metricboost.models.system import LogDetailType, LogType, Role, User
 from metricboost.schemas.metric import MetricCreate, MetricUpdate
 
 router = APIRouter()
 
 
+async def get_role_auth(user_id: int):
+    user = await User.get(id=user_id).prefetch_related("roles")
+    roles: List[Role] = await user.roles
+
+    # 获取角色关联的域ID列表
+    allowed_domain_ids = []
+
+    # 获取最高敏感度级别
+    max_sensitivity_level = 0
+
+    # 管理员角色标识
+    is_admin = False
+
+    for role in roles:
+        # 检查是否是管理员角色
+        if role.is_admin:
+            is_admin = True
+            break
+
+        # 获取角色关联的域
+        await role.fetch_related("domains")
+        allowed_domain_ids.extend([domain.id for domain in role.domains])
+
+        # 更新最高敏感度级别
+        if int(role.sensitivity) > max_sensitivity_level:
+            max_sensitivity_level = int(role.sensitivity)
+
+    return is_admin, allowed_domain_ids, max_sensitivity_level
+
+
 @router.get("/list", summary="获取指标列表")
 async def get_metric_list(
     name_or_desc: str = Query(None, alias="nameOrDesc"),
-    domain_ids: List[int] = Query(None, alias="domainIds"),
-    tag_ids: List[int] = Query(None, alias="tagIds"),
+    domain_ids: List[int] = Query([], alias="domainIds"),
+    tag_ids: List[int] = Query([], alias="tagIds"),
     sensitivity: str = Query(None),
     page: int = Query(1, alias="page"),
     page_size: int = Query(10, alias="pageSize"),
@@ -34,27 +64,71 @@ async def get_metric_list(
     - 支持分页和排序
     - 返回指标的基本信息，不包含数据
     """
+
     if order is None or len(order) == 0 or order[0] == "":
         order = ["-id"]
     try:
+        # 获取用户权限信息
+        is_admin, allowed_domain_ids, max_sensitivity_level = await get_role_auth(
+            user_id
+        )
+
         # 构建查询条件
         q = Q()
+
+        # 名称或描述的过滤
         if name_or_desc:
             q &= Q(metric_name__icontains=name_or_desc) | Q(
                 metric_desc__icontains=name_or_desc
             )
-        if domain_ids and len(domain_ids):
-            q |= Q(domains__id__in=domain_ids)
-        if tag_ids and len(tag_ids):
-            q |= Q(tags__id__in=tag_ids)
-        if sensitivity:
-            q &= Q(sensitivity=sensitivity)
 
+        # 主题域过滤（结合权限）
+        if domain_ids:  # 避免对可能是整数的值调用len()
+            # 确保domain_ids是列表
+            domain_ids_list = (
+                domain_ids if isinstance(domain_ids, list) else [domain_ids]
+            )
+
+            if not is_admin:
+                # 找出用户请求的域和有权限的域的交集
+                accessible_domain_ids = set(allowed_domain_ids) & set(domain_ids_list)
+                if not accessible_domain_ids:
+                    return Error(msg="没有权限查看指定域的指标")
+                # 修改为通过data_model关联查询域
+                q &= Q(data_model__domains__id__in=list(accessible_domain_ids))
+            else:
+                # 管理员可以查看所有请求的域
+                q &= Q(data_model__domains__id__in=domain_ids_list)
+        elif not is_admin:
+            # 如果用户没有指定域过滤，则只查看用户有权限的域
+            if allowed_domain_ids:
+                # 修改为通过data_model关联查询域
+                q &= Q(data_model__domains__id__in=allowed_domain_ids)
+            else:
+                return Error(msg="没有权限查看任何域的指标")
+
+        # 标签过滤
+        if tag_ids and len(tag_ids):
+            q &= Q(tags__id__in=tag_ids)
+
+        # 敏感度过滤（结合权限）
+        if sensitivity:
+            # 如果用户指定了敏感度过滤，则只查看用户有权限的敏感度级别
+            if not is_admin and int(sensitivity) > max_sensitivity_level:
+                return Error(msg="没有权限查看该敏感度级别的指标")
+            q &= Q(sensitivity=sensitivity)
+        elif not is_admin:
+            # 如果用户没有指定敏感度过滤，则只查看用户有权限的敏感度级别
+            q &= Q(sensitivity__lte=str(max_sensitivity_level))
+            pass
+
+        # if domains
         total, metric_data = await metric_controller.get_list(
             page=page,
             page_size=page_size,
             search=q,
             order=order,
+            distinct=True,
         )
 
         # 记录日志

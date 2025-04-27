@@ -22,7 +22,7 @@ function closeModal() {
   visible.value = false;
 }
 
-const title = computed(() => $t('common.edit') + $t('page.manage.role.buttonAuth'));
+const title = computed(() => $t('common.edit') + $t('page.manage.role.apiAuth'));
 
 // type ApiConfig = {
 //   id: number;
@@ -36,8 +36,18 @@ const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 async function getTree() {
   // request
   tree.value = [
-    { id: 1, label: 'API模块', pId: 0, children: [{ id: 2, label: '查看API模块', pId: 1 }] },
-    { id: 3, label: '基础模块', pId: 0, children: [{ id: 4, label: '获取token', pId: 3 }] }
+    {
+      id: 1,
+      label: 'API模块',
+      pId: 0,
+      children: [{ id: 2, label: '查看API模块', pId: 1 }]
+    },
+    {
+      id: 3,
+      label: '基础模块',
+      pId: 0,
+      children: [{ id: 4, label: '获取token', pId: 3 }]
+    }
   ];
 
   const { error, data } = await fetchGetApiTree();

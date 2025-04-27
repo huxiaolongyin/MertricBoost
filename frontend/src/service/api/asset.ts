@@ -117,6 +117,14 @@ export function fetchDeleteDomain(data?: Api.Common.CommonDeleteParams) {
   });
 }
 
+// 获取域分类树
+export function fetchGetDomainTree(params?: Api.SystemManage.DomainSearchParams) {
+  return request<Api.SystemManage.DomainTree[]>({
+    url: '/asset/domains/tree',
+    method: 'get',
+    params
+  });
+}
 // 获取主题数据模型
 export function fetchDataModelList(modelParams?: Api.SystemManage.DataModelSearchParams) {
   return request<Api.SystemManage.DataModelList>({

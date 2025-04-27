@@ -6,6 +6,10 @@ export const sensitiveOptions: SelectOption[] = [
   { value: '3', label: '核心' }
 ];
 
+export const filteredSensitiveOptions = sensitiveOptions.filter(
+  option => !(option.value === '' && option.label === '不限')
+);
+
 // 添加维度筛选options
 export const filterOptions: SelectOption[] = [
   { label: '=', value: '=' },

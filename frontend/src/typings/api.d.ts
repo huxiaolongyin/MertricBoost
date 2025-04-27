@@ -423,10 +423,19 @@ declare namespace Api {
       roleDesc: string;
       /** role home */
       roleHome: string;
+      /** 敏感等级 */
+      sensitivity: string;
+      /** 域分类 */
+      domainIds: number[];
+      /** role status */
+      status: Api.Common.EnableStatus;
     }>;
 
     /** 角色添加参数 */
-    type RoleAddParams = Pick<Role, 'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status'>;
+    type RoleAddParams = Pick<
+      Role,
+      'roleName' | 'roleCode' | 'roleDesc' | 'roleHome' | 'status' | 'sensitivity' | 'domainIds'
+    >;
 
     /** role update params */
     type RoleUpdateParams = CommonType.RecordNullable<Pick<Role, 'id'>> & RoleAddParams;
@@ -807,6 +816,13 @@ declare namespace Api {
 
     // 数据域更新参数
     type DomainUpdateParams = CommonType.RecordNullable<Pick<Domain, 'id'>> & DomainAddParams;
+
+    // 获取主题模型树
+    type DomainTree = {
+      id: number;
+      label: string;
+      children?: DomainTree[];
+    };
 
     // 主题模型
     type DataModel = Common.CommonRecord<{
