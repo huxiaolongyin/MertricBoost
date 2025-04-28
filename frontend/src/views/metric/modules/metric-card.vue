@@ -52,9 +52,13 @@ const getPrefix = (FormatType: Api.Metric.FormatType) => {
   return FormatType === 'currency' ? '￥' : '';
 };
 
-const menuOptions = [
+const getMenuOptions = (item: Api.Metric.MetricData) => [
   { label: '基本信息', key: 'metric-info' },
-  { label: '指标探索', key: 'metric-exploration' },
+  {
+    label: '指标探索',
+    key: 'metric-exploration',
+    disabled: item.statisticalPeriod === 'cumulative'
+  },
   { label: '智能报告', key: 'metric-report', disabled: true },
   { label: 'API服务', key: 'metric-api', disabled: true },
   { label: () => h('span', { style: { color: 'red' } }, '删除'), key: 'delete' }
@@ -145,7 +149,7 @@ const handleSelect = (key: string, item: Api.Metric.MetricData) => {
                 <NDropdown
                   placement="bottom-end"
                   trigger="click"
-                  :options="menuOptions"
+                  :options="getMenuOptions(item)"
                   @select="key => handleSelect(key, item)"
                 >
                   <Icon
