@@ -117,37 +117,42 @@ async def _(jwt_token: JWTOut):
 
 @router.get("/getUserInfo", summary="查看用户信息", dependencies=[DependAuth])
 async def _():
-    user_id = CTX_USER_ID.get()
-    user_obj: User = await user_controller.get(id=user_id)
-    data = await user_obj.to_dict(exclude_fields=["password"])
+    try:
+        user_id = CTX_USER_ID.get()
+        user_obj: User = await user_controller.get(id=user_id)
+        data = await user_obj.to_dict(exclude_fields=["password"])
 
-    user_roles: list[Role] = await user_obj.roles
-    user_role_codes = [user_role.role_code for user_role in user_roles]
+        user_roles: list[Role] = await user_obj.roles
+        user_role_codes = [user_role.role_code for user_role in user_roles]
 
-    user_role_button_codes = (
-        [b.button_code for b in await Button.all()]
-        if "R_SUPER" in user_role_codes
-        else [
-            b.button_code for user_role in user_roles for b in await user_role.buttons
-        ]
-    )
+        user_role_button_codes = (
+            [b.button_code for b in await Button.all()]
+            if "R_SUPER" in user_role_codes
+            else [
+                b.button_code
+                for user_role in user_roles
+                for b in await user_role.buttons
+            ]
+        )
 
-    user_role_button_codes = list(set(user_role_button_codes))
+        user_role_button_codes = list(set(user_role_button_codes))
 
-    data.update(
-        {
-            "user_id": user_id,
-            "roles": user_role_codes,
-            "buttons": user_role_button_codes,
-        }
-    )
-    await insert_log(
-        log_type=LogType.UserLog,
-        log_detail_type=LogDetailType.UserLoginGetUserInfo,
-        log_detail="用户获取用户信息",
-        by_user_id=user_obj.id,
-    )
-    return Success(data=data)
+        data.update(
+            {
+                "user_id": user_id,
+                "roles": user_role_codes,
+                "buttons": user_role_button_codes,
+            }
+        )
+        await insert_log(
+            log_type=LogType.UserLog,
+            log_detail_type=LogDetailType.UserLoginGetUserInfo,
+            log_detail="用户获取用户信息",
+            by_user_id=user_obj.id,
+        )
+        return Success(data=data)
+    except Exception as e:
+        return Error(code="5000", msg=f"获取用户信息失败, error: {e}")
 
 
 @router.get("/error", summary="自定义后端错误")  # todo 使用限流器, 每秒最多一次
