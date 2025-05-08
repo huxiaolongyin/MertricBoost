@@ -261,7 +261,13 @@ async def get_metric_detail(
 
     try:
         metric_data = await metric_controller.get_detail(
-            id, date_range, statistical_period, dim_select, dim_filter, sort=sort
+            id,
+            user_id,
+            date_range,
+            statistical_period,
+            dim_select,
+            dim_filter,
+            sort=sort,
         )
 
         # 记录日志

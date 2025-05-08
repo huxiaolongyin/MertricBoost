@@ -5,8 +5,8 @@ import { useThemeStore } from '@/store/modules/theme';
 import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
 import GlobalLogo from '../global-logo/index.vue';
 import GlobalBreadcrumb from '../global-breadcrumb/index.vue';
-import GlobalSearch from '../global-search/index.vue';
-import ThemeButton from './components/theme-button.vue';
+// import GlobalSearch from "../global-search/index.vue";
+// import ThemeButton from "./components/theme-button.vue";
 import UserAvatar from './components/user-avatar.vue';
 
 defineOptions({
@@ -38,7 +38,7 @@ const { isFullscreen, toggle } = useFullscreen();
       <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
-      <GlobalSearch />
+      <!-- <GlobalSearch /> -->
       <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
       <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
       <ThemeSchemaSwitch
@@ -46,7 +46,7 @@ const { isFullscreen, toggle } = useFullscreen();
         :is-dark="themeStore.darkMode"
         @switch="themeStore.toggleThemeScheme"
       />
-      <ThemeButton />
+      <!-- <ThemeButton /> -->
       <UserAvatar />
     </div>
   </DarkModeContainer>

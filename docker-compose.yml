@@ -3,11 +3,54 @@ services:
   mysql:
     image: mysql:9.0
     environment:
+      TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: metric_boost
     ports:
       - "5523:3306"
+    networks:
+      - metricboost-network
     volumes:
       - ./data/mysql:/var/lib/mysql
     restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p123456" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    networks:
+      - metricboost-network
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+
+  backend:
+    image: metricboost:0.0.2
+    ports:
+      - "9999:9999"
+    networks:
+      - metricboost-network
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_DB_HOST=mysql
+      - MYSQL_DB_PORT=3306
+      - MYSQL_DB_USER=root
+      - MYSQL_DB_PASSWORD=123456
+      - MYSQL_DB_DATABASE=metric_boost
+      - PYTHONPATH=/code
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  metricboost-network:
+    driver: bridge

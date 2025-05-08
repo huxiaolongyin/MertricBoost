@@ -42,6 +42,7 @@ declare module "@elegant-router/types" {
     "asset_database": "/asset/database";
     "asset_model": "/asset/model";
     "asset_tag": "/asset/tag";
+    "collect": "/collect";
     "dashboard": "/dashboard";
     "decision": "/decision";
     "function": "/function";
@@ -92,7 +93,6 @@ declare module "@elegant-router/types" {
     "service_api-manange": "/service/api-manange";
     "service_application": "/service/application";
     "service_overview": "/service/overview";
-    "task": "/task";
     "user-center": "/user-center";
   };
 
@@ -144,6 +144,7 @@ declare module "@elegant-router/types" {
     | "about"
     | "alova"
     | "asset"
+    | "collect"
     | "dashboard"
     | "decision"
     | "function"
@@ -156,7 +157,6 @@ declare module "@elegant-router/types" {
     | "plugin"
     | "report"
     | "service"
-    | "task"
     | "user-center"
   >;
 
@@ -188,6 +188,7 @@ declare module "@elegant-router/types" {
     | "asset_database"
     | "asset_model"
     | "asset_tag"
+    | "collect"
     | "dashboard"
     | "decision"
     | "function_hide-child_one"
@@ -229,7 +230,6 @@ declare module "@elegant-router/types" {
     | "service_api-manange"
     | "service_application"
     | "service_overview"
-    | "task"
     | "user-center"
   >;
 

@@ -51,8 +51,8 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       minWidth: 120
     },
     {
-      key: 'databaseId',
-      title: $t('page.dataAsset.database.databaseId'),
+      key: 'database',
+      title: $t('page.dataAsset.database.database'),
       align: 'center',
       minWidth: 120
     },

@@ -188,6 +188,7 @@ const routeMap: RouteMap = {
   "asset_database": "/asset/database",
   "asset_model": "/asset/model",
   "asset_tag": "/asset/tag",
+  "collect": "/collect",
   "dashboard": "/dashboard",
   "decision": "/decision",
   "function": "/function",
@@ -238,7 +239,6 @@ const routeMap: RouteMap = {
   "service_api-manange": "/service/api-manange",
   "service_application": "/service/application",
   "service_overview": "/service/overview",
-  "task": "/task",
   "user-center": "/user-center"
 };
 

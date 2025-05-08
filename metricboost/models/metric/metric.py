@@ -17,6 +17,8 @@ class Metric(BaseModel, TimestampMixin):
     statistic_scope = fields.IntField(description="统计范围", null=True)
     chart_type = fields.CharEnumField(ChartType, description="图表类型", null=True)
     sensitivity = fields.CharEnumField(Sensitivity, description="敏感度")
+    query_count = fields.IntField(default=0, description="查询次数")
+    last_queried = fields.DatetimeField(null=True, description="最后查询时间")
 
     # 数据模型关系：一个模型可以有多个指标，一个指标属于一个模型
     data_model = fields.ForeignKeyField(

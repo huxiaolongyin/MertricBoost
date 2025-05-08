@@ -4,11 +4,20 @@
 
 这个格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，还有这个原则遵循 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [0.0.2] - 2025-05-08
+
+发布到服务器进行初步配置使用
 
 ### Added
 - 新增 累计统计模式
 - 新增 角色管理页中对域分类和敏感等级的权限管理
+- 隐藏主题配置按钮，或者配置为角色可管控
+- 隐藏短信登录验证码和注册
+- 新增数据采集页面(页面及功能未开发完全)
+- 新增智能报告页面(页面及功能未开发完全)
+- 使用 nginx 镜像进行前端展示
+- 增加后端的 dockerfile 打包
+- 新增 docker compose 的部署
 
 ### Fixed
 - 敏感等级修改为字符串
@@ -17,6 +26,7 @@
 - 优化指标抽屉页，并合并到metric下
 - 禁用用户中心(待开发)
 - 将累计数据改为不可点击指标探索
+- 优化Echart的 tip 的显示问题
 
 ### Removed
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from cachetools import TTLCache
-from tortoise.expressions import Q
+from tortoise.expressions import F, Q
 
 from metricboost.core.crud import CRUDBase
 from metricboost.logger import get_logger
@@ -89,6 +89,20 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
 
         return updated_metric
 
+    async def increment_query_count(self, metric_id: int, user_id: int) -> None:
+        """增加指标查询计数，考虑不同用户"""
+        # 缓存键包含用户ID，确保每个用户的查询都被考虑
+        cache_key = f"metric_query_{metric_id}_{user_id}"
+
+        # 检查该用户是否已在缓存时间内查询过该指标
+        if cache_key not in self._cache:
+            # 更新数据库中的计数
+            await self.model.filter(id=metric_id).update(
+                query_count=F("query_count") + 1, last_queried=datetime.now()
+            )
+            # 将结果存入缓存
+            self._cache[cache_key] = True
+
     async def _format_metric_to_dict(
         self,
         metric: Metric,
@@ -130,6 +144,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             "domains": [domain.domain_name for domain in metric.data_model.domains],
             "metricFormat": metric.data_model.metric_format,
             "dimCols": metric.data_model.dimension_columns,
+            "queryCount": metric.query_count,
             "data": await self.get_metric_data(
                 metric.id,
                 date_range,
@@ -190,6 +205,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
     async def get_detail(
         self,
         id: int,
+        user_id: int,
         date_range: list = None,
         statistical_period: str = None,
         dim_select: str = None,
@@ -212,6 +228,9 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         metric: Metric = await super().get(id)
         if not metric:
             return None
+
+        # 增加查询计数
+        await self.increment_query_count(id, user_id)
 
         # 加载关联数据
         await metric.fetch_related("tags", "create_by", "update_by", "data_model")
@@ -336,7 +355,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
                 )
                 SELECT date, value{dim_clause} 
                 FROM ranked_data
-                WHERE row_num <= 10
+                WHERE row_num <= 20
                 ORDER BY date, value {sort}
                 """
             else:

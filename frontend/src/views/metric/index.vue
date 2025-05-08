@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import { onMounted, ref, watch } from 'vue';
 import { fetchGetMetricList } from '@/service/api';
+import { useAuth } from '@/hooks/business/auth';
 import MetricCard from './modules/metric-card.vue';
 import Search from './modules/search-filter.vue';
 import MetricOperateDrawer from './modules/metric-operate-drawer.vue';
@@ -16,6 +17,7 @@ const totalCount = ref<number>(0);
 
 const operateType = ref<NaiveUI.TableOperateType>('add');
 
+const { hasAuth } = useAuth();
 // 初始化搜索、筛选查询
 const searchParams = ref<Api.Metric.MetricListSearchParams>({
   nameOrDesc: '',
@@ -96,6 +98,7 @@ watch(
 
     <!-- 分页控件 - 绝对定位在底部 -->
     <NFloatButton
+      v-if="hasAuth('metric-add')"
       :right="50"
       :bottom="60"
       shape="circle"

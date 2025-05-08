@@ -51,22 +51,21 @@ const renderChart = async () => {
           ]((params[0].value ?? '-').toString())}`;
         }
 
-        // 处理多系列数据
+        // 过滤掉非常小的值并排序
         const validParams = params
-          .filter(item => Number(item.value) >= 0.01)
+          .filter(item => Number(item.value) >= 0.0001)
           .sort((a, b) => Number(b.value) - Number(a.value));
 
+        // 处理多系列数据
         const MAX_ROWS = 15;
         const columns = Math.ceil(validParams.length / MAX_ROWS);
 
         // 创建单个数据项的HTML
         const createItem = (item: CallbackDataParams) => `
-                    <div style="display:flex;justify-content:space-between;min-width:180px;gap:10px">
-                        <span>${item.marker}${item.seriesName}</span>
-                        <span>${formatEchartDisplay[metricData.value?.metricFormat ?? 'default'](
-                          (item.value ?? '-').toString()
-                        )}</span>
-                    </div>`;
+      <div style="display:flex;justify-content:space-between;min-width:180px;gap:10px">
+        <span>${item.marker}${item.seriesName}</span>
+        <span>${formatEchartDisplay[metricData.value?.metricFormat ?? 'default']((item.value ?? '-').toString())}</span>
+      </div>`;
 
         // 如果需要分列显示
         if (columns > 1) {
@@ -83,6 +82,15 @@ const renderChart = async () => {
 
         // 单列显示
         return validParams.map(createItem).join('');
+      },
+      position: (point: number[], params: CallbackDataParams[]) => {
+        // 如果是多维数据，固定位置
+        if (params.length >= 2) {
+          return [20, 20]; // 固定在左上角
+        }
+
+        // 单维度数据，跟随鼠标
+        return [point[0] + 10, point[1]]; // 默认跟随鼠标，略微偏右
       },
       trigger: 'axis',
       axisPointer: {
@@ -142,7 +150,7 @@ const renderChart = async () => {
         label: {
           show: false
           // show: true,
-          // position: 'top',
+          // position: "right",
           // // formatter: '{c}', // Display the value
           // fontSize: 12,
           // color: '#666',

@@ -5,3 +5,4 @@ export * from './asset';
 export * from './service';
 export * from './system';
 export * from './decision';
+export * from './collect';

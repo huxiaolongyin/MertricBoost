@@ -54,11 +54,12 @@ function createDefaultModel(): Api.SystemManage.UserUpdateParams {
   };
 }
 
-type RuleKey = Extract<keyof Api.SystemManage.UserUpdateParams, 'userName' | 'password' | 'status'>;
+type RuleKey = Extract<keyof Api.SystemManage.UserUpdateParams, 'userName' | 'password' | 'status' | 'userEmail'>;
 
 const rules = ref<Record<RuleKey, App.Global.FormRule>>({
   userName: defaultRequiredRule,
   password: defaultRequiredRule,
+  userEmail: defaultRequiredRule,
   status: defaultRequiredRule
 });
 
@@ -98,7 +99,6 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
-
   if (props.operateType === 'add') {
     const { error } = await fetchAddUser(model);
     if (!error) {
@@ -145,7 +145,7 @@ watch(visible, () => {
         <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">
           <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.user.userEmail')" path="email">
+        <NFormItem :label="$t('page.manage.user.userEmail')" path="userEmail">
           <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userStatus')" path="status">

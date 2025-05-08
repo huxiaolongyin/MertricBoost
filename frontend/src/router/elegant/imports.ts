@@ -27,6 +27,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   asset_database: () => import("@/views/asset/database/index.vue"),
   asset_model: () => import("@/views/asset/model/index.vue"),
   asset_tag: () => import("@/views/asset/tag/index.vue"),
+  collect: () => import("@/views/collect/index.vue"),
   dashboard: () => import("@/views/dashboard/index.vue"),
   decision: () => import("@/views/decision/index.vue"),
   "function_hide-child_one": () => import("@/views/function/hide-child/one/index.vue"),
@@ -68,6 +69,5 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "service_api-manange": () => import("@/views/service/api-manange/index.vue"),
   service_application: () => import("@/views/service/application/index.vue"),
   service_overview: () => import("@/views/service/overview/index.vue"),
-  task: () => import("@/views/task/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),
 };

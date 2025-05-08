@@ -89,6 +89,7 @@ class LogDetailType(StrEnum):
     2100-2199 Ai分析
     2200-2299 任务列表
     2300-2399 决策引擎
+    2400-2499 数据采集
     """
 
     # 系统(1100-1199)
@@ -211,6 +212,11 @@ class LogDetailType(StrEnum):
     ReportUpdate = "2003"
     ReportDelete = "2004"
     ReportBatchDeleteOne = "2005"
+    ReportTemplateGet = "2011"
+    ReportTemplateCreate = "2012"
+    ReportTemplateUpdate = "2013"
+    ReportTemplateDelete = "2014"
+    ReportTemplateBatchDeleteOne = "2015"
 
     # Ai分析(2100-2199)
     AiGet = "2101"
@@ -232,6 +238,15 @@ class LogDetailType(StrEnum):
     DecisionUpdate = "2303"
     DecisionDelete = "2304"
     DecisionBatchDeleteOne = "2305"
+
+    # 数据采集(2400-2499)
+    CollectGet = "2401"
+    CollectCreate = "2402"
+    CollectUpdate = "2403"
+    CollectDelete = "2404"
+    CollectBatchDeleteOne = "2405"
+    CollectExecute = "2406"
+    CollectConfigure = "2407"
 
     @classmethod
     def get_group_by_prefix(cls, prefix: str) -> Dict[str, str]:
@@ -343,3 +358,18 @@ class MetricFormat(str, Enum):
     Float = "float"
     Percent = "percent"
     Currency = "currency"
+
+
+class ReportStatus(str, Enum):
+    """报告状态枚举"""
+
+    PROCESSING = "processing"  # 处理中
+    COMPLETED = "completed"  # 已完成
+    FAILED = "failed"  # 失败
+
+
+class CollectType(str, Enum):
+    """采集类型"""
+
+    BATCH = "离线"  # 批量采集
+    STREAM = "实时"  # 流式采集

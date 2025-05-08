@@ -129,12 +129,13 @@ watch(
           />
           <NSelect
             v-model:value="searchDetailParams.sort"
-            class="ml-2 w-1/12"
+            class="ml-2 w-2/12"
             :options="sortOptions"
             placeholder="排名升降序"
+            default-value="DESC"
             clearable
           />
-          <div class="ml-5 w-full text-orange-600">（图表最多显示排名前10行数据）</div>
+          <div class="ml-5 w-full text-orange-600">（最多显示TOP 20 维度）</div>
         </NFormItem>
         <NFormItem label="维度筛选：" label-placement="left">
           <NFlex :size="5" class="w-full">

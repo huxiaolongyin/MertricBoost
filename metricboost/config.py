@@ -76,6 +76,8 @@ class Settings(BaseSettings):
                         "metricboost.models.system",
                         "metricboost.models.asset",
                         "metricboost.models.metric",
+                        "metricboost.models.report",
+                        "metricboost.models.collect",
                     ],
                     "default_connection": "conn_system",
                 },

@@ -51,7 +51,7 @@ function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
     port: 3306,
     username: '',
     password: '',
-    databaseId: '',
+    database: '',
     description: '',
     status: null,
     createBy: authStore.userInfo.userName
@@ -67,7 +67,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   port: defaultRequiredRule,
   username: defaultRequiredRule,
   // password: defaultRequiredRule,
-  databaseId: defaultRequiredRule,
+  database: defaultRequiredRule,
   status: defaultRequiredRule
 };
 
@@ -145,7 +145,7 @@ watch(visible, () => {
         </NFormItem>
 
         <NFormItem :label="$t('page.dataAsset.database.database')" path="database">
-          <NInput v-model:value="model.databaseId" :placeholder="$t('page.dataAsset.database.form.database')" />
+          <NInput v-model:value="model.database" :placeholder="$t('page.dataAsset.database.form.database')" />
         </NFormItem>
 
         <NFormItem :label="$t('page.dataAsset.database.username')" path="username">

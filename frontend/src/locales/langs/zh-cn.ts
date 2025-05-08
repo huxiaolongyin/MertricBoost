@@ -168,7 +168,7 @@ const local: App.I18n.Schema = {
     dashboard: '可视化大屏',
     decision: '决策分析',
     report: '智能报告',
-    task: '任务管理',
+    collect: '数据采集',
     document_project: '项目文档',
     'document_project-link': '项目文档(外链)',
     document_vue: 'Vue文档',
@@ -397,7 +397,7 @@ const local: App.I18n.Schema = {
         type: '类型',
         host: '主机',
         port: '端口',
-        databaseId: '数据库',
+        database: '数据库',
         username: '用户名',
         password: '密码',
         createBy: '创建人',
@@ -479,6 +479,35 @@ const local: App.I18n.Schema = {
           paramAddTitle: '新增参数',
           paramEditTitle: '编辑参数'
         }
+      }
+    },
+    collect: {
+      title: '数据采集',
+      addCollect: '新增数据采集',
+      editCollect: '编辑数据采集',
+      dataSourceFilter: '数据来源',
+      name: '名称',
+      type: '类型',
+      schedule: '调度周期',
+      status: '状态',
+      originDatabase: '源数据库',
+      originTable: '源表',
+      targetDatabase: '目标数据库',
+      targetTable: '目标表',
+      formTile: {
+        baseInfo: '基本信息',
+        collectForm: '采集配置',
+        status: '状态'
+      },
+      form: {
+        name: '请输入采集名称',
+        type: '请选择采集类型',
+        schedule: '请选择采集Cron',
+        status: '请选择状态',
+        originDatabase: '请选择源数据库',
+        originTable: '请选择源表',
+        targetDatabase: '请选择目标数据库',
+        targetTable: '请选择目标表'
       }
     },
     manage: {

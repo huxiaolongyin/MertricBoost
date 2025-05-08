@@ -166,7 +166,7 @@ const local: App.I18n.Schema = {
     dashboard: 'Dashboard',
     decision: 'Decision',
     report: 'Report',
-    task: 'Task',
+    collect: 'Collect',
     document: 'Document',
     document_project: 'Project Document',
     'document_project-link': 'Project Document(External Link)',
@@ -396,7 +396,7 @@ const local: App.I18n.Schema = {
         type: 'Type',
         host: 'Host',
         port: 'Port',
-        databaseId: 'Database',
+        database: 'Database',
         username: 'Username',
         password: 'Password',
         createBy: 'Creator',
@@ -451,6 +451,32 @@ const local: App.I18n.Schema = {
           tagType: 'Please Select Tag Type',
           tagDesc: 'Please Input Tag Description'
         }
+      }
+    },
+    collect: {
+      title: 'Data Collection',
+      name: 'Name',
+      type: 'Type',
+      schedule: 'Schedule',
+      status: 'Status',
+      originDatabase: 'Source Database',
+      originTable: 'Source Table',
+      targetDatabase: 'Target Database',
+      targetTable: 'Target Table',
+      formTile: {
+        baseInfo: 'Base Info',
+        collectForm: 'Collect Config',
+        status: 'Status'
+      },
+      form: {
+        name: 'Please enter the name',
+        type: 'Please select the type',
+        schedule: 'Please select the cron',
+        status: 'Please select the status',
+        originDatabase: 'Please select the source database',
+        originTable: 'Please select the source table',
+        targetDatabase: 'Please select the target database',
+        targetTable: 'Please select the target table'
       }
     },
     manage: {

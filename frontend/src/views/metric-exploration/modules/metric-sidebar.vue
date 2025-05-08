@@ -85,16 +85,17 @@ onMounted(async () => {
     <NButtonGroup>
       <NPopover placement="bottom">
         <template #trigger>
-          <NButton size="small" class="w-40">
+          <NButton size="small" class="w-60">
             <template #icon>
               <Icon icon="mdi:fire" />
             </template>
-            188
+            {{ model.queryCount }}
           </NButton>
         </template>
         查询热度
       </NPopover>
-      <NPopover placement="bottom">
+      <!--
+ <NPopover placement="bottom">
         <template #trigger>
           <NButton size="small" class="w-40">
             <template #icon>
@@ -104,7 +105,8 @@ onMounted(async () => {
           </NButton>
         </template>
         点击收藏
-      </NPopover>
+      </NPopover> 
+-->
     </NButtonGroup>
     <div>
       <div>版本</div>

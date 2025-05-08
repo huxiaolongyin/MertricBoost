@@ -144,6 +144,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'collect',
+    path: '/collect',
+    component: 'layout.base$view.collect',
+    meta: {
+      title: 'collect',
+      i18nKey: 'route.collect'
+    }
+  },
+  {
     name: 'dashboard',
     path: '/dashboard',
     component: 'layout.base$view.dashboard',
@@ -705,17 +714,6 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       }
     ]
-  },
-  {
-    name: 'task',
-    path: '/task',
-    component: 'layout.base$view.task',
-    meta: {
-      title: 'task',
-      i18nKey: 'route.task',
-      icon: 'mdi:calendar-check',
-      order: 6
-    }
   },
   {
     name: 'user-center',

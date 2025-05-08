@@ -75,7 +75,9 @@ export const metricFormatOptions = [
 // 获取排序方式列表
 export const orderOptions = [
   { label: '创建时间升序', value: 'create_time' },
-  { label: '创建时间降序', value: '-create_time' }
+  { label: '创建时间降序', value: '-create_time' },
+  { label: '查询热度升序', value: 'query_count' },
+  { label: '查询热度降序', value: '-query_count' }
 ];
 
 //  数据库类型
@@ -127,5 +129,43 @@ export const databaseOptions: SelectOption[] = [
   {
     label: 'RabbitMQ',
     value: 'RabbitMQ'
+  }
+];
+
+export const collectOptions: SelectOption[] = [
+  {
+    label: '实时',
+    value: '实时'
+  },
+  {
+    label: '离线',
+    value: '离线'
+  }
+];
+
+export const tagTypeOptions: SelectOption[] = [
+  {
+    label: '市场',
+    value: '市场'
+  },
+  {
+    label: '产品',
+    value: '产品'
+  },
+  {
+    label: '技术',
+    value: '技术'
+  },
+  {
+    label: '运营',
+    value: '运营'
+  },
+  {
+    label: '财务',
+    value: '财务'
+  },
+  {
+    label: '其他',
+    value: '其他'
   }
 ];

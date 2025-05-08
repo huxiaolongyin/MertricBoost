@@ -571,7 +571,7 @@ declare namespace App {
             type: string;
             host: string;
             port: string;
-            databaseId: string;
+            database: string;
             username: string;
             password: string;
             createBy: string;
@@ -653,6 +653,35 @@ declare namespace App {
               paramAddTitle: string;
               paramEditTitle: string;
             };
+          };
+        };
+        collect: {
+          title: string;
+          addCollect: string;
+          editCollect: string;
+          dataSourceFilter: string;
+          name: string;
+          type: string;
+          schedule: string;
+          status: string;
+          originDatabase: string;
+          originTable: string;
+          targetDatabase: string;
+          targetTable: string;
+          formTile: {
+            baseInfo: string;
+            collectForm: string;
+            status: string;
+          };
+          form: {
+            name: string;
+            type: string;
+            schedule: string;
+            status: string;
+            originDatabase: string;
+            originTable: string;
+            targetDatabase: string;
+            targetTable: string;
           };
         };
         manage: {

@@ -134,6 +134,7 @@ declare namespace Api {
       formatType: FormatType; // 格式化类型
       metricFormat: FormatType; // 指标格式
       dimCols: SelectOptions[]; // 维度列
+      queryCount: number; // 查询热度
       updateBy: string; // 更新人
       createBy: string; // 创建人
       updateTime: string; // 更新时间
@@ -406,7 +407,60 @@ declare namespace Api {
       ];
     };
   }
+  /**
+   * 命名空间系统管理
+   *
+   * 后端 API 模块：“Collect”
+   */
+  namespace Collect {
+    type Collect = Common.CommonRecord<{
+      id: number;
+      name: string;
+      type: string;
+      schedule: string;
+      status: Api.Common.EnableStatus;
+      originDatabaseId: number[];
+      originDatabase: string[];
+      originDatabaseType: string[];
+      originTable: string;
+      targetDatabaseId: number[];
+      targetDatabase: string[];
+      targetDatabaseType: string[];
+      targetTable: string;
+      createBy: string;
+      createTime: string;
+      updateTime: string;
+    }>;
 
+    type CollectSearchParams = CommonType.RecordNullable<
+      Pick<Collect, 'name' | 'type' | 'status'> &
+        Common.CommonSearchParams & {
+          originDatabaseIds: (number | string)[];
+          targetDatabaseIds: number[];
+        }
+    >;
+
+    // 数据采集添加
+    type CollectAddParams = CommonType.RecordNullable<
+      Pick<
+        Collect,
+        | 'name'
+        | 'type'
+        | 'schedule'
+        | 'status'
+        | 'originDatabaseId'
+        | 'originTable'
+        | 'targetDatabaseId'
+        | 'targetTable'
+      >
+    >;
+
+    // 数据采集更新
+    type CollectUpdateParams = CommonType.RecordNullable<Pick<Collect, 'id'>> & CollectAddParams;
+
+    // 数据采集列表
+    type CollectList = Common.PaginatingQueryRecord<Collect>;
+  }
   /**
    * 命名空间系统管理
    *
@@ -775,7 +829,7 @@ declare namespace Api {
       port: number /** 数据库端口 */;
       username: string /** 数据库用户名 */;
       password: string /** 数据库密码 */;
-      databaseId: string /** 数据库 */;
+      database: string /** 数据库 */;
       description: string /** 数据库描述 */;
     }>;
 
