@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import * as XLSX from 'xlsx';
 import { fetchGetMetricDetail } from '@/service/api';
 import MetricChart from './modules/metric-chart.vue';
 import MetricDetail from './modules/metric-detail.vue';
@@ -10,6 +11,9 @@ import MetricSidebar from './modules/metric-sidebar.vue';
 // 通过路由参数获取 metric的 ID、item
 const route = useRoute();
 const id = Number.parseInt(route.params.id as string, 10);
+
+// 跟踪当前激活的标签页
+const activeTab = ref('chart');
 
 // 获取指标数据
 const metricData = ref<Api.Metric.MetricData>({} as Api.Metric.MetricData);
@@ -62,6 +66,31 @@ const fetchMetricData = async () => {
   }
 };
 
+// 添加导出Excel的功能
+const exportToExcel = () => {
+  if (!metricData.value?.data || metricData.value.data.length === 0) {
+    window.$message?.warning('没有数据可导出');
+    return;
+  }
+
+  // 创建一个工作簿
+  const workbook = XLSX.utils.book_new();
+
+  // 转换数据为工作表格式
+  const worksheet = XLSX.utils.json_to_sheet(metricData.value.data);
+
+  // 添加工作表到工作簿
+  XLSX.utils.book_append_sheet(workbook, worksheet, '指标详情');
+
+  // 确定文件名
+  const fileName = `${metricData.value.metricName || '指标详情'}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+
+  // 导出Excel文件
+  XLSX.writeFile(workbook, fileName);
+
+  window.$message?.success('导出成功');
+};
+
 onMounted(async () => {
   await fetchMetricData();
 
@@ -79,6 +108,7 @@ const handleUpdate = () => {};
 
 // 处理切换tab
 const handleTabChange = (tabName: string) => {
+  activeTab.value = tabName;
   if (tabName === 'chart') {
     handleSubmit();
   }
@@ -97,6 +127,17 @@ const handleTabChange = (tabName: string) => {
         />
         <div class="mt-2 px-6">
           <NCard class="rounded-xl bg-white dark:bg-slate-700" title="数据趋势">
+            <template #header-extra>
+              <NButton
+                v-if="activeTab === 'detail'"
+                type="primary"
+                size="small"
+                :disabled="!metricData?.data?.length"
+                @click="exportToExcel"
+              >
+                导出Excel
+              </NButton>
+            </template>
             <NTabs type="line" animated @update:value="handleTabChange">
               <NTabPane name="chart" tab="图表">
                 <MetricChart v-model:metric-data="metricData" />

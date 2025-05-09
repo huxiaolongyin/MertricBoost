@@ -4,6 +4,18 @@
 
 这个格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，还有这个原则遵循 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- 新增数据导出为excel的功能
+
+### Fixed
+- 修复指标详情字段显示问题
+
+### Changed
+
+### Removed
+
 ## [0.0.2] - 2025-05-08
 
 发布到服务器进行初步配置使用
@@ -27,8 +39,6 @@
 - 禁用用户中心(待开发)
 - 将累计数据改为不可点击指标探索
 - 优化Echart的 tip 的显示问题
-
-### Removed
 
 ## [0.0.1] - 2025-04-25
 

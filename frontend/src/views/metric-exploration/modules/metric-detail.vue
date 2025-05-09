@@ -46,7 +46,7 @@ const pagination = ref({
 
 watch(
   () => searchDetailParams.value.dimSelect,
-  async () => {
+  async newDimension => {
     // 重置columns为基础列
     columns.value = [
       {
@@ -62,15 +62,15 @@ watch(
         align: 'center'
       }
     ];
-    // // 添加新的维度列
-    // if (newDimension) {
-    //     columns.value.splice(1, 0, {
-    //         key: newDimension,
-    //         title: metricData.value?.dimensions.find(item => item.value === newDimension)?.label,
-    //         sorter: 'default',
-    //         align: 'center'
-    //     })
-    // }
+    // 添加新的维度列
+    if (newDimension) {
+      columns.value.splice(1, 0, {
+        key: newDimension,
+        title: metricData.value?.dimCols.find(item => item.value === newDimension)?.label,
+        sorter: 'default',
+        align: 'center'
+      });
+    }
   },
   { immediate: true }
 );
