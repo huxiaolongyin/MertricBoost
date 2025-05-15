@@ -57,7 +57,7 @@ const {
     }
     return fetchGetTableList({ databaseId });
   },
-  { labelKey: 'tableName(tableComment)', valueKey: 'tableName', disabledKey: 'disabled' }
+  { labelKey: 'tableName(tableComment)', valueKey: 'tableName' }
 );
 
 // 监听数据库选择变化，或者当数据库有值时，加载表列表

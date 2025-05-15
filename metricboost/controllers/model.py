@@ -33,8 +33,8 @@ class DataMobdelController(CRUDBase[DataModel, DataModelCreate, DataModelUpdate]
             raise ValueError("数据模型名称已存在")
 
         # 检查表名是否重复
-        if await self.model.filter(table_name=obj_in.table_name).first():
-            raise ValueError("表名已存在")
+        # if await self.model.filter(table_name=obj_in.table_name).first():
+        #     raise ValueError("表名已存在")
 
         # 检查数据库是否存在
         if not await Database.get_or_none(id=obj_in.database_id):
