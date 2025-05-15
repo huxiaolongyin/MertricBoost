@@ -327,6 +327,7 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         metric_col = data_model.metric_column
         agg = data_model.agg_method
         extra_calc = data_model.extra_caculate
+        filter_conditions = data_model.filter_conditions
 
         # 构建日期条件
         date_format_sql, date_where_clause, date_list = self._build_date_condition(
@@ -337,6 +338,10 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         dim_clause = self._prepare_dimension_clauses(dim_select)
 
         # 处理维度过滤条件
+        if not dim_filter:
+            dim_filter = []
+        if filter_conditions:
+            dim_filter.extend(filter_conditions)
         dim_where_clause = self._build_dim_filter_clause(dim_filter)
 
         # 构建SQL查询

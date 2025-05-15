@@ -123,6 +123,15 @@ class DataModel(BaseModel, TimestampMixin):
         ]
 
     @property
+    def filter_conditions(self) -> list:
+        """获取过滤条件"""
+        columns = self._find_columns_by_type(StaticType.Filter)
+        return [
+            f"{column.get('columnName')} {column.get('extraCaculate')}"
+            for column in columns
+        ]
+
+    @property
     def metric_column(self) -> str:
         """获取指标列名称"""
         column = self._find_column_by_type(StaticType.Metric)

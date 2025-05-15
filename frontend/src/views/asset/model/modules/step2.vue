@@ -133,7 +133,7 @@ const columns = [
     title: '扩展计算',
     width: 200,
     render: (row: Api.SystemManage.TableColumns) => {
-      if (row.staticType === 'metric') {
+      if (row.staticType === 'metric' || row.staticType === 'filter') {
         return (
           <NInput
             v-model:value={row.extraCaculate}

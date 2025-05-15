@@ -45,6 +45,7 @@ export const staticTypeOptions = [
   { label: '日期', value: 'date' },
   { label: '维度', value: 'dim' },
   { label: '指标', value: 'metric' },
+  { label: '过滤', value: 'filter' },
   { label: '普通', value: 'none' }
 ];
 

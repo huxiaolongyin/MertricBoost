@@ -350,6 +350,7 @@ class StaticType(str, Enum):
     Dimension = "dim"  # 维度
     Date = "date"  # 日期
     Metric = "metric"  # 指标
+    Filter = "filter"  # 过滤
 
 
 class MetricFormat(str, Enum):
