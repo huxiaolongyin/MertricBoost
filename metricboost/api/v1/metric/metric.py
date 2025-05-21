@@ -10,6 +10,7 @@ from metricboost.controllers.metric import metric_controller
 from metricboost.core.ctx import get_current_user_id
 from metricboost.core.response import Error, Success, SuccessExtra
 from metricboost.logger import insert_log
+from metricboost.models.metric import Metric
 from metricboost.models.system import LogDetailType, LogType, Role, User
 from metricboost.schemas.metric import MetricCreate, MetricUpdate
 
@@ -73,62 +74,81 @@ async def get_metric_list(
             user_id
         )
 
-        # 构建查询条件
-        q = Q()
+        # 针对关联查询构建不同的查询条件
+        base_query = Q()
+        domain_query = Q()
+        tag_query = Q()
 
         # 名称或描述的过滤
         if name_or_desc:
-            q &= Q(metric_name__icontains=name_or_desc) | Q(
+            base_query &= Q(metric_name__icontains=name_or_desc) | Q(
                 metric_desc__icontains=name_or_desc
             )
 
         # 主题域过滤（结合权限）
-        if domain_ids:  # 避免对可能是整数的值调用len()
-            # 确保domain_ids是列表
+        if domain_ids:
             domain_ids_list = (
                 domain_ids if isinstance(domain_ids, list) else [domain_ids]
             )
-
             if not is_admin:
-                # 找出用户请求的域和有权限的域的交集
                 accessible_domain_ids = set(allowed_domain_ids) & set(domain_ids_list)
                 if not accessible_domain_ids:
                     return Error(msg="没有权限查看指定域的指标")
-                # 修改为通过data_model关联查询域
-                q &= Q(data_model__domains__id__in=list(accessible_domain_ids))
+                domain_query &= Q(
+                    data_model__domains__id__in=list(accessible_domain_ids)
+                )
             else:
-                # 管理员可以查看所有请求的域
-                q &= Q(data_model__domains__id__in=domain_ids_list)
+                domain_query &= Q(data_model__domains__id__in=domain_ids_list)
         elif not is_admin:
-            # 如果用户没有指定域过滤，则只查看用户有权限的域
             if allowed_domain_ids:
-                # 修改为通过data_model关联查询域
-                q &= Q(data_model__domains__id__in=allowed_domain_ids)
+                domain_query &= Q(data_model__domains__id__in=allowed_domain_ids)
             else:
                 return Error(msg="没有权限查看任何域的指标")
 
         # 标签过滤
         if tag_ids and len(tag_ids):
-            q &= Q(tags__id__in=tag_ids)
+            tag_query &= Q(tags__id__in=tag_ids)
 
         # 敏感度过滤（结合权限）
         if sensitivity:
-            # 如果用户指定了敏感度过滤，则只查看用户有权限的敏感度级别
             if not is_admin and int(sensitivity) > max_sensitivity_level:
                 return Error(msg="没有权限查看该敏感度级别的指标")
-            q &= Q(sensitivity=sensitivity)
+            base_query &= Q(sensitivity=sensitivity)
         elif not is_admin:
-            # 如果用户没有指定敏感度过滤，则只查看用户有权限的敏感度级别
-            q &= Q(sensitivity__lte=str(max_sensitivity_level))
-            pass
+            base_query &= Q(sensitivity__lte=str(max_sensitivity_level))
 
-        # if domains
+        # 获取符合域条件的指标ID
+        domain_metric_ids = []
+        if domain_query:
+            domain_metrics = (
+                await Metric.filter(domain_query)
+                .distinct()
+                .values_list("id", flat=True)
+            )
+            domain_metric_ids = list(domain_metrics)
+
+        # 获取符合标签条件的指标ID
+        tag_metric_ids = []
+        if tag_query:
+            tag_metrics = (
+                await Metric.filter(tag_query).distinct().values_list("id", flat=True)
+            )
+            tag_metric_ids = list(tag_metrics)
+
+        # 组合所有条件
+        final_query = base_query
+        if domain_metric_ids:
+            final_query &= Q(id__in=domain_metric_ids)
+        if tag_metric_ids:
+            final_query &= Q(id__in=tag_metric_ids)
+
+        # 现在不需要distinct了，因为我们已经在子查询中去重
         total, metric_data = await metric_controller.get_list(
             page=page,
             page_size=page_size,
-            search=q,
+            search=final_query,
             order=order,
-            distinct=True,
+            distinct=False,  # 不再需要distinct
         )
 
         # 记录日志
