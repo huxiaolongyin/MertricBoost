@@ -4,6 +4,7 @@ import { onMounted } from 'vue';
 import { fetchTableColumns } from '@/service/api';
 import { useDataModelFormStore } from '@/store/modules/model';
 import { dateFormatOptions, metricFormatOptions, metricStaticOptions, staticTypeOptions } from '@/constants/options';
+
 defineOptions({
   name: 'ModelStep2'
 });
@@ -17,7 +18,22 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-// 获取表的字段信息
+// 新增一个处理空字符串转为null的函数
+const convertEmptyToNull = (data: any[]) => {
+  if (!data) return data;
+
+  data.forEach(item => {
+    Object.keys(item).forEach(key => {
+      if (item[key] === '') {
+        item[key] = null;
+      }
+    });
+  });
+
+  return data;
+};
+
+// 修改获取表的字段信息的函数
 const fetchColumns = async () => {
   if (!dataModelFormStore.stepOne.databaseId || !dataModelFormStore.stepOne.tableName) {
     return;
@@ -28,14 +44,18 @@ const fetchColumns = async () => {
     editMode: props.operateType
   });
 
-  dataModelFormStore.stepTwo.columnsConf = response.data?.records;
+  // 处理响应数据，将空字符串""转换为null
+  const records = response.data?.records || [];
+  dataModelFormStore.stepTwo.columnsConf = convertEmptyToNull(records);
 };
 
-// 在组件挂载时获取表的字段信息
+// 在组件挂载时也处理现有数据
 onMounted(async () => {
-  // 如果数据为空，则获取表的字段信息
   if (!dataModelFormStore.stepTwo.columnsConf) {
     await fetchColumns();
+  } else {
+    // 如果已有数据，也进行处理
+    dataModelFormStore.stepTwo.columnsConf = convertEmptyToNull(dataModelFormStore.stepTwo.columnsConf);
   }
 });
 

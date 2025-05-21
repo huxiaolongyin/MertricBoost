@@ -57,6 +57,26 @@ class DataModelBase(BaseModel):
             except json.JSONDecodeError:
                 print(data["columnsConf"])
                 raise ValueError("columnsConf必须是有效的JSON字符串")
+
+        # 新增：将列表中的None值替换为空字符串
+        if (
+            isinstance(data, dict)
+            and "columnsConf" in data
+            and isinstance(data["columnsConf"], list)
+        ):
+            for column in data["columnsConf"]:
+                if isinstance(column, dict):
+                    # 处理可能为None的可选字段
+                    for key in [
+                        "columnComment",
+                        "staticType",
+                        "aggMethod",
+                        "format",
+                        "extraCaculate",
+                    ]:
+                        if key in column and column[key] is None:
+                            column[key] = ""
+
         return data
 
 

@@ -196,7 +196,7 @@ watch(visible, () => {
         <NStep title="字段设置" />
         <NStep title="模型信息" />
       </NSteps>
-      <Step1 v-if="currentStep === 1" :operate-type="props.operateType" />
+      <Step1 v-if="currentStep === 1" />
       <Step2 v-if="currentStep === 2" :operate-type="props.operateType" />
       <Step3 v-if="currentStep === 3" />
       <template #footer>
