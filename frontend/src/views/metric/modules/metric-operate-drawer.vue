@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NForm, NFormItem, NInput, NInputNumber, NSelect } from 'naive-ui';
-import { computed, markRaw, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useLoadOptions } from '@/hooks/common/option';
 import { $t } from '@/locales';
 import { fetchAddMetric, fetchDataModelList, fetchUpdateMetric } from '@/service/api';
@@ -10,11 +10,9 @@ defineOptions({
   name: 'MetricOperateDrawer'
 });
 
-// 从父组件传入数据
+// 从父组件传入操作类型和行数据
 interface Props {
-  /** the type of operation */
   operateType: NaiveUI.TableOperateType;
-  /** the edit row data */
   rowData?: Api.Metric.MetricUpdateParams | null;
 }
 
@@ -48,7 +46,6 @@ const createDefaultModel = (): Api.Metric.MetricUpdateParams => {
     statisticScope: null,
     chartType: null,
     sensitivity: null
-    // domainIds: [],
   };
 };
 const model = reactive<Api.Metric.MetricUpdateParams>({});
@@ -63,101 +60,29 @@ const {
   valueKey: 'id'
 });
 
-// 加载过滤掉不限选项
-// const filteredSensitiveOptions = sensitiveOptions.filter(
-//   (option) => !(option.value === "" && option.label === "不限")
-// );
-
 // 加载禁用
 const disableFields = ref(false);
-
-// 定义表单的字段
-const formFields = ref<Api.Metric.MetricFormFields>({
-  modelForm: [
-    {
-      key: 'dataModelId',
-      label: '选用模型',
-      component: markRaw(NSelect),
-      props: {
-        options: dataModelOptions,
-        filterable: true
-      },
-      placeholder: '请选择模型'
-    }
-  ],
-  metricForm: [
-    {
-      key: 'metricName',
-      label: '指标名称',
-      component: markRaw(NInput),
-      placeholder: '请输入指标名称'
-    },
-    {
-      key: 'metricDesc',
-      label: '指标描述',
-      component: markRaw(NInput),
-      placeholder: '请输入指标描述'
-    }
-  ],
-  sensitivityForm: [
-    {
-      key: 'sensitivity',
-      label: '敏感等级',
-      component: markRaw(NSelect),
-      props: {
-        options: filteredSensitiveOptions
-      },
-      placeholder: '请选择敏感等级'
-    }
-  ],
-  staticForm: [
-    {
-      key: 'statisticalPeriod',
-      label: '统计周期',
-      component: markRaw(NSelect),
-      props: {
-        options: statisticalPeriodOptions
-      },
-      placeholder: '选择需要统计周期'
-    },
-    {
-      key: 'statisticScope',
-      label: '统计范围',
-      component: markRaw(NInputNumber),
-      props: {
-        disabled: disableFields
-      },
-      placeholder: '请输入统计范围'
-    }
-  ],
-  chartForm: [
-    {
-      key: 'chartType',
-      label: '选用图表',
-      component: markRaw(NSelect),
-      props: {
-        options: chartTypeOptions,
-        disabled: disableFields
-      },
-      placeholder: '选择展示的图表'
-    }
-  ]
-});
 
 // 定义表单的校验规则
 const rules = computed(() => {
   return {
-    metricName: {
+    dataModelId: {
       required: true,
-      message: '指标名称是必填项',
+      validator: (value: any) => {
+        return value !== null && value !== undefined;
+      },
+      message: '选用模型是必填项',
       trigger: ['blur', 'change']
     },
+    metricName: { required: true, message: '指标名称是必填项', trigger: ['blur'] },
     metricDesc: { required: true, message: '指标描述是必填项', trigger: 'blur' },
     sensitivity: { required: true, message: '敏感等级是必填项', trigger: 'blur' },
     statisticalPeriod: { required: true, message: '统计周期是必填项', trigger: 'blur' },
-    dataModelId: { required: true, message: '选用模型是必填项', trigger: 'blur' },
     statisticScope: {
       required: !disableFields.value,
+      validator: (value: any) => {
+        return value !== null && value !== undefined;
+      },
       message: '统计范围是必填项',
       trigger: 'blur'
     },
@@ -197,7 +122,9 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-onMounted(async () => await fetchDataModelOptions());
+onMounted(async () => {
+  await fetchDataModelOptions();
+});
 
 watch(
   () => visible.value,
@@ -234,25 +161,83 @@ watch(
           <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
         </NSpace>
       </template>
-      <NForm :model="model" :rules="rules" label-width="80" class="" label-align="left">
-        <div v-for="(form, key) in formFields" :key="key">
-          <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
-            {{ $t(`page.metric.formTile.${key}`) }}
-          </div>
-          <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16" class="">
-            <NGi v-for="field in form" :key="field.key">
-              <NFormItem :key="field.key" :label="field.label" :path="field.key">
-                <component
-                  :is="field.component"
-                  v-model:value="model[field.key]"
-                  v-bind="field.props"
-                  :placeholder="field.placeholder"
-                  class="w-full"
-                />
-              </NFormItem>
-            </NGi>
-          </NGrid>
+      <NForm :model="model" :rules="rules" label-width="80" label-align="left">
+        <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
+          {{ $t(`page.metric.formTile.modelForm`) }}
         </div>
+        <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16" class="">
+          <NGi key="dataModelId">
+            <NFormItem label="选用模型" path="dataModelId">
+              <NSelect
+                v-model:value="model.dataModelId"
+                placeholder="选用模型"
+                :options="dataModelOptions"
+                filterable
+              />
+            </NFormItem>
+          </NGi>
+        </NGrid>
+        <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
+          {{ $t(`page.metric.formTile.metricForm`) }}
+        </div>
+        <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16" class="">
+          <NGi key="metricName">
+            <NFormItem label="指标名称" path="metricName">
+              <NInput v-model:value="model.metricName" placeholder="请输入指标名称" />
+            </NFormItem>
+          </NGi>
+          <NGi key="metricDesc">
+            <NFormItem label="指标描述" path="metricDesc">
+              <NInput v-model:value="model.metricDesc" placeholder="请输入指标描述" />
+            </NFormItem>
+          </NGi>
+        </NGrid>
+        <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
+          {{ $t(`page.metric.formTile.sensitivityForm`) }}
+        </div>
+
+        <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16">
+          <NGi key="sensitivity">
+            <NFormItem label="敏感等级" path="sensitivity">
+              <NSelect
+                v-model:value="model.sensitivity"
+                placeholder="请选择敏感等级"
+                :options="filteredSensitiveOptions"
+              />
+            </NFormItem>
+          </NGi>
+        </NGrid>
+
+        <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
+          {{ $t(`page.metric.formTile.staticForm`) }}
+        </div>
+        <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16">
+          <NGi key="statisticalPeriod">
+            <NFormItem label="统计周期" path="statisticalPeriod">
+              <NSelect
+                v-model:value="model.statisticalPeriod"
+                placeholder="统计周期"
+                :options="statisticalPeriodOptions"
+              />
+            </NFormItem>
+          </NGi>
+          <NGi key="statisticScope">
+            <NFormItem label="统计范围" path="statisticScope">
+              <NInputNumber v-model:value="model.statisticScope" placeholder="统计范围" />
+            </NFormItem>
+          </NGi>
+        </NGrid>
+
+        <div class="mb-6 text-lg text-dark font-semibold font-sans dark:text-white">
+          {{ $t(`page.metric.formTile.chartForm`) }}
+        </div>
+        <NGrid cols="s:1 m:2 l:2" responsive="screen" :x-gap="16" :y-gap="16">
+          <NGi key="chartType">
+            <NFormItem label="图表类型" path="chartType">
+              <NSelect v-model:value="model.chartType" placeholder="图表类型" :options="chartTypeOptions" />
+            </NFormItem>
+          </NGi>
+        </NGrid>
       </NForm>
     </NDrawerContent>
   </NDrawer>

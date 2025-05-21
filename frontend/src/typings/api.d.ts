@@ -178,15 +178,6 @@ declare namespace Api {
       records: MetricData;
     };
 
-    // 指标新增、编辑表单字段
-    interface MetricFormFields {
-      modelForm: Api.Common.FormType<MetricUpdateParams>[];
-      metricForm: Api.Common.FormType<MetricUpdateParams>[];
-      sensitivityForm: Api.Common.FormType<MetricUpdateParams>[];
-      staticForm: Api.Common.FormType<MetricUpdateParams>[];
-      chartForm: Api.Common.FormType<MetricUpdateParams>[];
-    }
-
     // 指标新增参数
     type MetricAddParams = CommonType.RecordNullable<
       Pick<

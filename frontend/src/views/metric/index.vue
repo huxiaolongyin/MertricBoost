@@ -52,6 +52,11 @@ const handlePageSizeChange = (pageSize: number) => {
   }
 };
 
+const handleAddClick = () => {
+  drawerVisible.value = true;
+  operateType.value = 'add';
+};
+
 // 获取指标数据
 const getMetricData = async () => {
   const response = await fetchGetMetricList({
@@ -85,6 +90,7 @@ watch(
         v-model:search-params="searchParams"
         @click-id="handleClickCard"
       />
+      <!-- 分页控件 - 绝对定位在底部 -->
       <div class="mt-4 flex justify-center">
         <NPagination
           v-model:page="searchParams.page"
@@ -96,7 +102,6 @@ watch(
       </div>
     </NFlex>
 
-    <!-- 分页控件 - 绝对定位在底部 -->
     <NFloatButton
       v-if="hasAuth('metric-add')"
       :right="50"
@@ -105,7 +110,7 @@ watch(
       width="60"
       height="60"
       class="bg-red-500"
-      @click="drawerVisible = true"
+      @click="handleAddClick"
     >
       <Icon icon="mdi:plus" class="text-white" width="35" height="35" />
     </NFloatButton>
