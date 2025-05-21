@@ -19,7 +19,7 @@ const {
   options: domainOptions,
   loading: domainLoading,
   fetchOptions: fetchDomainOptions
-} = useLoadOptions(() => fetchGetDomainList(), {
+} = useLoadOptions(() => fetchGetDomainList({ domainType: '2' }), {
   labelKey: 'domainName',
   valueKey: 'id'
 });
@@ -64,7 +64,7 @@ onMounted(async () => {
           v-model:value="formData!.domainIds"
           multiple
           :options="domainOptions"
-          placeholder="请选择域分类"
+          placeholder="请选择主题域分类"
           :loading="domainLoading"
           clearable
           class="dark:bg-slate-700"

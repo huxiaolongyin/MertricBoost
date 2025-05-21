@@ -378,7 +378,7 @@ const local: App.I18n.Schema = {
     },
     metric: {
       metricPlaceholder: '指标名称或描述搜索',
-      domain: '域分类',
+      domain: '主题域',
       tag: '标签',
       sensitivity: '敏感度',
       order: '排序',
@@ -522,7 +522,7 @@ const local: App.I18n.Schema = {
         roleName: '角色名称',
         roleCode: '角色编码',
         sensitivity: '敏感等级',
-        domains: '域分类',
+        domains: '主题域',
         roleStatus: '角色状态',
         roleDesc: '角色描述',
         menuAuth: '菜单权限',

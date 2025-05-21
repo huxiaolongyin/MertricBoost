@@ -851,7 +851,7 @@ declare namespace Api {
 
     // 搜索参数
     type DomainSearchParams = CommonType.RecordNullable<
-      Pick<Domain, 'domainName' | 'createBy'> & Common.CommonSearchParams
+      Pick<Domain, 'domainName' | 'createBy' | 'domainType'> & Common.CommonSearchParams
     >;
 
     // 添加参数

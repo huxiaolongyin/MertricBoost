@@ -502,10 +502,10 @@ const local: App.I18n.Schema = {
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',
-          domains: '请选择域分类',
-          sensitivity: '请选择敏感等级',
-          roleStatus: '请选择角色状态',
-          roleDesc: '请输入角色描述'
+          domains: 'Please select domains',
+          sensitivity: 'Please select sensitivity',
+          roleStatus: 'Please select role status',
+          roleDesc: 'Please enter role description'
         },
         addRole: 'Add Role',
         editRole: 'Edit Role'
