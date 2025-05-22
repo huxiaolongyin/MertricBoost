@@ -6,6 +6,7 @@ from tortoise.expressions import F, Q
 from metricboost.core.crud import CRUDBase
 from metricboost.logger import get_logger
 from metricboost.models.asset import DataModel, Domain, Tag
+from metricboost.models.dictionary import Product
 from metricboost.models.enums import StatisticalPeriod
 from metricboost.models.metric import Metric
 from metricboost.schemas.metric import MetricCreate, MetricUpdate
@@ -126,7 +127,9 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
         Returns:
             格式化后的指标字典
         """
+
         await metric.data_model.fetch_related("domains")
+        await metric.data_model.fetch_related("database")
         metric_dict = {
             "id": metric.id,
             "metricName": metric.metric_name,
@@ -145,21 +148,32 @@ class MetricController(CRUDBase[Metric, MetricCreate, MetricUpdate]):
             "metricFormat": metric.data_model.metric_format,
             "dimCols": metric.data_model.dimension_columns,
             "queryCount": metric.query_count,
-            "data": await self.get_metric_data(
+            "url": metric.data_model.url,
+        }
+        if metric.data_model.database.type == "Grafana":
+            metric_dict["data"] = {}
+            metric_dict["dimCols"] = [{"label": "vin", "value": "vin"}]
+            if is_detail:
+                product_list = await Product.all()
+                metric_dict["dimData"] = [{"vin": []}]
+                for product in product_list:
+                    metric_dict["dimData"][0].get("vin", []).append(product.vin)
+
+            return metric_dict
+        else:
+            metric_dict["data"] = await self.get_metric_data(
                 metric.id,
                 date_range,
                 statistical_period or metric.statistical_period,
                 dim_select,
                 dim_filter,
                 sort=sort,
-            ),
-        }
-        if is_detail:
-            metric_dict["dimData"] = await self.get_metric_dim_data(
-                date_range, metric.data_model
             )
-
-        return metric_dict
+            if is_detail:
+                metric_dict["dimData"] = await self.get_metric_dim_data(
+                    date_range, metric.data_model
+                )
+            return metric_dict
 
     async def get_metric_dim_data(self, date_range: list, data_model: DataModel):
         """

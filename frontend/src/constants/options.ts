@@ -37,7 +37,8 @@ export const sortOptions: SelectOption[] = [
 // 图表类型
 export const chartTypeOptions: SelectOption[] = [
   { label: '折线图', value: 'line' },
-  { label: '柱状图', value: 'bar' }
+  { label: '柱状图', value: 'bar' },
+  { label: 'Grafana', value: 'grafana' }
 ];
 
 // 统计类型
@@ -87,49 +88,53 @@ export const databaseOptions: SelectOption[] = [
     value: 'MySQL'
   },
   {
-    label: 'Oracle',
-    value: 'Oracle'
-  },
-  {
-    label: 'SQL Server',
-    value: 'SQL Server'
-  },
-  {
-    label: 'PostgreSQL',
-    value: 'PostgreSQL'
-  },
-  {
-    label: 'MongoDB',
-    value: 'MongoDB'
-  },
-  {
-    label: 'Redis',
-    value: 'Redis'
-  },
-  {
-    label: 'ClickHouse',
-    value: 'ClickHouse'
-  },
-  {
-    label: 'HBase',
-    value: 'HBase'
-  },
-  {
-    label: 'Hive',
-    value: 'Hive'
-  },
-  {
-    label: 'Elasticsearch',
-    value: 'Elasticsearch'
-  },
-  {
-    label: 'Kafka',
-    value: 'Kafka'
-  },
-  {
-    label: 'RabbitMQ',
-    value: 'RabbitMQ'
+    label: 'Grafana',
+    value: 'Grafana'
   }
+  // {
+  //   label: 'Oracle',
+  //   value: 'Oracle'
+  // },
+  // {
+  //   label: 'SQL Server',
+  //   value: 'SQL Server'
+  // },
+  // {
+  //   label: 'PostgreSQL',
+  //   value: 'PostgreSQL'
+  // },
+  // {
+  //   label: 'MongoDB',
+  //   value: 'MongoDB'
+  // },
+  // {
+  //   label: 'Redis',
+  //   value: 'Redis'
+  // },
+  // {
+  //   label: 'ClickHouse',
+  //   value: 'ClickHouse'
+  // },
+  // {
+  //   label: 'HBase',
+  //   value: 'HBase'
+  // },
+  // {
+  //   label: 'Hive',
+  //   value: 'Hive'
+  // },
+  // {
+  //   label: 'Elasticsearch',
+  //   value: 'Elasticsearch'
+  // },
+  // {
+  //   label: 'Kafka',
+  //   value: 'Kafka'
+  // },
+  // {
+  //   label: 'RabbitMQ',
+  //   value: 'RabbitMQ'
+  // }
 ];
 
 export const collectOptions: SelectOption[] = [

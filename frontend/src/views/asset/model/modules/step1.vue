@@ -37,8 +37,8 @@ const {
   options: databaseOptions,
   loading: databaseLoading,
   fetchOptions: fetchdatabaseOptions
-} = useLoadOptions(() => fetchDatabaseList({ status: '1' }), {
-  labelKey: 'name',
+} = useLoadOptions(() => fetchDatabaseList({ status: '1', type: '-Grafana' }), {
+  labelKey: 'name(type)',
   valueKey: 'id'
 });
 
@@ -61,7 +61,7 @@ const {
 );
 
 // 监听数据库选择变化，或者当数据库有值时，加载表列表
-if (dataModelFormStore.stepOne.databaseId) {
+if (dataModelFormStore.stepOne.databaseId && !dataModelFormStore.grafana.url) {
   fetchTableOptions();
 }
 watch(

@@ -112,7 +112,12 @@ watch(
           <NFormItem label="日期区间：" label-placement="left" class="w-3/12">
             <NDatePicker v-model:value="searchDetailParams.dateRange" type="daterange" clearable />
           </NFormItem>
-          <NFormItem label="统计周期：" label-placement="left" class="ml-5 w-2/12">
+          <NFormItem
+            v-if="metricData.chartType !== 'grafana'"
+            label="统计周期："
+            label-placement="left"
+            class="ml-5 w-2/12"
+          >
             <NSelect
               v-model:value="searchDetailParams.statisticalPeriod"
               :options="statisticalPeriodOptions"
@@ -120,7 +125,7 @@ watch(
             />
           </NFormItem>
         </NFlex>
-        <NFormItem label="维度下钻：" label-placement="left" class="w-full">
+        <NFormItem v-if="metricData.chartType !== 'grafana'" label="维度下钻：" label-placement="left" class="w-full">
           <NSelect
             v-model:value="searchDetailParams.dimSelect"
             class="w-3/12"
@@ -154,7 +159,7 @@ watch(
                             <Icon icon="material-symbols:add" />
                         </NButton> 
 -->
-            <NButton class="bg-sky-700 text-white" @click="handleClick">
+            <NButton v-if="metricData.chartType !== 'grafana'" class="bg-sky-700 text-white" @click="handleClick">
               <Icon icon="material-symbols:search" class="mr-2" />
               查询
             </NButton>

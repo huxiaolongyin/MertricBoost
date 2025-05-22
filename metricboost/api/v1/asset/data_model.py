@@ -63,14 +63,17 @@ async def get_models(
         for data_model_obj in data_model_objs:
             # 构建基础数据字典
             data_model_dict = await data_model_obj.to_dict()
-
+            try:
+                columns_conf = eval(data_model_obj.columns_conf)
+            except Exception:
+                columns_conf = []
             # 添加关联字段
             data_model_dict.update(
                 {
                     "updateBy": data_model_obj.update_by.user_name,
                     "createBy": data_model_obj.create_by.user_name,
                     "database": data_model_obj.database.name,
-                    "columnsConf": eval(data_model_obj.columns_conf),
+                    "columnsConf": columns_conf,
                     "dataDomains": [
                         domain.id
                         for domain in data_model_obj.domains

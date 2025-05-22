@@ -10,9 +10,9 @@ class DatabaseBase(BaseModel):
     type: str = Field(..., description="数据库类型")
     host: str = Field(..., description="数据库主机")
     port: int = Field(..., description="数据库端口")
-    username: str = Field(..., description="数据库用户")
-    password: str = Field(..., description="数据库密码")
-    database: str = Field(..., description="选用的数据库")
+    username: Optional[str] = Field(None, description="数据库用户")
+    password: Optional[str] = Field(None, description="数据库密码")
+    database: Optional[str] = Field(None, description="选用的数据库")
     status: str = Field("1", description="数据库状态，1启用，0禁用")
     description: Optional[str] = Field(None, description="数据库描述")
     update_by_id: Optional[int] = Field(None, description="更新者", alias="updateById")
@@ -28,9 +28,6 @@ class DatabaseUpdate(DatabaseBase):
     type: Optional[str] = Field(None, description="数据库类型")
     host: Optional[str] = Field(None, description="数据库主机")
     port: Optional[int] = Field(None, description="数据库端口")
-    username: Optional[str] = Field(None, description="数据库用户")
-    password: Optional[str] = Field(None, description="数据库密码")
-    database: Optional[str] = Field(None, description="选用的数据库")
     status: Optional[str] = Field(None, description="数据库状态，1启用，0禁用")
 
 

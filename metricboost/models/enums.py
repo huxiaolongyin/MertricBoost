@@ -306,6 +306,7 @@ class ChartType(str, Enum):
     Default = ""
     LINE = "line"
     BAR = "bar"
+    GRAFANA = "grafana"
 
 
 class Sensitivity(str, Enum):

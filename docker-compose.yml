@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: metricboost:0.0.2
+    image: metricboost:0.1.0
     ports:
       - "9999:9999"
     networks:
@@ -50,6 +50,58 @@ services:
       mysql:
         condition: service_healthy
     restart: unless-stopped
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg17-bitnami
+    container_name: timescaledb
+    restart: unless-stopped
+    ports:
+      - "5001:5432"
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRESQL_PASSWORD=12345@HTW
+      - POSTGRESQL_DATABASE=metrics
+      - POSTGRESQL_MAX_CONNECTIONS=200
+      - POSTGRESQL_LOG_TIMEZONE=Asia/Shanghai
+    volumes:
+      - ./data/timescaledb_data:/bitnami/postgresql
+    networks:
+      - metricboost-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U tsdbadmin -d battery_metrics" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - timescaledb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin_password
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SMTP_ENABLED=false
+      - GF_LOG_MODE=console
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./data/grafana_data:/var/lib/grafana
+    networks:
+      - metricboost-network
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -q --spider http://localhost:3000/api/health || exit 1" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
 networks:
   metricboost-network:

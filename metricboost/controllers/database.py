@@ -1,4 +1,5 @@
 import asyncmy.errors
+import requests
 from tortoise import Tortoise
 from tortoise.functions import Count
 
@@ -61,6 +62,7 @@ class DatabaseController(CRUDBase[Database, DatabaseCreate, DatabaseUpdate]):
                     modules={"models": []},
                     timezone="Asia/Shanghai",
                 )
+
                 # 测试连接
                 conn = Tortoise.get_connection("default")
                 await conn.execute_query("SELECT 1")
@@ -73,6 +75,7 @@ class DatabaseController(CRUDBase[Database, DatabaseCreate, DatabaseUpdate]):
                 # 确保关闭连接
                 await Tortoise.close_connections()
                 return False, str(e)
+
         return False, "不支持的数据库类型"
 
     async def get_databases_with_models_count(self, page: int = 1, page_size: int = 10):

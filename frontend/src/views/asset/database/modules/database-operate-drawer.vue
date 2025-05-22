@@ -6,6 +6,7 @@ import { $t } from '@/locales';
 import { fetchAddDatabase, fetchTestDatabase, fetchUpdateDatabase } from '@/service/api';
 import { useAuthStore } from '@/store/modules/auth';
 import { databaseOptions } from '@/constants/options';
+
 // 用户状态，用于获取用户名
 const authStore = useAuthStore();
 
@@ -43,6 +44,9 @@ const title = computed(() => {
 
 const model: Api.SystemManage.DatabaseUpdateParams = reactive(createDefaultModel());
 
+// 判断当前是否为Grafana类型
+const isGrafana = computed(() => model.type === 'Grafana');
+
 function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
   return {
     name: '',
@@ -58,18 +62,37 @@ function createDefaultModel(): Api.SystemManage.DatabaseAddParams {
   };
 }
 
-type RuleKey = Exclude<keyof Api.SystemManage.DatabaseAddParams, 'description' | 'createBy' | 'password'>;
+// type RuleKey = Exclude<
+//   keyof Api.SystemManage.DatabaseAddParams,
+//   "description" | "createBy" | "password"
+// >;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  name: defaultRequiredRule,
-  type: defaultRequiredRule,
-  host: defaultRequiredRule,
-  port: defaultRequiredRule,
-  username: defaultRequiredRule,
-  // password: defaultRequiredRule,
-  database: defaultRequiredRule,
-  status: defaultRequiredRule
-};
+const rules = computed(() => {
+  // 基础规则：所有类型都需要的字段
+  const baseRules: Record<string, App.Global.FormRule> = {
+    name: defaultRequiredRule,
+    type: defaultRequiredRule,
+    host: defaultRequiredRule,
+    port: defaultRequiredRule,
+    status: defaultRequiredRule
+  };
+
+  // Grafana类型的规则
+  if (isGrafana.value) {
+    return {
+      ...baseRules
+    };
+  }
+
+  // MySQL和其他类型：完整规则
+  return {
+    ...baseRules,
+    host: defaultRequiredRule,
+    port: defaultRequiredRule,
+    username: defaultRequiredRule,
+    database: defaultRequiredRule
+  };
+});
 
 // const databaseId = computed(() => props.rowData?.id || -1);
 
@@ -85,15 +108,57 @@ function handleInitModel() {
 function closeDrawer() {
   visible.value = false;
 }
+// 添加图片加载检测函数
+function checkGrafanaByImage(url: string) {
+  return new Promise(resolve => {
+    const img = new Image();
 
+    // 设置超时
+    const timeout = setTimeout(() => {
+      resolve(false);
+    }, 5000);
+
+    img.onload = () => {
+      clearTimeout(timeout);
+      resolve(true);
+    };
+
+    img.onerror = () => {
+      clearTimeout(timeout);
+      // 即使返回404或其他错误，至少说明服务器是在响应的
+      // 所以这里我们认为服务器可访问
+      resolve(true);
+    };
+
+    // 尝试加载Grafana的favicon或其他静态资源
+    img.src = `${url}/public/img/grafana_icon.svg`;
+  });
+}
 // 数据库连接测试
 async function handleTest() {
-  const { error } = await fetchTestDatabase(model);
+  if (model.type === 'Grafana') {
+    const url = `http://${model.host}:${model.port}`;
 
-  if (!error) {
-    window.$message?.success($t('common.testSuccess'));
+    // 使用图片加载检测Grafana可访问性
+    try {
+      const isAccessible = await checkGrafanaByImage(url);
+      if (isAccessible) {
+        window.$message?.success($t('common.testSuccess'));
+      } else {
+        window.$message?.error('无法连接到Grafana服务器');
+      }
+    } catch (err: any) {
+      window.$message?.error(`连接测试失败: ${err.message}`);
+    }
+  } else {
+    const { error } = await fetchTestDatabase(model);
+    if (!error) {
+      window.$message?.success($t('common.testSuccess'));
+    }
   }
 }
+
+// 提交表单
 async function handleSubmit() {
   await validate();
   // request
@@ -111,6 +176,21 @@ async function handleSubmit() {
   closeDrawer();
   emit('submitted');
 }
+
+// 类型变更时重新验证表单
+watch(
+  () => model.type,
+  () => {
+    // 重置验证状态
+    restoreValidation();
+    // 根据类型调整默认端口
+    if (model.type === 'Grafana') {
+      model.port = 3000;
+    } else if (model.type === 'MySQL') {
+      model.port = 3306;
+    }
+  }
+);
 
 watch(visible, () => {
   if (visible.value) {

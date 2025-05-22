@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import * as XLSX from 'xlsx';
 import { fetchGetMetricDetail } from '@/service/api';
+import { useThemeStore } from '@/store/modules/theme';
 import MetricChart from './modules/metric-chart.vue';
 import MetricDetail from './modules/metric-detail.vue';
 import MetricFilter from './modules/metric-filter.vue';
@@ -11,6 +12,10 @@ import MetricSidebar from './modules/metric-sidebar.vue';
 // 通过路由参数获取 metric的 ID、item
 const route = useRoute();
 const id = Number.parseInt(route.params.id as string, 10);
+
+// 获取主题配置
+const themeStore = useThemeStore();
+console.log();
 
 // 跟踪当前激活的标签页
 const activeTab = ref('chart');
@@ -65,6 +70,45 @@ const fetchMetricData = async () => {
     searchDetailParams.value.statisticalPeriod = record.statisticalPeriod;
   }
 };
+
+// 获取 grafana url
+const grafanaUrl = computed(() => {
+  const baseUrl = metricData.value?.url;
+  if (!baseUrl || !searchDetailParams.value.dateRange) {
+    return baseUrl;
+  }
+
+  try {
+    const url = new URL(baseUrl);
+    const [from, to] = searchDetailParams.value.dateRange;
+
+    // 更新URL中的时间范围参数
+    if (from) url.searchParams.set('from', Math.floor(from).toString());
+    if (to) url.searchParams.set('to', Math.floor(to).toString());
+    if (themeStore.darkMode) {
+      url.searchParams.set('theme', 'dark');
+    } else {
+      url.searchParams.set('theme', 'light');
+    }
+    // 处理维度筛选参数
+    if (searchDetailParams.value.dimFilter) {
+      // 解析维度筛选字符串，格式如: "vin = 'HTWW312407A000020'"
+      const filterStr = searchDetailParams.value.dimFilter[0];
+      const match = filterStr.match(/(\w+)\s*=\s*['"]([^'"]+)['"]/);
+
+      if (match && match.length >= 3) {
+        const [, dimension, value] = match;
+        // 将维度添加为Grafana模板变量，格式为 var-dimension=value
+        url.searchParams.set(`var-${dimension}`, value);
+      }
+    }
+
+    return url.toString();
+  } catch (error) {
+    console.error('Error parsing Grafana URL:', error);
+    return baseUrl;
+  }
+});
 
 // 添加导出Excel的功能
 const exportToExcel = () => {
@@ -125,7 +169,14 @@ const handleTabChange = (tabName: string) => {
           @submit="handleSubmit"
           @update="handleUpdate"
         />
-        <div class="mt-2 px-6">
+        <div v-if="metricData.chartType === 'grafana'" class="mt-2 px-6">
+          <NCard class="rounded-xl bg-white dark:bg-slate-700">
+            <div class="grafana-container">
+              <iframe :src="grafanaUrl" width="100%" height="550" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </NCard>
+        </div>
+        <div v-if="metricData.chartType !== 'grafana'" class="mt-2 px-6">
           <NCard class="rounded-xl bg-white dark:bg-slate-700" title="数据趋势">
             <template #header-extra>
               <NButton

@@ -116,11 +116,18 @@ const handleSelect = (key: string, item: Api.Metric.MetricData) => {
               <div class="flex justify-between pt-12px">
                 <!-- 添加动态的数字动画 -->
                 <CountTo
+                  v-if="metricDataList[index].chartType !== 'grafana'"
                   :start-value="0"
                   :end-value="getFormattedValue(item)"
                   :decimals="getDemicals(item.metricFormat)"
                   :suffix="getSuffix(item.metricFormat)"
                   :prefix="getPrefix(item.metricFormat)"
+                  class="mb-4 text-26px font-semibold"
+                />
+                <CountTo
+                  v-if="metricDataList[index].chartType === 'grafana'"
+                  :start-value="0"
+                  :end-value="0"
                   class="mb-4 text-26px font-semibold"
                 />
               </div>
@@ -160,9 +167,19 @@ const handleSelect = (key: string, item: Api.Metric.MetricData) => {
                   />
                 </NDropdown>
               </div>
-
+              <div v-if="metricDataList[index].chartType === 'grafana'">
+                <!-- 从本地加载图片 -->
+                <img src="https://i.postimg.cc/6qXVNGGX/Snipaste-2025-05-22-11-06-45.png" alt="Grafana Chart" />
+              </div>
               <!-- 图表 -->
-              <EChart v-model:metric-data="metricDataList[index]" class="metric-chart" />
+              <EChart
+                v-if="
+                  metricDataList[index].chartType !== 'grafana' &&
+                  metricDataList[index].statisticalPeriod !== 'cumulative'
+                "
+                v-model:metric-data="metricDataList[index]"
+                class="metric-chart"
+              />
             </NGi>
           </NGrid>
         </div>

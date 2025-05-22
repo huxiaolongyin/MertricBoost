@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, nextTick, reactive, ref, watch } from 'vue';
 import { useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { fetchAddDataModel, fetchUpdateDataModel } from '@/service/api';
@@ -7,6 +7,7 @@ import { useDataModelFormStore } from '@/store/modules/model';
 import Step1 from './step1.vue';
 import Step2 from './step2.vue';
 import Step3 from './step3.vue';
+import Grafana from './grafana.vue';
 
 defineOptions({
   name: 'DataModelOperateDrawer'
@@ -27,13 +28,24 @@ interface Emits {
 }
 const emit = defineEmits<Emits>();
 
-// 设置弹窗标题
-const title = computed(() => {
-  const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.dataAsset.dataModel.addDataModel'),
-    edit: $t('page.dataAsset.dataModel.editDataModel')
-  };
-  return titles[props.operateType];
+// 获取数据模型表单状态
+const dataModelFormStore = useDataModelFormStore();
+
+const uiState = reactive({
+  // 设置弹窗标题
+  title: computed(() => {
+    const titles: Record<NaiveUI.TableOperateType, string> = {
+      add: $t('page.dataAsset.dataModel.addDataModel'),
+      edit: $t('page.dataAsset.dataModel.editDataModel')
+    };
+    return titles[props.operateType];
+  }),
+  // 步骤切换模块
+  defaultTab: computed(() => {
+    return dataModelFormStore.stepOne.tableName ? 'SQL' : 'Grafana';
+  }),
+  // 当前步骤
+  currentStep: computed(() => dataModelFormStore.currentStep)
 });
 
 // 双向绑定父组件，用于处理对话框的显示
@@ -41,11 +53,10 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
-const { restoreValidation } = useNaiveForm();
+// 当前激活的标签
+const activeTab = ref<string>('SQL');
 
-// 步骤切换模块
-const dataModelFormStore = useDataModelFormStore();
-const currentStep = computed(() => dataModelFormStore.currentStep);
+const { restoreValidation } = useNaiveForm();
 
 // page2：table 表单的校验逻辑
 const validatePage2 = (): boolean => {
@@ -114,13 +125,13 @@ const validatePage3 = (): boolean => {
 
 const nextStep = () => {
   // 表单校验逻辑
-  if (currentStep.value === 1) {
+  if (uiState.currentStep === 1) {
     if (dataModelFormStore.stepOne.databaseId && dataModelFormStore.stepOne.tableName) {
       dataModelFormStore.nextStep();
     } else {
       window.$message?.error('未选择数据库或数据表');
     }
-  } else if (currentStep.value === 2 && validatePage2()) {
+  } else if (uiState.currentStep === 2 && validatePage2()) {
     dataModelFormStore.nextStep();
   }
 };
@@ -140,7 +151,8 @@ const handleSubmit = async () => {
     domainIds: [
       ...(dataModelFormStore.stepThree.dataDomains ?? []),
       ...(dataModelFormStore.stepThree.topicDomains ?? [])
-    ]
+    ],
+    url: dataModelFormStore.grafana.url
   };
 
   // 提交到接口
@@ -173,40 +185,73 @@ const handleSubmit = async () => {
 // 显示时加载数据
 watch(visible, () => {
   if (visible.value) {
-    // handleInitModel();
     restoreValidation();
 
     // 如果是编辑，传入数据
     if (props.operateType === 'edit') {
       dataModelFormStore.updateFormData(props.rowData);
+      // Set the active tab based on the data after it's loaded
+      nextTick(() => {
+        activeTab.value = dataModelFormStore.grafana.url ? 'Grafana' : 'SQL';
+      });
     }
     // 如果是新增，重置表单
     else {
       dataModelFormStore.resetStore();
+      activeTab.value = 'SQL'; // Default for new entries
     }
   }
 });
+
+// Add a handler for tab changes
+const handleTabChange = (tabName: string) => {
+  activeTab.value = tabName;
+};
 </script>
 
 <template>
-  <NModal v-model:show="visible" display-directive="show" transform-origin="center" class="h-3/4">
-    <NCard :title="title" :bordered="false" size="small" class="h-3/4 w-4/6 card-wrapper">
-      <NSteps :current="currentStep" status="process" class="mb-10 ml-38">
-        <NStep title="选择数据" />
-        <NStep title="字段设置" />
-        <NStep title="模型信息" />
-      </NSteps>
-      <Step1 v-if="currentStep === 1" />
-      <Step2 v-if="currentStep === 2" :operate-type="props.operateType" />
-      <Step3 v-if="currentStep === 3" />
-      <template #footer>
-        <NFlex :size="16" justify="end">
-          <NButton v-if="currentStep > 1" class="w-20" @click="prevStep">上一个</NButton>
-          <NButton v-if="currentStep < 3" class="w-20" @click="nextStep">下一个</NButton>
-          <NButton v-if="currentStep === 3" class="w-20" type="primary" @click="handleSubmit">确 认</NButton>
-        </NFlex>
-      </template>
-    </NCard>
+  <NModal v-model:show="visible" display-directive="show" transform-origin="center" class="h-3/4 w-4/6">
+    <NTabs
+      type="bar"
+      placement="left"
+      tab-class="bg-indigo-200 rounded-xl"
+      pane-class="bg-gray-400 rounded-sm"
+      :value="activeTab"
+      default-value="SQL"
+      @update:value="handleTabChange"
+    >
+      <NTabPane name="SQL" tab="数据库">
+        <NCard :title="uiState.title">
+          <NSteps :current="uiState.currentStep" status="process" class="mb-10 ml-38">
+            <NStep title="选择数据" />
+            <NStep title="字段设置" />
+            <NStep title="模型信息" />
+          </NSteps>
+          <Step1 v-if="uiState.currentStep === 1" />
+          <Step2 v-if="uiState.currentStep === 2" :operate-type="props.operateType" />
+          <Step3 v-if="uiState.currentStep === 3" />
+          <template #footer>
+            <NFlex :size="16" justify="end">
+              <NButton v-if="uiState.currentStep > 1" class="w-20" @click="prevStep">上一个</NButton>
+              <NButton v-if="uiState.currentStep < 3" class="w-20" @click="nextStep">下一个</NButton>
+              <NButton v-if="uiState.currentStep === 3" class="w-20" type="primary" @click="handleSubmit">
+                确 认
+              </NButton>
+            </NFlex>
+          </template>
+        </NCard>
+      </NTabPane>
+      <NTabPane name="Grafana" tab="Grafana">
+        <NCard :title="uiState.title">
+          <Grafana />
+          <template #footer>
+            <NFlex :size="16" justify="end">
+              <NButton class="w-20" type="primary" @click="handleSubmit">确 认</NButton>
+            </NFlex>
+          </template>
+        </NCard>
+      </NTabPane>
+    </NTabs>
   </NModal>
 </template>
 

@@ -1,14 +1,13 @@
-from typing import List, Optional
+from typing import Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Path, Query
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, Body, Depends, Path, Query
 from tortoise.expressions import Q
 
 from metricboost.controllers.database import database_controller
 from metricboost.core.ctx import get_current_user_id
 from metricboost.core.response import Error, Success, SuccessExtra
 from metricboost.logger import insert_log
-from metricboost.models.system import LogDetailType, LogType, User
+from metricboost.models.system import LogDetailType, LogType
 from metricboost.schemas.database import DatabaseCreate, DatabaseUpdate
 
 router = APIRouter()
@@ -40,7 +39,10 @@ async def get_databases(
         if name:
             q &= Q(name__contains=name)
         if type:
-            q &= Q(type=type)
+            if "-" in type:
+                q &= Q(type__not=type.split("-")[1])
+            else:
+                q &= Q(type=type)
         if status:
             q &= Q(status=status)
 
@@ -306,7 +308,7 @@ async def test_database_connection(
             )
         else:
             return Error(
-                msg="连接失败",
+                msg=f"连接失败，错误信息: {error}",
                 data={
                     "test_id": database_id,
                     "error": error,

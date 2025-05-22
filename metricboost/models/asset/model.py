@@ -17,9 +17,10 @@ class DataModel(BaseModel, TimestampMixin):
         enum_type=StatusType, default=StatusType.enable, description="模型状态"
     )
     table_name = fields.CharField(
-        max_length=50, description="表名", null=False, db_index=True
+        max_length=50, description="表名", null=True, db_index=True
     )
-    columns_conf = fields.TextField(description="字段配置")
+    columns_conf = fields.TextField(description="字段配置", null=True)
+    url = fields.CharField(max_length=800, description="模型URL", null=True)
 
     # 一个模型属于一个数据库，一个数据库可以有多个模型
     database = fields.ForeignKeyField("app_system.Database", related_name="data_models")

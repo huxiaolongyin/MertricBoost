@@ -4,12 +4,14 @@
 
 这个格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，还有这个原则遵循 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0] - 2025-05-22
 
 ### Added
 - 新增数据导出为excel的功能
 - 新增模型配置中维度的过滤功能
 - 新增产品的字典模型
+- 新增对 grafana 图表的集成，通过引入数据源和图表地址进行展示，支持筛选
+- docker-compose 加入 grafana 和 timescaledb
 
 ### Fixed
 - 修复指标详情字段显示问题

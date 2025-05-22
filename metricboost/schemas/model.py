@@ -29,11 +29,12 @@ class ColumnConf(BaseModel):
 class DataModelBase(BaseModel):
     name: str = Field(..., description="模型名称")
     description: Optional[str] = Field(None, description="主题描述")
-    table_name: str = Field(..., description="表名", alias="tableName")
+    table_name: Optional[str] = Field(None, description="表名", alias="tableName")
     status: StatusType = Field(StatusType.enable, description="模型状态")
-    columns_conf: str | List[dict | ColumnConf] = Field(
-        ..., description="字段配置", alias="columnsConf"
+    columns_conf: Optional[str | List[dict | ColumnConf]] = Field(
+        None, description="字段配置", alias="columnsConf"
     )
+    url: Optional[str] = Field(None, description="模型URL", alias="url")
     database_id: Optional[int] = Field(
         None, description="所属数据库ID", alias="databaseId"
     )

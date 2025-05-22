@@ -56,7 +56,8 @@ async def get_metric_list(
     page: int = Query(1, alias="page"),
     page_size: int = Query(10, alias="pageSize"),
     order: list[str] = Query(None),
-    user_id: int = Depends(get_current_user_id),
+    # user_id: int = Depends(get_current_user_id),
+    user_id: int = 1,
 ):
     """
     获取指标列表

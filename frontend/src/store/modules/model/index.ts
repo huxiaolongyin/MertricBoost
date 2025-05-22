@@ -16,6 +16,9 @@ export const useDataModelFormStore = defineStore('form', {
       dataDomains: null,
       topicDomains: null,
       status: null
+    },
+    grafana: {
+      url: null
     }
   }),
 
@@ -45,6 +48,7 @@ export const useDataModelFormStore = defineStore('form', {
       this.stepThree.dataDomains = rowData.dataDomains;
       this.stepThree.topicDomains = rowData.topicDomains;
       this.stepThree.status = rowData.status;
+      this.grafana.url = rowData.url;
     }
   }
 });

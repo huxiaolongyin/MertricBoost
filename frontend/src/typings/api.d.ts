@@ -115,7 +115,7 @@ declare namespace Api {
 
     type StatisticalPeriod = 'daily' | 'monthly' | 'yearly' | 'cumulative';
 
-    type ChartType = 'bar' | 'line';
+    type ChartType = 'bar' | 'line' | 'grafana';
 
     // 指标数据
     interface MetricData {
@@ -141,6 +141,7 @@ declare namespace Api {
       createTime: string; // 创建时间
       data: MetricDataPoint[]; // 指标数据
       dimData: { key: string[] }[]; // 维度数据
+      url: string; // 指标详情页地址
     }
 
     type MetricDataPoint = {
@@ -878,6 +879,7 @@ declare namespace Api {
       dataDomains: number[]; // 数据域ID
       topicDomains: number[]; // 主题域ID
       columnsConf: TableColumns[];
+      url: string;
     }>;
 
     type DataModelList = Common.PaginatingQueryRecord<DataModel>;
@@ -933,6 +935,7 @@ declare namespace Api {
         CommonType.RecordNullable<DataModel>,
         'name' | 'description' | 'dataDomains' | 'topicDomains' | 'status'
       >;
+      grafana: Pick<CommonType.RecordNullable<DataModel>, 'url'>;
     }
 
     // 定义获取数据字段信息的类型
